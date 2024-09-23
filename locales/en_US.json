@@ -1,0 +1,111 @@
+{
+	"errors": {
+		"auth": {
+			"RANDOM": "Something went wrong. Please try again later.",
+			"INCORRECT_PASSWORD": "The email or username and password you entered do not match any account in our records. Please check your details and try again.",
+			"PASSWORD_NOT_STRONG": "Your password must be at least 8 characters long, include uppercase and lowercase letters, numbers, and symbols, and cannot contain common words or predictable sequences.",
+			"USER_ALREADY_EXISTS": "This email is already registered in the app. Please use a different email address or recover your password if you have forgotten your login details.",
+			"FAILED_TO_VERIFICATE_CODE": "The code you entered is not valid. Please check your details and try again.",
+			"TOO_SOON_TO_SEND_ANOTHER_EMAIL": "You have requested a new code too soon. Please wait a few seconds and try again."
+		},
+		"profile": {
+			"INCORRECT_PASSWORD": "The old password you entered does not match your current password. Please try again.",
+			"PASSWORD_NOT_STRONG": "Your password must be at least 8 characters long, include uppercase and lowercase letters, numbers, and symbols, and cannot contain common words or predictable sequences."
+		}
+	},
+	"authScreens": {
+		"loginWithGoogle": "Continue with Google",
+		"loginWithApple": "Continue with Apple",
+		"loginWithCredentials": "Continue with another email",
+		"notRegistered": "Not registered yet?",
+		"register": "Register",
+		"signup": "Sign up",
+		"emailOrUsername": "Email or username",
+		"password": "Password",
+		"confirmedPassword": "Confirm password",
+		"forgotPassword": "Forgot password?",
+		"username": "Username",
+		"email": "Email",
+		"footerText": "Monum S.L @2024",
+		"access": "Access",
+		"passwordRecoveryText": "Enter your email address and we will send you a link to reset your password.",
+		"passwordRecoveryTitle": "Have you forgotten your password?",
+		"resetPassword": "Reset password",
+		"verification": "Verification",
+		"emailSent": "We just sent the verification code to",
+		"emailSentCheck": "Check your inbox and enter the code below to continue.",
+		"verify": "Verify",
+		"verificationCode": "Code",
+		"resendCode": "Resend code",
+		"codeResent": "A new code has been sent!",
+		"newPassword": "New password",
+		"confirmedNewPassword": "Confirm new password",
+		"changePassword": "Change password",
+		"newPasswordText": "Enter your new password and confirm it to reset your password.",
+		"passwordChangedTitle": "Password changed successfully!",
+		"passwordChangedMessage": "Your password has been changed successfully. You can now log in with your new password.",
+		"passwordChangedButton": "Log in",
+		"loginAsGuest": "Continue as guest",
+		"privacyPolicy": "Privacy policy",
+		"pressToObtainInfoAbout": "Press to obtain more information about"
+	},
+	"mapScreen": {
+		"createdBy": "Created by",
+		"cancel": "Cancel"
+	},
+	"qrScannerScreen": {
+		"cancel": "Cancel",
+		"scanQRText": "Scan a QR",
+		"writeItManually": "Write the code manually",
+		"search": "Search",
+		"success": "QR scanned successfully!",
+		"manualSuccess": "The code has been found!",
+		"errorInvalidQR": "The QR code is not valid. Please try again.",
+		"errorRandom": "Something went wrong. Please try again later.",
+		"manualError": "The code entered is not valid.",
+		"noCamera": "The camera cannot be accessed. Please check your settings or enter the code manually."
+	},
+	"placeDetailExpanded": {
+		"mediaIntro": "What are you going to learn?"
+	},
+	"mediaDetailExpanded": {
+		"introTextMediaType": "Historias para descubrir leyendo",
+		"introAudioMediaType": "Do you want to read it?"
+	},
+	"profile": {
+		"language": "Language",
+		"logout": "Logout",
+		"update": "Update",
+		"createdAt": "Created at",
+		"errorUpdating": "Error updating profile",
+		"errorGetting": "Error getting profile",
+		"changePassword": "Change password",
+		"introChangePassword": "Fill in the fields to set up your new password",
+		"currentPassword": "Current password",
+		"newPassword": "New password",
+		"confirmedNewPassword": "Confirm new password",
+		"createMyAccount": "Create my account",
+		"deleteMyAccount": "Delete my account",
+		"deleteMyAccountConfirmation": "Are you sure you want to delete your account? This action cannot be undone.",
+		"cancel": "Cancel",
+		"confirm": "Confirm"
+	},
+	"languages": {
+		"en_US": "English",
+		"es_ES": "Spanish",
+		"fr_FR": "French",
+		"ca_ES": "Catalan"
+	},
+	"routes": {
+		"search": "Search",
+		"errorGettingAvailableCities": "Error getting available cities",
+		"stops": "stops",
+		"resource": "resource",
+		"resources": "resources"
+	},
+	"actionSheets": {
+		"directionSheet": {
+			"title": "Open with"
+		}
+	}
+}

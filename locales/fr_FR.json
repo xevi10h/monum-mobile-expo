@@ -1,0 +1,111 @@
+{
+	"errors": {
+		"auth": {
+			"RANDOM": "Une erreur s'est produite. Veuillez réessayer plus tard.",
+			"INCORRECT_PASSWORD": "L'adresse email ou le nom d'utilisateur et le mot de passe saisis ne correspondent à aucun compte dans nos registres. Veuillez vérifier vos informations et réessayer.",
+			"PASSWORD_NOT_STRONG": "Votre mot de passe doit comporter au moins 8 caractères, inclure des lettres majuscules et minuscules, des chiffres et des symboles, et ne peut contenir des mots communs ou des séquences prévisibles.",
+			"USER_ALREADY_EXISTS": "Cette adresse email est déjà enregistrée dans l'application. Veuillez utiliser une autre adresse ou récupérer votre mot de passe si vous avez oublié vos informations de connexion.",
+			"FAILED_TO_VERIFICATE_CODE": "Le code de vérification saisi est incorrect. Veuillez vérifier votre code et réessayer.",
+			"TOO_SOON_TO_SEND_ANOTHER_EMAIL": "Vous avez demandé un nouveau code trop tôt. Veuillez patienter quelques secondes et réessayer."
+		},
+		"profile": {
+			"INCORRECT_PASSWORD": "L'ancien mot de passe que vous avez saisi ne correspond pas à votre mot de passe actuel. Veuillez réessayer.",
+			"PASSWORD_NOT_STRONG": "Votre mot de passe doit comporter au moins 8 caractères, inclure des lettres majuscules et minuscules, des chiffres et des symboles, et ne peut contenir des mots communs ou des séquences prévisibles."
+		}
+	},
+	"authScreens": {
+		"loginWithGoogle": "Continuer avec Google",
+		"loginWithApple": "Continuer avec Apple",
+		"loginWithCredentials": "Continuer avec une autre adresse e-mail",
+		"notRegistered": "Vous n'avez pas encore de compte ?",
+		"register": "S'inscrire",
+		"signup": "S'inscrire",
+		"emailOrUsername": "E-mail ou nom d'utilisateur",
+		"password": "Mot de passe",
+		"confirmedPassword": "Confirmer le mot de passe",
+		"forgotPassword": "Mot de passe oublié ?",
+		"username": "Nom d'utilisateur",
+		"email": "E-mail",
+		"footerText": "Monum S.L @2024",
+		"access": "Accéder",
+		"passwordRecoveryText": "Entrez votre adresse e-mail pour recevoir un lien de récupération de mot de passe",
+		"passwordRecoveryTitle": "Vous avez oublié votre mot de passe?",
+		"resetPassword": "Réinitialiser le mot de passe",
+		"verification": "Vérification",
+		"emailSent": "Nous avons envoyé le code de vérification à",
+		"emailSentCheck": "Vérifiez votre boîte de réception et saisissez le code de vérification pour continuer.",
+		"verify": "Vérifier",
+		"verificationCode": "Code",
+		"resendCode": "Renvoyer le code",
+		"codeResent": "Un nouveau code de vérification a été envoyé!",
+		"newPassword": "Nouveau mot de passe",
+		"confirmedNewPassword": "Confirmer le nouveau mot de passe",
+		"changePassword": "Changer le mot de passe",
+		"newPasswordText": "Entrez votre nouveau mot de passe et confirmez-le pour le réinitialiser.",
+		"passwordChangedTitle": "Réinitialisation du mot de passe!",
+		"passwordChangedMessage": "Votre mot de passe a été réinitialisé avec succès. Vous pouvez maintenant accéder à votre compte avec votre nouveau mot de passe.",
+		"passwordChangedButton": "Accéder",
+		"loginAsGuest": "Continuer en tant qu'invité",
+		"privacyPolicy": "Politique de confidentialité",
+		"pressToObtainInfoAbout": "Appuyez pour obtenir des informations sur"
+	},
+	"mapScreen": {
+		"createdBy": "Créé par",
+		"cancel": "Annuler"
+	},
+	"qrScannerScreen": {
+		"cancel": "Annuler",
+		"scanQRText": "Scanner un QR",
+		"writeItManually": "Écrire le code manuellement",
+		"search": "Recherche",
+		"success": "QR scanné avec succès!",
+		"manualSuccess": "Le code a été trouvé!",
+		"errorInvalidQR": "Le QR n'est pas valide. Veuillez réessayer.",
+		"errorRandom": "Une erreur s'est produite. Veuillez réessayer plus tard.",
+		"manualError": "Le code saisi n'est pas valide.",
+		"noCamera": "La caméra n'est pas accessible. Veuillez vérifier vos paramètres ou saisir le code manuellement."
+	},
+	"placeDetailExpanded": {
+		"mediaIntro": "Qu'allez-vous découvrir ?"
+	},
+	"mediaDetailExpanded": {
+		"introTextMediaType": "Des histoires à découvrir par la lecture",
+		"introAudioMediaType": "Voulez-vous le lire?"
+	},
+	"profile": {
+		"language": "Langue",
+		"logout": "Se déconnecter",
+		"update": "Mettre à jour",
+		"createdAt": "Créé le",
+		"errorUpdating": "Erreur lors de la mise à jour du profil",
+		"errorGetting": "Erreur lors de la récupération du profil",
+		"changePassword": "Changer le mot de passe",
+		"introChangePassword": "Remplissez les champs pour définir votre nouveau mot de passe",
+		"currentPassword": "Mot de passe actuel",
+		"newPassword": "Nouveau mot de passe",
+		"confirmedNewPassword": "Confirmer le nouveau mot de passe",
+		"createMyAccount": "Créer mon compte",
+		"deleteMyAccount": "Supprimer mon compte",
+		"deleteMyAccountConfirmation": "Êtes-vous sûr de vouloir supprimer votre compte? Cette action est irréversible.",
+		"cancel": "Annuler",
+		"confirm": "Confirmer"
+	},
+	"languages": {
+		"en_US": "Anglais",
+		"es_ES": "Espagnol",
+		"fr_FR": "Français",
+		"ca_ES": "Catalan"
+	},
+	"routes": {
+		"search": "Rechercher",
+		"errorGettingAvailableCities": "Erreur lors de la récupération des villes disponibles",
+		"stops": "arrêts",
+		"resource": "ressource",
+		"resources": "ressources"
+	},
+	"actionSheets": {
+		"directionSheet": {
+			"title": "Ouvrir avec"
+		}
+	}
+}

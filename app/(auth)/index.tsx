@@ -1,0 +1,201 @@
+import { useFonts } from 'expo-font';
+import * as AppleAuthentication from 'expo-apple-authentication';
+import { router } from 'expo-router';
+import {
+	View,
+	Text,
+	TouchableOpacity,
+	Linking,
+	Image,
+	ImageBackground,
+	Platform,
+} from 'react-native';
+
+import BouncyLogo from '../../components/auth/BouncyLogo';
+import SecondaryButton from '../../components/auth/SecondaryButton';
+import SeparatorComponent from '../../components/auth/SeparatorComponent';
+import GoogleAuthService from '../../services/auth/GoogleAuthService';
+import { styles } from '../../styles/auth/LoginStyles';
+import { useUserStore } from '../../zustand/UserStore';
+import AuthServices from '../../services/auth/AuthServices';
+import { useTranslation } from '@/hooks/useTranslation';
+import { useEffect } from 'react';
+import AppleAuthService from '../../services/auth/AppleAuthService';
+// import appleAuth from '@invertase/react-native-apple-authentication';
+import ButtonWithLogo from '@/components/auth/ButtonWithLogo';
+
+export default function Login() {
+	const setAuthToken = useUserStore((state) => state.setAuthToken);
+	const setUser = useUserStore((state) => state.setUser);
+	const setLanguage = useUserStore((state) => state.setLanguage);
+	const { t } = useTranslation();
+	useEffect(() => {
+		// onCredentialRevoked returns a function that will remove the event listener. useEffect will call this function when the component unmounts
+		// return appleAuth.onCredentialRevoked(async () => {
+		//   console.warn(
+		// 	'If this function executes, User Credentials have been Revoked',
+		//   );
+		// });
+	}, []);
+	return (
+		<View style={styles.backgroundContainer}>
+			<View style={styles.backgroundColor} />
+			<ImageBackground
+				source={require('../../assets/images/background_monuments.png')}
+				style={{ flex: 1, width: '100%', height: '100%' }}
+				resizeMode="cover"
+			>
+				<View style={styles.container}>
+					<View style={styles.logoContainer}>
+						<BouncyLogo />
+					</View>
+					<View style={styles.buttonContainer}>
+						<ButtonWithLogo
+							imageSource={require('../../assets/images/google_sign_in_logo.png')}
+							text={t('authScreens.loginWithGoogle')}
+							style={{ backgroundColor: 'white' }}
+							textColor="black"
+							onPress={async () => {
+								// try {
+								// 	const user = await GoogleAuthService.signInWithGoogle();
+								// 	if (user) {
+								// 		await setAuthToken(user.token || '');
+								// 		setUser(user);
+								// 		changeLanguage(user.language || 'en');
+								// 	} else {
+								// 		console.error('ERROR WHEN LOGGING IN WITH GOOGLE');
+								// 	}
+								// } catch (error) {
+								// 	console.error('ERROR WHEN LOGGING IN WITH GOOGLE', error);
+								// }
+							}}
+						/>
+
+						{Platform.OS === 'ios' && (
+							<ButtonWithLogo
+								imageSource={require('../../assets/images/apple_sign_in_logo.png')}
+								text={t('authScreens.loginWithApple')}
+								style={{ marginTop: 30, backgroundColor: 'black' }}
+								onPress={async () => {
+									try {
+										const credential = await AppleAuthentication.signInAsync({
+											requestedScopes: [
+												AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+												AppleAuthentication.AppleAuthenticationScope.EMAIL,
+											],
+										});
+										const user = await AuthServices.loginWithApple(credential);
+										console.log('user', user);
+										if (user) {
+											await setAuthToken(user.token || '');
+											setUser(user);
+
+											setLanguage(user.language || 'ca_es');
+										} else {
+											throw new Error('Error logging in with Apple');
+										}
+									} catch (e: any) {
+										if (e.code === 'ERR_REQUEST_CANCELED') {
+											console.log('Apple login was cancelled');
+										} else {
+											console.error('Error logging in with Apple:', e);
+										}
+									}
+								}}
+							/>
+							// <AppleAuthentication.AppleAuthenticationButton
+							// 	buttonType={
+							// 		AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN
+							// 	}
+							// 	buttonStyle={
+							// 		AppleAuthentication.AppleAuthenticationButtonStyle.BLACK
+							// 	}
+							// 	cornerRadius={5}
+							// 	style={{ width: 200, height: 44 }}
+							// 	onPress={async () => {
+							// 		try {
+							// 			const credential = await AppleAuthentication.signInAsync({
+							// 				requestedScopes: [
+							// 					AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+							// 					AppleAuthentication.AppleAuthenticationScope.EMAIL,
+							// 				],
+							// 			});
+							// 			// signed in
+							// 		} catch (e: any) {
+							// 			if (e.code === 'ERR_REQUEST_CANCELED') {
+							// 				// handle that the user canceled the sign-in flow
+							// 			} else {
+							// 				// handle other errors
+							// 			}
+							// 		}
+							// 	}}
+							// />
+						)}
+
+						<SeparatorComponent />
+						<SecondaryButton
+							text={t('authScreens.loginWithCredentials')}
+							onPress={() => {
+								router.push('/login-with-credentials');
+							}}
+						/>
+						<SecondaryButton
+							text={t('authScreens.loginAsGuest')}
+							onPress={async () => {
+								try {
+									const user = await AuthServices.loginAsGuest();
+									if (user) {
+										// await setAuthToken(user.token || '');
+										// setUser(user);
+										// await changeLanguage(user.language || 'en_US');
+									} else {
+										console.error('ERROR WHEN LOGGING AS GUEST');
+									}
+								} catch (error) {
+									console.error('ERROR WHEN LOGGING AS GUEST', error);
+								}
+							}}
+							style={{ marginTop: 30 }}
+						/>
+					</View>
+					<View style={styles.bottomContainer}>
+						<View style={styles.registerContainer}>
+							<Text style={styles.registerText}>
+								{t('authScreens.notRegistered')}{' '}
+							</Text>
+
+							<TouchableOpacity
+								activeOpacity={0.2}
+								onPress={() => router.push('/register')}
+							>
+								<Text style={styles.registerButtonText}>
+									{t('authScreens.register')}
+								</Text>
+							</TouchableOpacity>
+						</View>
+						<View style={styles.companyContainer}>
+							<Text style={styles.companyText}>
+								{t('authScreens.footerText')}
+							</Text>
+						</View>
+						<View style={styles.privacyContainer}>
+							<Text style={styles.privacyText}>
+								{t('authScreens.pressToObtainInfoAbout')}{' '}
+							</Text>
+
+							<TouchableOpacity
+								onPress={() => {
+									Linking.openURL('https://www.app.monum.es/privacy');
+								}}
+							>
+								<Text style={styles.privacyButtonText}>
+									{t('authScreens.privacyPolicy')}
+								</Text>
+							</TouchableOpacity>
+						</View>
+					</View>
+				</View>
+			</ImageBackground>
+		</View>
+	);
+}

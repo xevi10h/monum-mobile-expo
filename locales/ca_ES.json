@@ -1,0 +1,111 @@
+{
+	"errors": {
+		"auth": {
+			"RANDOM": "Ha succeït un error inesperat. Si us plau, torna-ho a intentar més tard.",
+			"INCORRECT_PASSWORD": "El correu electrònic o nom d'usuari i la contrasenya introduïts no coincideixen amb cap compte dels nostres registres. Si us plau, verifica les dades i prova de nou.",
+			"PASSWORD_NOT_STRONG": "La contrasenya ha de tenir un mínim de 8 caràcters, incloure majúscules, minúscules, números i símbols, i no pot contenir paraules comunes o seqüències previsibles.",
+			"USER_ALREADY_EXISTS": "Aquest correu electrònic ja està registrat a l'aplicació. Si us plau, utilitza una altra adreça o recupera la teva contrasenya si no recordes la informació d'accés.",
+			"FAILED_TO_VERIFICATE_CODE": "El codi de verificació introduït no és vàlid. Si us plau, verifica les dades i prova de nou.",
+			"TOO_SOON_TO_SEND_ANOTHER_EMAIL": "Ja hem enviat un correu electrònic de verificació a aquesta adreça. Si us plau, espera uns segons abans de tornar a intent"
+		},
+		"profile": {
+			"INCORRECT_PASSWORD": "La contrasenya antiga que has introduït no coincideix amb la teva contrasenya actual. Si us plau, intenta-ho de nou.",
+			"PASSWORD_NOT_STRONG": "La contrasenya ha de tenir un mínim de 8 caràcters, incloure majúscules, minúscules, números i símbols, i no pot contenir paraules comunes o seqüències previsibles."
+		}
+	},
+	"authScreens": {
+		"loginWithGoogle": "Continuar amb Google",
+		"loginWithApple": "Continuar amb Apple",
+		"loginWithCredentials": "Continuar amb un altre correu",
+		"notRegistered": "Encara no estàs registrat?",
+		"register": "Registra't",
+		"signup": "Registrar-se",
+		"emailOrUsername": "Correu electrònic o nom d'usuari",
+		"password": "Contrasenya",
+		"confirmedPassword": "Confirmar contrasenya",
+		"forgotPassword": "Has oblidat la contrasenya?",
+		"username": "Nom d'usuari",
+		"email": "Correu electrònic",
+		"footerText": "Monum S.L @2024",
+		"access": "Accedir",
+		"passwordRecoveryText": "Introdueix el teu correu electrònic per a recuperar la teva contrasenya",
+		"passwordRecoveryTitle": "Has oblidat la contrasenya?",
+		"resetPassword": "Restablir contrasenya",
+		"verification": "Verificació",
+		"emailSent": "Hem enviat el codi de verificació a",
+		"emailSentCheck": "Revisa la teva safata d'entrada i introdueix el codi de verificació a continuació",
+		"verify": "Verificar",
+		"verificationCode": "Codi",
+		"resendCode": "Reenviar codi",
+		"codeResent": "Un nou codi de verificació ha estat enviat!",
+		"newPassword": "Nova contrasenya",
+		"confirmedNewPassword": "Confirmar nova contrasenya",
+		"changePassword": "Canviar contrasenya",
+		"newPasswordText": "Introdueix la teva nova contrasenya i confirma-la per a restablir-la",
+		"passwordChangedTitle": "Contrasenya actualitzada!",
+		"passwordChangedMessage": "La teva contrasenya ha estat actualitzada correctament. Ara pots accedir amb la teva nova contrasenya.",
+		"passwordChangedButton": "Accedir",
+		"loginAsGuest": "Continuar com a convidat",
+		"privacyPolicy": "Política de privacitat",
+		"pressToObtainInfoAbout": "Prem per obtenir més informació sobre"
+	},
+	"mapScreen": {
+		"createdBy": "Creat per",
+		"cancel": "Cancel·lar"
+	},
+	"qrScannerScreen": {
+		"cancel": "Cancel·lar",
+		"scanQRText": "Escaneja un QR",
+		"writeItManually": "Escriu el codi manualment",
+		"search": "Cerca",
+		"success": "QR escanejat amb èxit!",
+		"manualSuccess": "S'ha trobat el codi!",
+		"errorInvalidQR": "Aquest QR no és vàlid. Si us plau, intenta-ho amb un altre.",
+		"errorRandom": "Ha succeït un error inesperat. Si us plau, torna-ho a intentar.",
+		"manualError": "El codi introduït no és vàlid.",
+		"noCamera": "No es pot accedir a la càmera. Si us plau, revisi la seva configuració o introdueixi el codi manualment."
+	},
+	"placeDetailExpanded": {
+		"mediaIntro": "Què coneixeràs?"
+	},
+	"mediaDetailExpanded": {
+		"introTextMediaType": "Històries per descobrir llegint",
+		"introAudioMediaType": "Vols llegir-ho?"
+	},
+	"profile": {
+		"language": "Idioma",
+		"logout": "Tancar sessió",
+		"update": "Actualitzar",
+		"createdAt": "Creat el",
+		"errorUpdating": "Error al actualitzar el perfil",
+		"errorGetting": "Error al obtenir el perfil",
+		"changePassword": "Canviar contrasenya",
+		"introChangePassword": "Emplena els camps per a configurar la teva nova contrasenya",
+		"currentPassword": "Contrasenya actual",
+		"newPassword": "Nova contrasenya",
+		"confirmedNewPassword": "Confirmar nova contrasenya",
+		"createMyAccount": "Crear el meu compte",
+		"deleteMyAccount": "Eliminar el meu compte",
+		"deleteMyAccountConfirmation": "Estàs segur que vols eliminar el teu compte? Aquesta acció no es pot desfer.",
+		"cancel": "Cancel·lar",
+		"confirm": "Confirmar"
+	},
+	"languages": {
+		"en_US": "Anglès",
+		"es_ES": "Espanyol",
+		"fr_FR": "Francès",
+		"ca_ES": "Català"
+	},
+	"routes": {
+		"search": "Cerca",
+		"errorGettingAvailableCities": "Error al obtenir les ciutats disponibles",
+		"stops": "aturades",
+		"resource": "recurs",
+		"resources": "recursos"
+	},
+	"actionSheets": {
+		"directionSheet": {
+			"title": "Obrir amb"
+		}
+	}
+}

@@ -1,0 +1,111 @@
+{
+	"errors": {
+		"auth": {
+			"RANDOM": "Ha ocurrido un error inesperado. Por favor, inténtalo de nuevo más tarde.",
+			"INCORRECT_PASSWORD": "El correo electrónico o nombre de usuario y la contraseña introducidos no coinciden con ninguna cuenta de nuestros registros. Por favor, verifica los datos e inténtalo de nuevo.",
+			"PASSWORD_NOT_STRONG": "La contraseña debe tener al menos 8 caracteres, incluir mayúsculas, minúsculas, números y símbolos, y no puede contener palabras comunes o secuencias predecibles.",
+			"USER_ALREADY_EXISTS": "Este correo electrónico ya está registrado en la aplicación. Por favor, utiliza otra dirección o recupera tu contraseña si no recuerdas tus datos de acceso.",
+			"FAILED_TO_VERIFICATE_CODE": "El código de verificación introducido no es válido. Por favor, verifica los datos e inténtalo de nuevo.",
+			"TOO_SOON_TO_SEND_ANOTHER_EMAIL": "Es demasiado pronto para enviar otro correo de verificación. Por favor, espera unos segundos y vuelve a intentarlo."
+		},
+		"profile": {
+			"INCORRECT_PASSWORD": "La contraseña antigua que has introducido no coincide con tu contraseña actual. Por favor, inténtalo de nuevo.",
+			"PASSWORD_NOT_STRONG": "La contraseña debe tener al menos 8 caracteres, incluir mayúsculas, minúsculas, números y símbolos, y no puede contener palabras comunes o secuencias predecibles."
+		}
+	},
+	"authScreens": {
+		"loginWithGoogle": "Continuar con Google",
+		"loginWithApple": "Continuar con Apple",
+		"loginWithCredentials": "Continuar con otro correo",
+		"notRegistered": "¿Aún no tienes cuenta?",
+		"register": "Regístrate",
+		"signup": "Regístrarse",
+		"emailOrUsername": "Email o nombre de usuario",
+		"password": "Contraseña",
+		"confirmedPassword": "Confirmar contraseña",
+		"forgotPassword": "¿Has olvidado tu contraseña?",
+		"username": "Nombre de usuario",
+		"email": "Email",
+		"footerText": "Monum S.L @2024",
+		"access": "Acceder",
+		"passwordRecoveryText": "Introduce tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña.",
+		"passwordRecoveryTitle": "¿Has olvidado tu contraseña?",
+		"resetPassword": "Restablecer contraseña",
+		"verification": "Verificación",
+		"emailSent": "Hemos enviado el codigo de verificación a",
+		"emailSentCheck": "Revisa tu bandeja de entrada e introduce el código de verificación para continuar.",
+		"verify": "Verificar",
+		"verificationCode": "Código",
+		"resendCode": "Reenviar código",
+		"codeResent": "¡Un nuevo código de verificación ha sido enviado!",
+		"newPassword": "Nueva contraseña",
+		"confirmedNewPassword": "Confirmar nueva contraseña",
+		"changePassword": "Cambiar contraseña",
+		"newPasswordText": "Introduce tu nueva contraseña y confírmala para restablecerla.",
+		"passwordChangedTitle": "¡Contraseña restablecida!",
+		"passwordChangedMessage": "Tu contraseña ha sido restablecida con éxito. Ahora puedes acceder a tu cuenta con tu nueva contraseña.",
+		"passwordChangedButton": "Acceder",
+		"loginAsGuest": "Continuar como invitado",
+		"privacyPolicy": "Política de privacidad",
+		"pressToObtainInfoAbout": "Pulsa para obtener más información sobre"
+	},
+	"mapScreen": {
+		"createdBy": "Creado por",
+		"cancel": "Cancelar"
+	},
+	"qrScannerScreen": {
+		"cancel": "Cancelar",
+		"scanQRText": "Escanea un QR",
+		"writeItManually": "Escribe el código manualmente",
+		"search": "Buscar",
+		"success": "¡QR escaneado con éxito!",
+		"manualSuccess": "¡Se ha encontrado el código!",
+		"errorInvalidQR": "El QR no es válido. Por favor, prueba con otro.",
+		"errorRandom": "Ha ocurrido un error inesperado. Por favor, inténtalo de nuevo.",
+		"manualError": "El código introducido no es válido.",
+		"noCamera": "No se puede acceder a la cámara. Por favor, revise su configuración o introduce el código manualmente."
+	},
+	"placeDetailExpanded": {
+		"mediaIntro": "¿Qué vas a conocer?"
+	},
+	"mediaDetailExpanded": {
+		"introTextMediaType": "Historias para descubrir leyendo",
+		"introAudioMediaType": "¿Quieres leerlo?"
+	},
+	"profile": {
+		"language": "Idioma",
+		"logout": "Cerrar sesión",
+		"update": "Actualizar",
+		"createdAt": "Creado el",
+		"errorUpdating": "Error al actualizar el perfil",
+		"errorGetting": "Error al obtener el perfil",
+		"changePassword": "Cambiar contraseña",
+		"introChangePassword": "Rellena los campos para configurar tu nueva contraseña",
+		"currentPassword": "Contraseña actual",
+		"newPassword": "Nueva contraseña",
+		"confirmedNewPassword": "Confirmar nueva contraseña",
+		"createMyAccount": "Crear mi cuenta",
+		"deleteMyAccount": "Eliminar mi cuenta",
+		"deleteMyAccountConfirmation": "¿Estás seguro de que quieres eliminar tu cuenta? Esta acción no se puede deshacer.",
+		"cancel": "Cancelar",
+		"confirm": "Confirmar"
+	},
+	"languages": {
+		"en_US": "Inglés",
+		"es_ES": "Español",
+		"fr_FR": "Francés",
+		"ca_ES": "Catalan"
+	},
+	"routes": {
+		"search": "Buscar",
+		"errorGettingAvailableCities": "Error al obtener las ciudades disponibles",
+		"stops": "paradas",
+		"resource": "recurso",
+		"resources": "recursos"
+	},
+	"actionSheets": {
+		"directionSheet": {
+			"title": "Abrir con"
+		}
+	}
+}
