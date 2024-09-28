@@ -12,8 +12,6 @@ import client from '@/graphql/connection';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { useUserStore } from '@/zustand/UserStore';
 import { ApolloProvider } from '@apollo/client';
-import { GET_USER_BY_ID } from '@/graphql/queries/userQueries';
-import GoogleAuthService from '@/services/auth/GoogleAuthService';
 import { useMainStore } from '@/zustand/MainStore';
 import { useTabMapStore } from '@/zustand/TabMapStore';
 import AuthServices from '@/services/auth/AuthServices';
@@ -42,7 +40,6 @@ export default function RootLayout() {
 	const [statusForegroundPermissions, requestStatusForegroundPermissions] =
 		Location.useForegroundPermissions();
 
-	const setAuthToken = useUserStore((state) => state.setAuthToken);
 	const hasInitByUrl = useMainStore((state) => state.main.hasInitByUrl);
 	const setHasInitByUrl = useMainStore((state) => state.setHasInitByUrl);
 	const setMarkerSelected = useTabMapStore((state) => state.setMarkerSelected);
@@ -59,7 +56,6 @@ export default function RootLayout() {
 	const setCurrentUserLocation = useMainStore(
 		(state) => state.setCurrentUserLocation,
 	);
-	const token = useUserStore((state) => state.token);
 	const startWatchingLocation = useMainStore(
 		(state) => state.startWatchingLocation,
 	);
@@ -73,23 +69,18 @@ export default function RootLayout() {
 	const setActiveTab = useMainStore((state) => state.setActiveTab);
 	const setPitch = useTabMapStore((state) => state.setPitch);
 	const setLanguage = useUserStore((state) => state.setLanguage);
-	const initializeToken = useUserStore((state) => state.initializeToken);
-
-	useEffect(() => {
-		initializeToken();
-	}, [initializeToken]);
 
 	useEffect(() => {
 		async function handleOpenURL(url: string, isFromOutsideApp = false) {
 			try {
 				const [, placeId] = url.match(/place\/([^?]+)/) || [];
+				console.log('placeId', placeId);
 				if (placeId) {
 					setHasInitByUrl(true);
 					setPitch(60);
-					if (!token) {
+					if (!user.token) {
 						const guestUser = await AuthServices.loginAsGuest();
 						setUser(guestUser);
-						await setAuthToken(guestUser.token);
 					}
 					const markersData = await MapServices.getMarkers(
 						'',
@@ -130,7 +121,6 @@ export default function RootLayout() {
 
 		const initializeApp = async () => {
 			try {
-				// await GoogleAuthService.configureGoogleSignIn();
 				if (
 					statusBackgroundPermissions?.canAskAgain &&
 					!statusBackgroundPermissions?.granted
@@ -145,6 +135,7 @@ export default function RootLayout() {
 				}
 
 				let initialURL = await Linking.getInitialURL();
+				console.log('initialURL', initialURL);
 				if (initialURL) {
 					await handleOpenURL(initialURL);
 				}
@@ -208,7 +199,7 @@ export default function RootLayout() {
 					setCurrentUserLocation(userLocation);
 				}
 
-				if (token && !hasInitByUrl) {
+				if (user.token && !hasInitByUrl) {
 					setMapCameraCoordinates(userLocation);
 					setForceUpdateMapCamera(true);
 				}
@@ -217,41 +208,42 @@ export default function RootLayout() {
 				setCurrentUserLocation(null);
 			}
 		}
-		if (token) {
+		if (user.token) {
 			prepareWhenAuthenticated();
 		}
-	}, [token]);
+	}, [user.token]);
 
 	useEffect(() => {
 		startWatchingLocation();
 	}, [startWatchingLocation]);
 
-	// useEffect(() => {
-	// 	async function verifyToken() {
-	// 		try {
-	// 			const response = await client.mutate({
-	// 				mutation: GET_USER_BY_ID,
-	// 			});
-	// 			if (response && response.data && response.data.user) {
-	// 				setUser(response.data.user);
-	// 			} else {
-	// 			}
-	// 		} catch (error) {
-	// 			console.error('Error al verificar el token', error);
-	// 		} finally {
-	// 			setIsLoading(false);
-	// 		}
-	// 	}
-	// 	if (loaded) {
-	// 		verifyToken();
-	// 	}
-	// }, [loaded, setUser]);
+	useEffect(() => {
+		function loadGoogleMapsAPI(callback: any) {
+			if (window.google && window.google.maps) {
+				// Google Maps API is already loaded, call the callback function
+				callback();
+			} else {
+				// Google Maps API is not loaded, dynamically load it
+				const script = document.createElement('script');
+				script.src = `https://maps.googleapis.com/maps/api/js?key='YOUR_API_KEY'`;
+				script.async = true;
+				script.defer = true;
+				script.onload = callback;
+				// Append the script to the document
+				document.head.appendChild(script);
+			}
+		}
+		loadGoogleMapsAPI(() => {
+			// Initialize the map
+		});
+	}, []);
 
 	useEffect(() => {
+		console.log('user', user);
 		if ((loaded || error) && allLoaded && isLoading) {
-			token ? router.replace('/(main)/(map)') : router.replace('/(auth)');
+			user.token ? router.replace('/(main)/(map)') : router.replace('/(auth)');
 		}
-	}, [loaded, isLoading, error, allLoaded, token]);
+	}, [loaded, isLoading, error, allLoaded, user.token]);
 
 	useEffect(() => {
 		async function initializeApp() {}

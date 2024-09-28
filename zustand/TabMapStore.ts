@@ -73,7 +73,6 @@ interface TabMapState {
 export const useTabMapStore = create<TabMapState>((set) => ({
 	tabMap: defaultTabMap,
 	setMarkerSelected: (markerSelected: string | null) => {
-		console.log('setMarkerSelected', markerSelected);
 		set((state) => ({
 			tabMap: {
 				...state.tabMap,

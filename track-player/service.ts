@@ -37,7 +37,7 @@ export async function setupPlayerService() {
 				Capability.SkipToPrevious,
 				Capability.SeekTo,
 			],
-			icon: require('../assets/images/logo_180.png'),
+			icon: require('@/assets/images/logo_180.png'),
 		});
 
 		isSetup = true;

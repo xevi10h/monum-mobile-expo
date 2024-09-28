@@ -45,7 +45,6 @@ export default function ScanScreen({ navigation }: any) {
 
 	const [isCameraReady, setIsCameraReady] = useState(false);
 	const [status, requestPermission] = useCameraPermissions();
-	console.log('status', status);
 
 	useEffect(() => {
 		let timer: any;

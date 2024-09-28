@@ -1,6 +1,6 @@
 import { Marker } from 'react-native-maps';
 import { useEffect, useState } from 'react';
-import { Image } from 'react-native';
+import { Image, Text } from 'react-native';
 // import { IMarker } from '@/shared/interfaces/IMarker';
 // import { useTabMapStore } from '@/zustand/TabMapStore';
 // import MapServices from '@/services/map/MapServices';
@@ -66,6 +66,7 @@ export const MarkerComponent = ({ id, coordinates, importance }: any) => {
 
 	return (
 		<Marker
+			title="title"
 			key={id}
 			coordinate={{
 				latitude: coordinates[1],
@@ -81,11 +82,12 @@ export const MarkerComponent = ({ id, coordinates, importance }: any) => {
 			// 	// setMediasOfPlace(mediasFetched);
 			// }}
 		>
-			<Image
+			{/* <Image
 				source={icon}
 				style={{ width: dimensions, height: dimensions }}
 				resizeMode={'contain'}
-			/>
+			/> */}
+			<Text>Marker</Text>
 			{/* <img src={icon} width={dimensions} height={dimensions} /> */}
 		</Marker>
 	);

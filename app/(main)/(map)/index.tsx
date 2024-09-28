@@ -1,8 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Camera, PROVIDER_GOOGLE } from 'react-native-maps';
-import MapView from '@/components/map/MapView';
+import MapViewType, {
+	Camera,
+	Marker,
+	PROVIDER_GOOGLE,
+} from 'react-native-maps';
 import { useEffect, useRef, useState } from 'react';
-import { ActivityIndicator, Platform, View } from 'react-native';
+import {
+	ActivityIndicator,
+	Platform,
+	StyleSheet,
+	Text,
+	View,
+} from 'react-native';
+import MapView from '@/components/map/crossPlatformComponents/MapView';
 import MapScreenButton from '@/components/map/MapScreenButton';
 import { MarkerComponent } from '@/components/map/Marker';
 import MapPlaceDetail from '@/components/map/placeDetail/MapPlaceDetail';
@@ -15,7 +25,7 @@ import { useCameraPermissions } from 'expo-camera';
 import * as Location from 'expo-location';
 
 export default function MapScreen() {
-	const mapViewRef = useRef<MapView>(null);
+	const mapViewRef = useRef<MapViewType>(null);
 	const [statusCameraPermissions, requestCameraPermissions] =
 		useCameraPermissions();
 	const [statusForegroundPermissions, requestStatusForegroundPermissions] =
@@ -27,7 +37,6 @@ export default function MapScreen() {
 	);
 	const markers = useTabMapStore((state) => state.tabMap.markers);
 	const setMarkers = useTabMapStore((state) => state.setMarkers);
-
 	const setCurrentUserLocation = useMainStore(
 		(state) => state.setCurrentUserLocation,
 	);
@@ -59,7 +68,6 @@ export default function MapScreen() {
 
 	useEffect(() => {
 		if (markerSelected && markers.length > 0) {
-			console.log('markerSelected', markerSelected);
 			const coordinatesToSet =
 				markers?.find((m) => m.id === markerSelected)?.coordinates ||
 				currentUserLocation;
@@ -80,7 +88,6 @@ export default function MapScreen() {
 	}, [markerSelected]);
 
 	const centerCoordinatesButtonAction = async () => {
-		console.log('statusForegroundPermissions', statusForegroundPermissions);
 		try {
 			// Verificar el estado del permiso
 			if (!statusForegroundPermissions?.granted) {
@@ -88,23 +95,26 @@ export default function MapScreen() {
 				const newPermissions = await requestStatusForegroundPermissions();
 				if (!newPermissions.granted) {
 					// Manejar la situación si los permisos no son concedidos
-					console.log('Permission not granted or not requestable.');
 					return; // Salir de la función si no hay permisos
 				}
 			}
 
 			// Proceder con la obtención de la ubicación si el permiso está concedido
+			let newPosition;
 			if (!currentUserLocation) {
-				const position = await Location.getCurrentPositionAsync();
-				console.log('Current position:', position);
-				const { longitude, latitude } = position.coords;
-				setCurrentUserLocation([longitude, latitude]);
+				newPosition = await Location.getCurrentPositionAsync();
+				newPosition = [
+					newPosition.coords.longitude,
+					newPosition.coords.latitude,
+				] as [number, number];
+				setCurrentUserLocation(newPosition);
 			}
-			if (currentUserLocation) {
+			const position = currentUserLocation || newPosition;
+			if (position && mapViewRef.current) {
 				const newCamera: Camera = {
 					center: {
-						latitude: currentUserLocation[1],
-						longitude: currentUserLocation[0],
+						latitude: position[1],
+						longitude: position[0],
 					},
 					zoom: 15,
 					heading: 0,
@@ -133,7 +143,7 @@ export default function MapScreen() {
 		if (!currentUserLocation) {
 			recalculateCurrentLocation();
 		}
-	}, [currentUserLocation]);
+	}, [currentUserLocation, mapViewRef.current]);
 
 	return (
 		currentUserLocation && (
@@ -144,7 +154,7 @@ export default function MapScreen() {
 					}}
 				>
 					<MapView
-						provider={PROVIDER_GOOGLE}
+						provider={Platform.OS !== 'ios' ? 'google' : undefined}
 						followsUserLocation
 						showsUserLocation={Platform.OS === 'ios'}
 						ref={mapViewRef}
@@ -161,15 +171,20 @@ export default function MapScreen() {
 							zoom: 15,
 							altitude: 10,
 						}}
+						googleMapsApiKey="AIzaSyCJtcI8P5pooC596yeiDn-BpT8JA5tsh2w"
+						options={{
+							disableDefaultUI: true,
+						}}
+						loadingFallback={<ActivityIndicator size="large" color="#3F713B" />}
 					>
-						{markers.map((marker) => (
+						{/* {markers.map((marker, index) => (
 							<MarkerComponent
-								key={marker.id}
+								key={index}
 								id={marker.id}
 								importance={marker.importance}
 								coordinates={marker.coordinates}
 							/>
-						))}
+						))} */}
 					</MapView>
 				</View>
 				<MapScreenButton

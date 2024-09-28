@@ -1,9 +1,5 @@
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import * as Orientation from 'expo-screen-orientation';
-import {
-	NavigationContainer,
-	NavigationContainerRef,
-} from '@react-navigation/native';
+import { NavigationContainerRef } from '@react-navigation/native';
 import { useEffect, useRef, useState } from 'react';
 import { StyleSheet, Image, StatusBar, Platform } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -13,7 +9,7 @@ import TrackPlayer, {
 } from 'react-native-track-player';
 import { useTabMapStore } from '@/zustand/TabMapStore';
 import { useMainStore } from '@/zustand/MainStore';
-// import VideoPlayer from './video/VideoPlayer';
+import VideoPlayer from '@/components/video/VideoPlayer';
 import { Tabs } from 'expo-router';
 import MediaComponent from '@/components/media/MediaComponent';
 
@@ -31,8 +27,6 @@ export type BottomTabBarIconProps = {
 	focused: boolean;
 	name?: string;
 };
-
-// const Tab = createBottomTabNavigator<RootBottomTabList>();
 
 function BottomTabNavigator() {
 	const navigationRef = useRef<NavigationContainerRef<RootBottomTabList>>(null);
@@ -128,7 +122,7 @@ function BottomTabNavigator() {
 				await Orientation.lockAsync(Orientation.OrientationLock.DEFAULT);
 			}
 		}
-		screenOrientationLock();
+		if (Platform.OS !== 'web') screenOrientationLock();
 	}, [videoPlayer]);
 
 	useEffect(() => {
@@ -215,7 +209,7 @@ function BottomTabNavigator() {
 				/>
 			</Tabs>
 			{showMedia && <MediaComponent />}
-			{/* {videoPlayer && <VideoPlayer />} */}
+			{videoPlayer && <VideoPlayer />}
 		</>
 	);
 }

@@ -72,7 +72,7 @@ export default function NewPassword() {
 		<View style={styles.backgroundContainer}>
 			<View style={styles.backgroundColor} />
 			<ImageBackground
-				source={require('../../assets/images/background_monuments.png')}
+				source={require('@/assets/images/background_monuments.png')}
 				style={{ flex: 1, width: '100%', height: '100%' }}
 				resizeMode="cover"
 			>
@@ -86,7 +86,7 @@ export default function NewPassword() {
 				>
 					<View style={styles.logoContainer}>
 						<Image
-							source={require('../../assets/images/logo_white.png')}
+							source={require('@/assets/images/logo_white.png')}
 							style={styles.logo}
 							resizeMode="contain"
 						/>
@@ -120,13 +120,13 @@ export default function NewPassword() {
 							>
 								{showNewPassword ? (
 									<Image
-										source={require('../../assets/images/password_eye.png')}
+										source={require('@/assets/images/password_eye.png')}
 										style={styles.hidePasswordButtonIcon}
 										resizeMode="contain"
 									/>
 								) : (
 									<Image
-										source={require('../../assets/images/password_eye_crossed.png')}
+										source={require('@/assets/images/password_eye_crossed.png')}
 										style={styles.hidePasswordButtonIcon}
 										resizeMode="contain"
 									/>
@@ -156,13 +156,13 @@ export default function NewPassword() {
 							>
 								{showNewConfirmedPassword ? (
 									<Image
-										source={require('../../assets/images/password_eye.png')}
+										source={require('@/assets/images/password_eye.png')}
 										style={styles.hidePasswordButtonIcon}
 										resizeMode="contain"
 									/>
 								) : (
 									<Image
-										source={require('../../assets/images/password_eye_crossed.png')}
+										source={require('@/assets/images/password_eye_crossed.png')}
 										style={styles.hidePasswordButtonIcon}
 										resizeMode="contain"
 									/>

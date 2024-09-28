@@ -1,4 +1,3 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import client from '../../graphql/connection';
 import IUser from '../../shared/interfaces/IUser';
 import {
@@ -12,11 +11,8 @@ import {
 	LOGIN_APPLE_USER,
 } from '../../graphql/queries/userQueries';
 import * as AppleAuthentication from 'expo-apple-authentication';
-// import {getDeviceId} from 'react-native-device-info';
-// import {getLocales} from 'react-native-localize';
-import { deviceLanguageToLanguage } from '../../shared/functions/utils';
+import { getDeviceId } from 'react-native-device-info';
 import { getLocales } from 'expo-localization';
-// import {AppleAuthRequestResponse} from '@invertase/react-native-apple-authentication';
 
 interface LoginGoogle {
 	email: string;
@@ -26,22 +22,6 @@ interface LoginGoogle {
 }
 
 class AuthService {
-	async setAuthToken(token: string) {
-		try {
-			await AsyncStorage.setItem('authToken', token);
-		} catch (error) {
-			console.error('Error al guardar el token de autenticación:', error);
-		}
-	}
-
-	private async removeAuthToken() {
-		try {
-			await AsyncStorage.removeItem('authToken');
-		} catch (error) {
-			console.error('Error al eliminar el token de autenticación:', error);
-		}
-	}
-
 	public async signup(email: string, password: string): Promise<IUser | null> {
 		try {
 			const response = await client.mutate({
@@ -135,14 +115,14 @@ class AuthService {
 
 	public async loginAsGuest() {
 		try {
-			// const deviceId = getDeviceId();
-			// const deviceLanguage = getLocales()[0].languageCode;
-			// const language = deviceLanguageToLanguage(deviceLanguage);
+			const deviceId = getDeviceId();
+			const deviceLanguage = getLocales()[0].languageTag || 'en-US';
+			const language = deviceLanguage.replace('-', '_');
 			const response = await client.mutate({
 				mutation: LOGIN_USER_AS_GUEST,
 				variables: {
-					// deviceId,
-					// language,
+					deviceId,
+					language,
 				},
 			});
 			const user = response.data?.loginUserAsGuest;
@@ -206,14 +186,6 @@ class AuthService {
 		} catch (error: any) {
 			console.log('Error al verificar el código:', JSON.stringify(error));
 			throw new Error(error?.graphQLErrors[0]?.extensions?.code || 'RANDOM');
-		}
-	}
-
-	public async logout() {
-		try {
-			await this.removeAuthToken();
-		} catch (error) {
-			console.error('Error al cerrar sesión:', error);
 		}
 	}
 

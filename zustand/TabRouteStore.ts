@@ -6,14 +6,10 @@ import { IMarker } from '../shared/interfaces/IMarker';
 // import {Camera} from '@rnmapbox/maps';
 
 export interface TabRouteState {
-	routeOfCity: IRouteOfCity;
-	routeComplete: IRouteComplete;
-	city: ICity;
+	cities: ICity[];
 	markerSelected: string | null;
 	markers: IMarker[];
-	setRouteOfCity: (route: IRouteOfCity) => void;
-	setRouteComplete: (route: IRouteComplete) => void;
-	setCity: (city: ICity) => void;
+	setCities: (city: ICity[]) => void;
 	setMarkerSelected: (markerSelected: string | null) => void;
 	setMarkers: (markers: IMarker[]) => void;
 	setDefaultTabRoute: () => void;
@@ -44,21 +40,11 @@ const defaultCity: ICity = {
 };
 
 export const useTabRouteStore = create<TabRouteState>((set) => ({
-	routeOfCity: defaultRouteOfCity,
-	routeComplete: defaultRouteComplete,
-	city: defaultCity,
+	cities: [],
 	markerSelected: null,
 	markers: [],
-	setRouteOfCity: (routeOfCity: IRouteOfCity) => {
-		set((state) => ({ routeOfCity: { ...state.routeOfCity, ...routeOfCity } }));
-	},
-	setRouteComplete: (routeComplete: IRouteComplete) => {
-		set((state) => ({
-			routeComplete: { ...state.routeComplete, ...routeComplete },
-		}));
-	},
-	setCity: (city: ICity) => {
-		set((state) => ({ city: { ...state.city, ...city } }));
+	setCities: (cities: ICity[]) => {
+		set(() => ({ cities }));
 	},
 	setMarkerSelected: (markerSelected: string | null) => {
 		set(() => ({ markerSelected }));

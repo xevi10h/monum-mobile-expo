@@ -60,7 +60,10 @@ export default function TextSearchScreen({ navigation }: any) {
 				}}
 			/>
 			<TextSearchActive />
-			<ScrollView style={{ paddingHorizontal: 10 }}>
+			<ScrollView
+				style={{ paddingHorizontal: 10 }}
+				keyboardDismissMode="on-drag"
+			>
 				{searcherResults.map((searcherResult, index) => (
 					<TextSearchResultPill
 						key={index}

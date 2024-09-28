@@ -10,14 +10,14 @@ export default function PasswordChanged() {
 		<View style={styles.backgroundContainer}>
 			<View style={styles.backgroundColor} />
 			<ImageBackground
-				source={require('../../assets/images/background_monuments.png')}
+				source={require('@/assets/images/background_monuments.png')}
 				style={{ flex: 1, width: '100%', height: '100%' }}
 				resizeMode="cover"
 			>
 				<View style={[styles.container]}>
 					<View style={styles.logoContainer}>
 						<Image
-							source={require('../../assets/images/logo_white.png')}
+							source={require('@/assets/images/logo_white.png')}
 							style={styles.logo}
 							resizeMode="contain"
 						/>

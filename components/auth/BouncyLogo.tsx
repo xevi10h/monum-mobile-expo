@@ -5,8 +5,6 @@ import Animated, {
 	useAnimatedStyle,
 	withSpring,
 } from 'react-native-reanimated';
-
-// import logo_white from '../../assets/images/logo_white.png';
 import { styles } from '../../styles/auth/LoginStyles';
 
 export default function BouncyLogo() {

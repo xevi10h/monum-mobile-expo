@@ -1,5 +1,5 @@
 export interface IMarker {
-  id: string;
-  coordinates: [number, number];
-  importance: number;
+	id: string;
+	coordinates: [number, number];
+	importance: number;
 }

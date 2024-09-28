@@ -12,6 +12,7 @@
 			"resizeMode": "contain",
 			"backgroundColor": "#ffffff"
 		},
+		"platforms": ["ios", "android", "web"],
 		"ios": {
 			"supportsTablet": true,
 			"usesAppleSignIn": true,
@@ -127,7 +128,8 @@
 				{
 					"initialOrientation": "DEFAULT"
 				}
-			]
+			],
+			"expo-video"
 		],
 		"experiments": {
 			"typedRoutes": true

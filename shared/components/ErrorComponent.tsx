@@ -13,7 +13,7 @@ export default function ErrorComponent({
 	return (
 		<View style={styles.container}>
 			<Image
-				source={require('../../assets/images/exclamation.png')}
+				source={require('@/assets/images/exclamation.png')}
 				style={{ width: 50, height: 50 }}
 				resizeMode="contain"
 			/>

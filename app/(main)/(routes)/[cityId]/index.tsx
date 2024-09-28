@@ -1,27 +1,31 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { ScrollView, View, StyleSheet } from 'react-native';
+import { ScrollView, View, StyleSheet, Platform } from 'react-native';
 import { useQuery } from '@apollo/client';
-import { GET_ROUTES_OF_CITY } from '../../../graphql/queries/routeQueries';
+import { GET_ROUTES_OF_CITY } from '../../../../graphql/queries/routeQueries';
 import { useEffect, useState } from 'react';
-import IRouteOfCity from '../../../shared/interfaces/IRouteOfCity';
+import IRouteOfCity from '../../../../shared/interfaces/IRouteOfCity';
 import DetailCityPill from '@/components/routes/DetailCityPill';
 import TextSearch from '@/components/routes/TextSearch';
-import LoadingSpinner from '../../../shared/components/LoadingSpinner';
-import ErrorComponent from '../../../shared/components/ErrorComponent';
+import LoadingSpinner from '../../../../shared/components/LoadingSpinner';
+import ErrorComponent from '../../../../shared/components/ErrorComponent';
 import {
 	SafeAreaView,
 	useSafeAreaInsets,
 } from 'react-native-safe-area-context';
 import ListRoutePill from '@/components/routes/ListRoutePill';
-import { useTabRouteStore } from '../../../zustand/TabRouteStore';
-import { useUserStore } from '../../../zustand/UserStore';
+import { useTabRouteStore } from '../../../../zustand/TabRouteStore';
+import { useUserStore } from '../../../../zustand/UserStore';
 import { useTranslation } from '@/hooks/useTranslation';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
+import ICity from '@/shared/interfaces/ICity';
 
 export default function ListRoutesScreen() {
+	const { cityId } = useLocalSearchParams();
 	const { t } = useTranslation();
-	const city = useTabRouteStore((state) => state.city);
-	const setRouteOfCity = useTabRouteStore((state) => state.setRouteOfCity);
+	const cities = useTabRouteStore((state) => state.cities);
+	const [city, setCity] = useState<ICity | undefined>(
+		cities.find((city) => city.id === cityId),
+	);
 	const safeAreaInsets = useSafeAreaInsets();
 	const language = useUserStore((state) => state.user.language);
 	const [routes, setRoutes] = useState<IRouteOfCity[]>([]);
@@ -29,7 +33,7 @@ export default function ListRoutesScreen() {
 
 	const { loading, error, data, refetch } = useQuery(GET_ROUTES_OF_CITY, {
 		variables: {
-			cityId: city.id,
+			cityId: cityId,
 			textSearch: textSearch || '',
 		},
 	});
@@ -46,13 +50,22 @@ export default function ListRoutesScreen() {
 			}
 		}
 		fetchRoutes();
-	}, [setRoutes, language]);
+	}, [setRoutes, language, cityId]);
+
+	useEffect(() => {
+		setCity(cities.find((city) => city.id === cityId));
+	}, [cityId]);
+
 	return (
 		<SafeAreaView style={styles.page}>
 			<DetailCityPill
-				cityName={city.name}
-				imageUrl={city.imageUrl}
-				onPress={() => router.back()}
+				cityName={city?.name || ''}
+				imageUrl={city?.imageUrl || ''}
+				onPress={() =>
+					Platform.OS !== 'web'
+						? router.back()
+						: router.push('/(main)/(routes)')
+				}
 			/>
 			<View style={styles.contentContainer}>
 				<TextSearch
@@ -84,8 +97,13 @@ export default function ListRoutesScreen() {
 									route={route}
 									key={i}
 									onPress={() => {
-										setRouteOfCity(route);
-										router.push('/route-detail');
+										router.push({
+											pathname: `/[cityId]/[routeId]`,
+											params: {
+												cityId: cityId as string,
+												routeId: route.id,
+											},
+										});
 									}}
 								/>
 							))}

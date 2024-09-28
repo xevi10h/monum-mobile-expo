@@ -19,8 +19,7 @@ import { PaginationItem } from '@/components/media/PaginationItem';
 import { useTabMapStore } from '@/zustand/TabMapStore';
 import { useTranslation } from '@/hooks/useTranslation';
 import { ScrollView } from 'react-native-gesture-handler';
-import { useEffect, useState } from 'react';
-import { GetAppsResponse, getApps } from 'react-native-map-link';
+import { getApps } from 'react-native-map-link';
 
 const BORDER_RADIUS = 24;
 
@@ -271,7 +270,7 @@ const styles = StyleSheet.create({
 		backgroundColor: '#ECF3EC',
 		borderTopLeftRadius: 24,
 		borderTopRightRadius: 24,
-		top: Platform.OS === 'ios' ? 0 : 20,
+		top: Platform.OS === 'ios' ? 0 : 0,
 	},
 	imageContainer: {
 		height: 200,
@@ -288,7 +287,7 @@ const styles = StyleSheet.create({
 		borderTopRightRadius: BORDER_RADIUS,
 	},
 	arrowContainer: {
-		top: Platform.OS === 'ios' ? 0 : 20,
+		top: Platform.OS === 'ios' ? 0 : 0,
 		position: 'absolute',
 		width: '100%',
 		height: 50,

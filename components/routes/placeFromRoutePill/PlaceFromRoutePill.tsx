@@ -3,9 +3,9 @@ import {
 	ScrollView,
 	Text,
 	View,
-	ViewStyle,
 	StyleSheet,
 	TouchableOpacity,
+	Platform,
 } from 'react-native';
 import Animated, {
 	Easing,
@@ -20,7 +20,13 @@ import { ImportanceIcon } from './ImportanceIcon';
 import { useTranslation } from '@/hooks/useTranslation';
 import { getApps } from 'react-native-map-link';
 import { useActionSheet } from '@expo/react-native-action-sheet';
-import { StopFromRoutePillInterface } from '@/app/(main)/(routes)/route-detail';
+import { StopFromRoutePillInterface } from '@/app/(main)/(routes)/[cityId]/[routeId]';
+
+interface StopFromRoutePillInterfaceExtended
+	extends StopFromRoutePillInterface {
+	setStopsFromRoute: (stopsFromRoute: StopFromRoutePillInterface[]) => void;
+	stopsFromRoute: StopFromRoutePillInterface[];
+}
 
 export default function StopFromRoutePill({
 	isExpanded,
@@ -28,33 +34,24 @@ export default function StopFromRoutePill({
 	place,
 	medias,
 	order,
-	totalStops,
-}: StopFromRoutePillInterface) {
+	setStopsFromRoute,
+	stopsFromRoute,
+}: StopFromRoutePillInterfaceExtended) {
 	const { showActionSheetWithOptions } = useActionSheet();
-	const [expandedPill, setExpandedPill] = useState<boolean>(false);
+	const [expandedPill, setExpandedPill] = useState<boolean>(isExpanded);
 	const animationValue = useSharedValue(0);
 	const { t } = useTranslation();
 
-	// useImperativeHandle(ref, () => ({
-	// 	isExpanded: expandedPill,
-	// 	expandPill: () => {
-	// 		expandPill();
-	// 	},
-	// 	highlightPill: () => {
-	// 		highlightPill();
-	// 	},
-	// 	reducePill: () => {
-	// 		reducePill();
-	// 	},
-	// 	getLayout: () => {
-	// 		return {
-	// 			height: animationValue.value * 150 + 60,
-	// 		};
-	// 	},
-	// }));
-
 	const toggleExpanded = () => {
 		expandedPill ? reducePill() : expandPill();
+		setStopsFromRoute(
+			stopsFromRoute.map((stop) => {
+				if (stop.place.id === place.id) {
+					return { ...stop, isExpanded: !expandedPill };
+				}
+				return stop;
+			}),
+		);
 	};
 
 	const expandPill = () => {
@@ -73,12 +70,6 @@ export default function StopFromRoutePill({
 		setExpandedPill(false);
 	};
 
-	useEffect(() => {
-		if (isExpanded) {
-			expandPill();
-		}
-	}, [isExpanded]);
-
 	const animatedStyle = useAnimatedStyle(() => {
 		return {
 			height: animationValue.value * 150 + 60, // Interpolación manual entre 60 y 210
@@ -91,15 +82,16 @@ export default function StopFromRoutePill({
 				{
 					width: '100%',
 					elevation: 10,
-					flex: 1,
 				},
-				order !== 0 && order === totalStops - 1 ? { paddingBottom: 40 } : {},
+				order !== 0 && order === stopsFromRoute.length - 1
+					? { paddingBottom: 40 }
+					: {},
 			]}
 		>
 			<Animated.View
 				style={[
 					styles.placeMediaPillAnimated,
-					animatedStyle,
+					Platform.OS !== 'web' ? animatedStyle : {},
 					{ backgroundColor: isHighlighted ? '#D6E5D6' : '#ECF3EC' },
 				]}
 			>
@@ -261,6 +253,7 @@ export default function StopFromRoutePill({
 								<ScrollView
 									nestedScrollEnabled={true}
 									style={{ width: '100%', marginTop: 8 }}
+									contentContainerStyle={{ flexGrow: 1 }}
 								>
 									{medias?.map((media: IMedia, i: number) => (
 										<RoutePlaceMediaPill
@@ -301,7 +294,6 @@ const styles = StyleSheet.create({
 		shadowOpacity: 1,
 		shadowRadius: 4,
 		elevation: 5,
-		flex: 1,
 	},
 	placeMediaPillContainer: {
 		borderRadius: 12,

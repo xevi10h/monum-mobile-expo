@@ -1,44 +1,51 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { ActivityIndicator, Dimensions, Image, Text, View } from 'react-native';
+import {
+	ActivityIndicator,
+	Dimensions,
+	Image,
+	Platform,
+	Text,
+	View,
+} from 'react-native';
 import MapViewOriginal, { Camera, Region } from 'react-native-maps';
-import MapView from '@/components/map/MapView';
+import MapView from '@/components/map/crossPlatformComponents/MapView';
 import React, { createRef, useEffect, useRef, useState } from 'react';
 import { useQuery } from '@apollo/client';
-import { GET_ROUTE_DETAIL } from '../../../graphql/queries/routeQueries';
+import { GET_ROUTE_DETAIL } from '@/graphql/queries/routeQueries';
 import { MarkerComponent } from '@/components/routes/Marker';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import RatingPill from '@/components/routes/RatingPill';
 import TextSearch from '@/components/routes/TextSearch';
 
-import IStop from '../../../shared/interfaces/IStop';
+import IStop from '../../../../shared/interfaces/IStop';
 import CenterCoordinatesButton from '@/components/routes/CenterCoordinatesButton';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useTabRouteStore } from '../../../zustand/TabRouteStore';
-import { useMainStore } from '../../../zustand/MainStore';
+import { useTabRouteStore } from '../../../../zustand/TabRouteStore';
+import { useMainStore } from '../../../../zustand/MainStore';
 import * as Location from 'expo-location';
 import CenterStopsButton from '@/components/routes/CenterStopsButton';
-import { IMarker } from '../../../shared/interfaces/IMarker';
-import { useUserStore } from '../../../zustand/UserStore';
-import { router } from 'expo-router';
+import { IMarker } from '../../../../shared/interfaces/IMarker';
+import { useUserStore } from '../../../../zustand/UserStore';
+import { router, useLocalSearchParams } from 'expo-router';
 import StopFromRoutePill from '@/components/routes/placeFromRoutePill/PlaceFromRoutePill';
+import IRouteOfCity from '@/shared/interfaces/IRouteOfCity';
+import IRouteComplete from '@/shared/interfaces/IRouteComplete';
 
 export interface StopFromRoutePillInterface extends IStop {
 	isExpanded: boolean;
 	isHighlighted: boolean;
-	totalStops: number;
 }
 
 export default function RouteDetailScreen() {
+	const { routeId, cityId } = useLocalSearchParams();
 	const mapViewRef = useRef<MapViewOriginal>(null);
-	const routeOfCity = useTabRouteStore((state) => state.routeOfCity);
-	const setRouteOfCity = useTabRouteStore((state) => state.setRouteOfCity);
+	const [route, setRoute] = useState<IRouteComplete | null>(null);
 	const scrollViewRef = useRef<ScrollView>(null);
 	const currentUserLocation = useMainStore(
 		(state) => state.main.currentUserLocation,
 	);
 	const [statusForegroundPermissions, requestStatusForegroundPermissions] =
 		Location.useForegroundPermissions();
-	const [originalData, setOriginalData] = useState<any | null>(null);
 	const [stopsFromRoute, setStopsFromRoute] = useState<
 		StopFromRoutePillInterface[]
 	>([]);
@@ -53,12 +60,6 @@ export default function RouteDetailScreen() {
 	const setCurrentUserLocation = useMainStore(
 		(state) => state.setCurrentUserLocation,
 	);
-
-	const { loading, error, data, refetch } = useQuery(GET_ROUTE_DETAIL, {
-		variables: {
-			routeId: routeOfCity.id,
-		},
-	});
 
 	const calculateCoordinateForMarkers = (markers: IMarker[]): Region => {
 		let minLng = 90;
@@ -95,6 +96,12 @@ export default function RouteDetailScreen() {
 		mapViewRef?.current?.animateToRegion(region, 1000);
 	};
 
+	const { loading, error, data, refetch } = useQuery(GET_ROUTE_DETAIL, {
+		variables: {
+			routeId: routeId,
+		},
+	});
+
 	useEffect(() => {
 		if (markers.length > 0) {
 			const region = calculateCoordinateForMarkers(markers);
@@ -107,38 +114,38 @@ export default function RouteDetailScreen() {
 			try {
 				const response = await refetch();
 				if (response && response.data) {
-					setOriginalData(response.data || []);
+					setRoute(response.data.route);
 				}
 			} catch (error) {
 				console.error('Error trying to get stops:', error);
 			}
 		}
 		fetchStops();
-	}, [textSearch, refetch, language]);
+	}, [textSearch, refetch, language, routeId]);
 
 	useEffect(() => {
-		if (originalData) {
-			setRouteOfCity(originalData.route);
-			const stops = originalData?.route?.stops;
+		if (route) {
+			const stops = route?.stops;
 			const filteredStops = textSearch
-				? stops
-						.filter(
-							(marker: IStop) =>
-								marker?.place?.name
-									.toLowerCase()
-									.includes(textSearch.toLowerCase()) ||
-								marker?.place?.description
-									.toLowerCase()
-									.includes(textSearch.toLowerCase()),
-						)
-						.map((stop: IStop) => ({
-							...stop,
-							id: stop.place.id,
-							isExpanded: false,
-						}))
+				? stops.filter(
+						(marker: IStop) =>
+							marker?.place?.name
+								.toLowerCase()
+								.includes(textSearch.toLowerCase()) ||
+							marker?.place?.description
+								.toLowerCase()
+								.includes(textSearch.toLowerCase()),
+				  )
 				: stops;
-
-			const markers = filteredStops.map((marker: any) => ({
+			const stopsFromRoute: StopFromRoutePillInterface[] = filteredStops.map(
+				(stop: IStop) => ({
+					...stop,
+					isExpanded: false,
+					isHighlighted: false,
+					totalStops: stops.length,
+				}),
+			) as StopFromRoutePillInterface[];
+			const markers: IMarker[] = filteredStops.map((marker: any) => ({
 				id: marker.place.id,
 				coordinates: [
 					marker.place.address.coordinates.lng,
@@ -148,9 +155,9 @@ export default function RouteDetailScreen() {
 			}));
 			setMarkers(markers);
 
-			setStopsFromRoute(filteredStops);
+			setStopsFromRoute(stopsFromRoute);
 		}
-	}, [textSearch, originalData]);
+	}, [textSearch, route]);
 
 	useEffect(() => {
 		async function markerIsSelected() {
@@ -206,7 +213,6 @@ export default function RouteDetailScreen() {
 	}, [markerSelected]);
 
 	const centerCoordinatesButtonAction = async () => {
-		console.log('statusForegroundPermissions', statusForegroundPermissions);
 		try {
 			// Verificar el estado del permiso
 			if (!statusForegroundPermissions?.granted) {
@@ -222,7 +228,6 @@ export default function RouteDetailScreen() {
 			// Proceder con la obtención de la ubicación si el permiso está concedido
 			if (!currentUserLocation) {
 				const position = await Location.getCurrentPositionAsync();
-				console.log('Current position:', position);
 				const { longitude, latitude } = position.coords;
 				setCurrentUserLocation([longitude, latitude]);
 			}
@@ -276,31 +281,37 @@ export default function RouteDetailScreen() {
 					}}
 				>
 					<MapView
-						showsUserLocation
+						provider={Platform.OS !== 'ios' ? 'google' : undefined}
 						followsUserLocation
+						showsUserLocation={Platform.OS === 'ios'}
 						ref={mapViewRef}
 						style={{
 							flex: 1,
 						}}
 						camera={{
 							center: {
-								latitude: currentUserLocation[1],
-								longitude: currentUserLocation[0],
+								latitude: currentUserLocation[1] || 0,
+								longitude: currentUserLocation[0] || 0,
 							},
 							heading: 10,
 							pitch: 0,
-							zoom: 3,
+							zoom: 15,
 							altitude: 10,
 						}}
+						googleMapsApiKey="AIzaSyAm0KAb8uG0fBoYsce_owdlbTKKeNh0POo"
+						options={{
+							disableDefaultUI: true,
+						}}
+						loadingFallback={<ActivityIndicator size="large" color="#3F713B" />}
 					>
-						{markers.map((marker) => (
+						{/* {markers.map((marker) => (
 							<MarkerComponent
 								key={marker.id}
 								id={marker.id}
 								importance={marker.importance}
 								coordinates={marker.coordinates}
 							/>
-						))}
+						))} */}
 					</MapView>
 					<CenterStopsButton onPress={async () => await centerStopsCamera()} />
 					<CenterCoordinatesButton
@@ -329,8 +340,13 @@ export default function RouteDetailScreen() {
 							<TouchableOpacity
 								style={{ padding: 10 }}
 								onPress={() => {
+									Platform.OS !== 'web'
+										? router.back()
+										: router.push({
+												pathname: '/[cityId]',
+												params: { cityId: cityId as string },
+										  });
 									setMarkerSelected(null);
-									router.back();
 								}}
 							>
 								<Image
@@ -345,16 +361,15 @@ export default function RouteDetailScreen() {
 									fontSize: 18,
 								}}
 							>
-								{routeOfCity.title}
+								{route?.title}
 							</Text>
 						</View>
-						{routeOfCity.rating && (
-							<RatingPill number={routeOfCity.rating || 0} />
-						)}
+						{route?.rating && <RatingPill number={route.rating || 0} />}
 					</View>
 					<TextSearch setTextSearch={setTextSearch} textSearch={textSearch} />
+
 					<ScrollView
-						key={0}
+						contentContainerStyle={{ flexGrow: 1 }}
 						style={{
 							paddingTop: 5,
 							width: '100%',
@@ -363,15 +378,17 @@ export default function RouteDetailScreen() {
 							paddingHorizontal: 12,
 							backgroundColor: 'white',
 							height: '100%',
+							flex: 1,
 						}}
 						showsVerticalScrollIndicator={false}
 						ref={scrollViewRef}
 					>
 						{stopsFromRoute?.map((stopFromRoute, index) => (
 							<StopFromRoutePill
-								key={stopFromRoute.place.id}
+								key={`${stopFromRoute.place.id}_${index}`}
 								{...stopFromRoute}
-								totalStops={stopsFromRoute.length}
+								stopsFromRoute={stopsFromRoute}
+								setStopsFromRoute={setStopsFromRoute}
 							/>
 						))}
 					</ScrollView>

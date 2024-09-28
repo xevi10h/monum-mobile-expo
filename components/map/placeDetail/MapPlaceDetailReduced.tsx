@@ -124,6 +124,8 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		overflow: 'hidden',
 		paddingHorizontal: 12,
+		width: '100%',
+		height: '100%',
 	},
 	image: {
 		width: '100%',

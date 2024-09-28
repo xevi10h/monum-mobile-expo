@@ -15,10 +15,10 @@ import { router } from 'expo-router';
 
 export default function ListCitiesScreen() {
 	const { t } = useTranslation();
-	const setCity = useTabRouteStore((state) => state.setCity);
+	const setCities = useTabRouteStore((state) => state.setCities);
+	const cities = useTabRouteStore((state) => state.cities);
 	const safeAreaInsets = useSafeAreaInsets();
 	const [textSearch, setTextSearch] = useState<string | undefined>(undefined);
-	const [cities, setCities] = useState<ICity[]>([]);
 	const language = useUserStore((state) => state.user.language);
 
 	const { loading, error, data, refetch } = useQuery(GET_CITIES, {
@@ -57,6 +57,7 @@ export default function ListCitiesScreen() {
 				) : (
 					<View style={{ flex: 1, width: '100%' }}>
 						<ScrollView
+							keyboardDismissMode="on-drag"
 							scrollEventThrottle={16}
 							style={{
 								width: '100%',
@@ -69,8 +70,10 @@ export default function ListCitiesScreen() {
 								<ListCityPill
 									key={i}
 									onPress={() => {
-										setCity(city);
-										router.push('/list-routes-by-city');
+										router.push({
+											pathname: '/[cityId]',
+											params: { cityId: city.id },
+										});
 									}}
 									cityName={city.name}
 									imageUrl={city.imageUrl}

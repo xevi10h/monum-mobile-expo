@@ -3,6 +3,7 @@ import { ISearchResult } from '@/shared/interfaces/ISearchResult';
 import { Image } from 'react-native';
 import { useTabMapStore } from '@/zustand/TabMapStore';
 import MapServices from '@/services/map/MapServices';
+import { router } from 'expo-router';
 
 interface TextSearchMapResultPillProps {
 	searcherResult: ISearchResult;
@@ -40,7 +41,7 @@ export default function TextSearchMapResultPill({
 			style={{ flex: 1 }}
 			onPress={async () => {
 				setTextSearch(searcherResult?.name);
-				navigation.navigate('MapScreen');
+				router.back();
 				if (searcherResult.type === 'place') {
 					setTextSearchIsLoading(true);
 					const placeData = await MapServices.getPlaceInfo(

@@ -16,12 +16,11 @@ import { useUserStore } from '@/zustand/UserStore';
 import ErrorComponent from '@/components/auth/ErrorComponent';
 import { useTranslation } from '@/hooks/useTranslation';
 import { router } from 'expo-router';
+import { changeLanguage } from '@/i18n';
 
 export default function LoginWithCredentialsScreen() {
 	const { t } = useTranslation();
-	const setAuthToken = useUserStore((state) => state.setAuthToken);
 	const setUser = useUserStore((state) => state.setUser);
-	const setLanguage = useUserStore((state) => state.setLanguage);
 	const [emailOrUsername, setEmailOrUsername] = useState('');
 	const [password, setPassword] = useState('');
 	const [showPassword, setShowPassword] = useState(false);
@@ -61,7 +60,7 @@ export default function LoginWithCredentialsScreen() {
 		<View style={styles.backgroundContainer}>
 			<View style={styles.backgroundColor} />
 			<ImageBackground
-				source={require('../../assets/images/background_monuments.png')}
+				source={require('@/assets/images/background_monuments.png')}
 				style={{ flex: 1, width: '100%', height: '100%' }}
 				resizeMode="cover"
 			>
@@ -75,7 +74,7 @@ export default function LoginWithCredentialsScreen() {
 				>
 					<View style={styles.logoContainer}>
 						<Image
-							source={require('../../assets/images/logo_white.png')}
+							source={require('@/assets/images/logo_white.png')}
 							style={styles.logo}
 							resizeMode="contain"
 						/>
@@ -116,13 +115,13 @@ export default function LoginWithCredentialsScreen() {
 							>
 								{showPassword ? (
 									<Image
-										source={require('../../assets/images/password_eye.png')}
+										source={require('@/assets/images/password_eye.png')}
 										style={styles.hidePasswordButtonIcon}
 										resizeMode="contain"
 									/>
 								) : (
 									<Image
-										source={require('../../assets/images/password_eye_crossed.png')}
+										source={require('@/assets/images/password_eye_crossed.png')}
 										style={styles.hidePasswordButtonIcon}
 										resizeMode="contain"
 									/>
@@ -141,17 +140,13 @@ export default function LoginWithCredentialsScreen() {
 							text={t('authScreens.access')}
 							onPress={async () => {
 								try {
-									console.log('emailOrUsername', emailOrUsername);
-									console.log('password', password);
 									const user = await AuthServices.login(
 										emailOrUsername,
 										password,
 									);
-									console.log('user', user);
 									if (user) {
-										await setAuthToken(user.token || '');
 										setUser(user);
-										setLanguage(user.language || 'ca_ES');
+										changeLanguage(user.language || 'ca_ES');
 									}
 								} catch (error: string | any) {
 									startShake();

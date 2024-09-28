@@ -62,7 +62,6 @@ export function MarkerComponent({ id, coordinates, importance }: IMarker) {
 				longitude: coordinates[0],
 			}}
 			onPress={() => {
-				console.log('markerSelected', markerSelected);
 				setMarkerSelected(id);
 			}}
 		>

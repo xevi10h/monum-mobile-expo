@@ -1,19 +1,19 @@
 import { create } from 'zustand';
+import { persist, createJSONStorage } from 'zustand/middleware';
 import IUser from '../shared/interfaces/IUser';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Language } from '../shared/types/Language';
 
 interface UserState {
 	user: IUser;
-	token: string | null;
-	setAuthToken: (token: string) => Promise<void>;
-	removeAuthToken: () => Promise<void>;
 	setUser: (user: IUser) => void;
 	updatePhoto: (photo: string) => void;
 	updateUsername: (username: string) => void;
-	setDefaultUser: () => Promise<void>;
+	setDefaultUser: () => void;
 	setLanguage: (language: Language) => void;
-	initializeToken: () => Promise<void>;
+	persist?: {
+		clearStorage: () => void;
+	};
 }
 
 export const undefinedUser: IUser = {
@@ -30,58 +30,34 @@ export const undefinedUser: IUser = {
 	permissions: [],
 };
 
-export const useUserStore = create<UserState>((set, get) => ({
-	user: undefinedUser,
-	token: null,
-	setAuthToken: async (token: string) => {
-		try {
-			await AsyncStorage.setItem('authToken', token);
-			set({ token, user: { ...get().user, token } });
-		} catch (error) {
-			console.error('Error saving authentication token:', error);
-		}
-	},
-	removeAuthToken: async () => {
-		try {
-			await AsyncStorage.removeItem('authToken');
-			set({ token: null, user: { ...get().user, token: '' } });
-		} catch (error) {
-			console.error('Error removing authentication token:', error);
-		}
-	},
-	setUser: (user: IUser) => {
-		set((state) => ({
-			user: { ...state.user, ...user },
-			token: user.token || state.token, // Actualiza el token si está presente en el usuario
-		}));
-	},
-	updatePhoto: (photo: string) => {
-		set((state) => ({ user: { ...state.user, photo } }));
-	},
-	updateUsername: (username: string) => {
-		set((state) => ({ user: { ...state.user, username } }));
-	},
-	setDefaultUser: async () => {
-		set({
-			user: { ...undefinedUser, language: get().user.language },
-			token: null,
-		});
-		await AsyncStorage.removeItem('authToken');
-	},
-	setLanguage: (language: Language) => {
-		set((state) => ({ user: { ...state.user, language } }));
-	},
-	initializeToken: async () => {
-		try {
-			const currentUserToken = get().user.token;
-			if (currentUserToken) {
-				set({ token: currentUserToken });
-			} else {
-				const storedToken = await AsyncStorage.getItem('authToken');
-				set({ token: storedToken });
-			}
-		} catch (error) {
-			console.error('Error initializing token:', error);
-		}
-	},
-}));
+export const useUserStore = create<UserState>()(
+	persist(
+		(set, get) => ({
+			user: undefinedUser,
+			setUser: (user: IUser) => {
+				set((state) => ({
+					user: { ...state.user, ...user },
+				}));
+			},
+			updatePhoto: (photo: string) => {
+				set((state) => ({ user: { ...state.user, photo } }));
+			},
+			updateUsername: (username: string) => {
+				set((state) => ({ user: { ...state.user, username } }));
+			},
+			setDefaultUser: () => {
+				set({
+					user: { ...undefinedUser, language: get().user.language },
+				});
+			},
+			setLanguage: (language: Language) => {
+				set((state) => ({ user: { ...state.user, language } }));
+			},
+		}),
+		{
+			name: 'user-storage',
+			storage: createJSONStorage(() => AsyncStorage),
+			partialize: (state) => ({ user: state.user }),
+		},
+	),
+);

@@ -13,11 +13,14 @@ const httpLink = createHttpLink({
 
 const authLink = setContext(async (_, { headers }) => {
 	try {
-		const asyncToken = await AsyncStorage.getItem('authToken');
+		const userStorage = await AsyncStorage.getItem('user-storage');
+		const user = userStorage ? JSON.parse(userStorage) : '';
+		const { token } = user?.state?.user;
+		console.log('Token de autenticación:', token);
 		return {
 			headers: {
 				...headers,
-				authorization: asyncToken || '',
+				authorization: token || '',
 			},
 		};
 	} catch (e) {

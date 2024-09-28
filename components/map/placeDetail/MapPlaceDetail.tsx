@@ -29,7 +29,7 @@ type GestureContext = {
 };
 
 export default function MapPlaceDetail() {
-	const MAX_MARGIN_TOP = useSafeAreaInsets().top - 20;
+	const MAX_MARGIN_TOP = useSafeAreaInsets().top;
 	const markerSelected = useTabMapStore((state) => state.tabMap.markerSelected);
 	const setMarkerSelected = useTabMapStore((state) => state.setMarkerSelected);
 	const place = useTabMapStore((state) => state.tabMap.place);
@@ -119,7 +119,6 @@ export default function MapPlaceDetail() {
 
 	useEffect(() => {
 		if (markerSelected) {
-			console.log('markerSelected', markerSelected);
 			const fetchPlace = async () => {
 				position.value = withTiming(BOTTOM_TOTAL_TAB_HEIGHT, {
 					duration: 300,
@@ -134,8 +133,6 @@ export default function MapPlaceDetail() {
 			position.value = withTiming(height - MAX_MARGIN_TOP, { duration: 300 });
 		}
 	}, [showPlaceDetailExpanded, place]);
-
-	console.log('markerSelected', markerSelected);
 
 	return markerSelected ? (
 		<View

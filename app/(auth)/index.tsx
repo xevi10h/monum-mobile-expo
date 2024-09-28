@@ -1,4 +1,6 @@
-import { useFonts } from 'expo-font';
+import * as WebBrowser from 'expo-web-browser';
+import * as Google from 'expo-auth-session/providers/google';
+// import { ANDROID_CLIENT_ID, IOS_CLIENT_ID, WEB_CLIENT_ID } from '@env';
 import * as AppleAuthentication from 'expo-apple-authentication';
 import { router } from 'expo-router';
 import {
@@ -14,18 +16,18 @@ import {
 import BouncyLogo from '../../components/auth/BouncyLogo';
 import SecondaryButton from '../../components/auth/SecondaryButton';
 import SeparatorComponent from '../../components/auth/SeparatorComponent';
-import GoogleAuthService from '../../services/auth/GoogleAuthService';
+import GoogleAuthServiceWeb from '../../services/auth/GoogleAuthServiceWeb';
 import { styles } from '../../styles/auth/LoginStyles';
 import { useUserStore } from '../../zustand/UserStore';
 import AuthServices from '../../services/auth/AuthServices';
 import { useTranslation } from '@/hooks/useTranslation';
+import { changeLanguage } from '@/i18n';
 import { useEffect } from 'react';
-import AppleAuthService from '../../services/auth/AppleAuthService';
 // import appleAuth from '@invertase/react-native-apple-authentication';
 import ButtonWithLogo from '@/components/auth/ButtonWithLogo';
 
 export default function Login() {
-	const setAuthToken = useUserStore((state) => state.setAuthToken);
+	WebBrowser.maybeCompleteAuthSession();
 	const setUser = useUserStore((state) => state.setUser);
 	const setLanguage = useUserStore((state) => state.setLanguage);
 	const { t } = useTranslation();
@@ -37,6 +39,22 @@ export default function Login() {
 		//   );
 		// });
 	}, []);
+
+	const [request, response, promptAsync] = Google.useAuthRequest(
+		GoogleAuthServiceWeb.config,
+	);
+
+	useEffect(() => {
+		const signIn = async () => {
+			const user = await GoogleAuthServiceWeb.signInWithGoogle(response);
+			if (user) {
+				setUser(user);
+				changeLanguage(user.language || 'ca_ES');
+			}
+		};
+		signIn();
+	}, [response]);
+
 	return (
 		<View style={styles.backgroundContainer}>
 			<View style={styles.backgroundColor} />
@@ -55,19 +73,8 @@ export default function Login() {
 							text={t('authScreens.loginWithGoogle')}
 							style={{ backgroundColor: 'white' }}
 							textColor="black"
-							onPress={async () => {
-								// try {
-								// 	const user = await GoogleAuthService.signInWithGoogle();
-								// 	if (user) {
-								// 		await setAuthToken(user.token || '');
-								// 		setUser(user);
-								// 		changeLanguage(user.language || 'en');
-								// 	} else {
-								// 		console.error('ERROR WHEN LOGGING IN WITH GOOGLE');
-								// 	}
-								// } catch (error) {
-								// 	console.error('ERROR WHEN LOGGING IN WITH GOOGLE', error);
-								// }
+							onPress={() => {
+								promptAsync();
 							}}
 						/>
 
@@ -85,12 +92,8 @@ export default function Login() {
 											],
 										});
 										const user = await AuthServices.loginWithApple(credential);
-										console.log('user', user);
 										if (user) {
-											await setAuthToken(user.token || '');
 											setUser(user);
-
-											setLanguage(user.language || 'ca_es');
 										} else {
 											throw new Error('Error logging in with Apple');
 										}
@@ -103,33 +106,6 @@ export default function Login() {
 									}
 								}}
 							/>
-							// <AppleAuthentication.AppleAuthenticationButton
-							// 	buttonType={
-							// 		AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN
-							// 	}
-							// 	buttonStyle={
-							// 		AppleAuthentication.AppleAuthenticationButtonStyle.BLACK
-							// 	}
-							// 	cornerRadius={5}
-							// 	style={{ width: 200, height: 44 }}
-							// 	onPress={async () => {
-							// 		try {
-							// 			const credential = await AppleAuthentication.signInAsync({
-							// 				requestedScopes: [
-							// 					AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
-							// 					AppleAuthentication.AppleAuthenticationScope.EMAIL,
-							// 				],
-							// 			});
-							// 			// signed in
-							// 		} catch (e: any) {
-							// 			if (e.code === 'ERR_REQUEST_CANCELED') {
-							// 				// handle that the user canceled the sign-in flow
-							// 			} else {
-							// 				// handle other errors
-							// 			}
-							// 		}
-							// 	}}
-							// />
 						)}
 
 						<SeparatorComponent />
@@ -145,9 +121,9 @@ export default function Login() {
 								try {
 									const user = await AuthServices.loginAsGuest();
 									if (user) {
-										// await setAuthToken(user.token || '');
-										// setUser(user);
-										// await changeLanguage(user.language || 'en_US');
+										console.log('LOGGED AS GUEST', user);
+										setUser(user);
+										changeLanguage(user.language || 'en_US');
 									} else {
 										console.error('ERROR WHEN LOGGING AS GUEST');
 									}

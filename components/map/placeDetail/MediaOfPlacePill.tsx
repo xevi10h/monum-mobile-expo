@@ -60,7 +60,7 @@ export default function MediaOfPlacePill({
 
 	const onPressVideo = async () => {
 		try {
-			// await TrackPlayer.pause();
+			await TrackPlayer.pause();
 			setVideoPlayer(true);
 			setVideoUrl(media.url);
 		} catch (e) {

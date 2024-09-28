@@ -18,7 +18,6 @@ import { useTranslation } from '@/hooks/useTranslation';
 
 export default function RegisterScreen() {
 	const { t } = useTranslation();
-	const setAuthToken = useUserStore((state) => state.setAuthToken);
 	const setUser = useUserStore((state) => state.setUser);
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
@@ -66,7 +65,7 @@ export default function RegisterScreen() {
 		<View style={styles.backgroundContainer}>
 			<View style={styles.backgroundColor} />
 			<ImageBackground
-				source={require('../../assets/images/background_monuments.png')}
+				source={require('@/assets/images/background_monuments.png')}
 				style={{ flex: 1, width: '100%', height: '100%' }}
 				resizeMode="cover"
 			>
@@ -80,7 +79,7 @@ export default function RegisterScreen() {
 				>
 					<View style={styles.logoContainer}>
 						<Image
-							source={require('../../assets/images/logo_white.png')}
+							source={require('@/assets/images/logo_white.png')}
 							style={styles.logo}
 							resizeMode="contain"
 						/>
@@ -125,13 +124,13 @@ export default function RegisterScreen() {
 							>
 								{showPassword ? (
 									<Image
-										source={require('../../assets/images/password_eye.png')}
+										source={require('@/assets/images/password_eye.png')}
 										style={styles.hidePasswordButtonIcon}
 										resizeMode="contain"
 									/>
 								) : (
 									<Image
-										source={require('../../assets/images/password_eye_crossed.png')}
+										source={require('@/assets/images/password_eye_crossed.png')}
 										style={styles.hidePasswordButtonIcon}
 										resizeMode="contain"
 									/>
@@ -163,13 +162,13 @@ export default function RegisterScreen() {
 							>
 								{showPassword ? (
 									<Image
-										source={require('../../assets/images/password_eye.png')}
+										source={require('@/assets/images/password_eye.png')}
 										style={styles.hidePasswordButtonIcon}
 										resizeMode="contain"
 									/>
 								) : (
 									<Image
-										source={require('../../assets/images/password_eye_crossed.png')}
+										source={require('@/assets/images/password_eye_crossed.png')}
 										style={styles.hidePasswordButtonIcon}
 										resizeMode="contain"
 									/>
@@ -183,7 +182,6 @@ export default function RegisterScreen() {
 								try {
 									const response = await AuthServices.signup(email, password);
 									if (response) {
-										await setAuthToken(response.token || '');
 										setUser(response);
 									}
 								} catch (error: string | any) {

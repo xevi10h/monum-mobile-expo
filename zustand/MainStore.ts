@@ -1,11 +1,7 @@
 import { create } from 'zustand';
 import { State, Track } from 'react-native-track-player';
-// import {MapView, Camera} from '@rnmapbox/maps';
 import IPlace from '../shared/interfaces/IPlace';
-// import Geolocation from '@react-native-community/geolocation';
-import * as TaskManager from 'expo-task-manager';
 import * as Location from 'expo-location';
-import { LocationObject } from 'expo-location';
 
 export interface IMain {
 	activeTab: string;
@@ -74,51 +70,7 @@ export const useMainStore = create<MainState>((set) => ({
 			},
 		}));
 	},
-	startWatchingLocation: () => {
-		// const watchId = Location.watchPosition(
-		// 	(position: any) => {
-		// 		const { longitude, latitude } = position.coords;
-		// 		set((state) => {
-		// 			return {
-		// 				main: { ...state.main, currentUserLocation: [longitude, latitude] },
-		// 			};
-		// 		});
-		// 	},
-		// 	(error: any) => {
-		// 		console.error('Error watching position:', error);
-		// 	},
-		// 	{ enableHighAccuracy: true, distanceFilter: 1, interval: 1000 },
-		// );
-		// Location.startLocationUpdatesAsync(
-		// 	'watchLocation',
-		// 	({ data: { locations }, error }) => {
-		// 		if (error) {
-		// 			console.log('Error watching location:', error);
-		// 			return;
-		// 		}
-		// 		console.log('Locations:', locations);
-		// 		const [location] = locations;
-		// 		if (location) {
-		// 			const { longitude, latitude } = location.coords;
-		// 			set((state) => ({
-		// 				main: { ...state.main, currentUserLocation: [longitude, latitude] },
-		// 			}));
-		// 		}
-		// 	},
-		// );
-		// // Then, request to start location updates with appropriate options:
-		// async function startLocationUpdates() {
-		// 	const hasPermission = await Location.requestForegroundPermissionsAsync();
-		// 	if (hasPermission.status === 'granted') {
-		// 		await Location.startLocationUpdatesAsync('watchLocation', {
-		// 			accuracy: Location.Accuracy.High,
-		// 			timeInterval: 5000, // Minimum time to wait between each update in milliseconds
-		// 			distanceInterval: 5, // Receive updates only when the location has changed by at least this distance in meters
-		// 		});
-		// 	}
-		// }
-		// set((state) => ({ main: { ...state.main, watchId } }));
-	},
+	startWatchingLocation: () => {},
 	stopWatchingLocation: async () => {
 		await Location.stopLocationUpdatesAsync('watchLocation');
 	},

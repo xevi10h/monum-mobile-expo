@@ -1,6 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
-import { Dimensions, Modal, StyleSheet, Text, View } from 'react-native';
+import {
+	Dimensions,
+	Modal,
+	Platform,
+	StyleSheet,
+	Text,
+	View,
+} from 'react-native';
 import IUser from '../../../shared/interfaces/IUser';
 import { useMutation, useQuery } from '@apollo/client';
 import {
@@ -23,21 +30,17 @@ import { useUserStore } from '../../../zustand/UserStore';
 import { useMainStore } from '../../../zustand/MainStore';
 import { useTabMapStore } from '../../../zustand/TabMapStore';
 import { useTabRouteStore } from '../../../zustand/TabRouteStore';
-import GoogleAuthService from '@/services/auth/GoogleAuthService';
 import { BOTTOM_TAB_NAVIGATOR_HEIGHT } from '@/app/(main)/_layout';
 import { i18n, changeLanguage } from '@/i18n';
 import { useTranslation } from '@/hooks/useTranslation';
 import DeleteButton from '@/components/profile/DeleteButton';
 import ConfirmDeleteAccountButton from '@/components/profile/ConfirmDeleteAccountButton';
 import { router } from 'expo-router';
-
-type Props = {
-	navigation: any;
-};
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const height = Dimensions.get('window').height;
 
-export default function ProfileScreen({ navigation }: Props) {
+export default function ProfileScreen() {
 	const { t } = useTranslation();
 	const height = Dimensions.get('window').height;
 	const onRetry = useQuery(GET_USER_BY_ID);
@@ -50,7 +53,6 @@ export default function ProfileScreen({ navigation }: Props) {
 	);
 	const applicationLanguage = useUserStore((state) => state.user.language);
 	const setLanguage = useUserStore((state) => state.setLanguage);
-	const removeAuthToken = useUserStore((state) => state.removeAuthToken);
 	const updatePhoto = useUserStore((state) => state.updatePhoto);
 	const updateUsername = useUserStore((state) => state.updateUsername);
 	const setUser = useUserStore((state) => state.setUser);
@@ -74,8 +76,10 @@ export default function ProfileScreen({ navigation }: Props) {
 	const [photoBase64, setPhotoBase64] = useState<string | undefined>(undefined);
 
 	const { data, loading, error } = useQuery(GET_USER_BY_ID, {
-		skip: !!user,
+		skip: !!user.token,
 	});
+
+	const { persist } = useUserStore.getState();
 
 	const [
 		updateUser,
@@ -257,7 +261,12 @@ export default function ProfileScreen({ navigation }: Props) {
 						>
 							{t('profile.deleteMyAccountConfirmation')}
 						</Text>
-						<View style={{ flexDirection: 'row' }}>
+						<View
+							style={{
+								flexDirection: 'row',
+								width: '100%',
+							}}
+						>
 							<View style={{ flex: 1, paddingHorizontal: 10 }}>
 								<DeleteButton
 									text={t('profile.cancel')}
@@ -272,11 +281,18 @@ export default function ProfileScreen({ navigation }: Props) {
 									onPress={async () => {
 										try {
 											await deleteHardMyUser();
-											// (await GoogleSignin.isSignedIn()) &&
-											// 	(await GoogleSignin.signOut());
-											// await GoogleAuthService.configureGoogleSignIn();
-											await removeAuthToken();
-											setDefaultUser();
+											persist?.clearStorage();
+											if (Platform.OS === 'web') {
+												localStorage.removeItem('user-storage');
+												localStorage.removeItem('google-user');
+												router.replace('/');
+												window.location.reload();
+											} else {
+												await AsyncStorage.removeItem('user-storage');
+												await AsyncStorage.removeItem('google-user');
+											}
+
+											// Reset Zustand stores
 											setDefaultMain();
 											setDefaultTabMap();
 											setDefaultTabRoute();
@@ -311,7 +327,7 @@ export default function ProfileScreen({ navigation }: Props) {
 							provisionalUser.username !== undefined) && (
 							<NameInput
 								labelText={labelText('username')}
-								value={provisionalUser.username as string}
+								value={provisionalUser.username || ('' as string)}
 								setValue={(newUsername: string) => {
 									setProvisionalUser((prevUser) => ({
 										...prevUser,
@@ -359,11 +375,19 @@ export default function ProfileScreen({ navigation }: Props) {
 							}
 							onPress={async () => {
 								try {
-									// (await GoogleSignin.isSignedIn()) &&
-									// 	(await GoogleSignin.signOut());
-									// await GoogleAuthService.configureGoogleSignIn();
-									await removeAuthToken();
-									setDefaultUser();
+									// Clear persisted storage
+									persist?.clearStorage();
+									if (Platform.OS === 'web') {
+										localStorage.removeItem('user-storage');
+										localStorage.removeItem('google-user');
+										router.replace('/');
+										window.location.reload();
+									} else {
+										await AsyncStorage.removeItem('user-storage');
+										await AsyncStorage.removeItem('google-user');
+									}
+
+									// Reset Zustand stores
 									setDefaultMain();
 									setDefaultTabMap();
 									setDefaultTabRoute();
