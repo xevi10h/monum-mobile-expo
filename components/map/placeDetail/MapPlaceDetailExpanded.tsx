@@ -45,8 +45,12 @@ export default function MapPlaceDetailExpanded({
 	}
 
 	return (
-		<View style={{ borderTopLeftRadius: 24, borderTopRightRadius: 24 }}>
-			<View style={{ borderTopLeftRadius: 24, borderTopRightRadius: 24 }}>
+		<View
+			style={{ borderTopLeftRadius: 24, borderTopRightRadius: 24, flex: 1 }}
+		>
+			<View
+				style={{ borderTopLeftRadius: 24, borderTopRightRadius: 24, flex: 1 }}
+			>
 				<ScrollView
 					style={styles.container}
 					showsVerticalScrollIndicator={false}
@@ -57,7 +61,7 @@ export default function MapPlaceDetailExpanded({
 					<View
 						style={{
 							width: '100%',
-							height: '150%',
+							flex: 1,
 							backgroundColor: 'transparent',
 							borderTopLeftRadius: 24,
 							borderTopRightRadius: 24,
@@ -265,6 +269,7 @@ export default function MapPlaceDetailExpanded({
 
 const styles = StyleSheet.create({
 	container: {
+		flex: 1,
 		height: '100%',
 		width: '100%',
 		backgroundColor: '#ECF3EC',

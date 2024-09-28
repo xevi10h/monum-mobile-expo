@@ -171,7 +171,7 @@ export default function MapScreen() {
 							zoom: 15,
 							altitude: 10,
 						}}
-						googleMapsApiKey="AIzaSyCJtcI8P5pooC596yeiDn-BpT8JA5tsh2w"
+						googleMapsApiKey="AIzaSyDvzNpAZfrhv5GN8JyGWet9dcjnfoL8y-Y"
 						options={{
 							disableDefaultUI: true,
 						}}
