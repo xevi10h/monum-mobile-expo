@@ -171,7 +171,7 @@ export default function MapScreen() {
 							zoom: 15,
 							altitude: 10,
 						}}
-						googleMapsApiKey="AIzaSyDvzNpAZfrhv5GN8JyGWet9dcjnfoL8y-Y"
+						googleMapsApiKey={process.env.GOOGLE_MAPS_API_KEY}
 						options={{
 							disableDefaultUI: true,
 						}}
