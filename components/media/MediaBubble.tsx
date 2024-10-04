@@ -14,14 +14,15 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Slider } from '@rneui/themed';
 import Animated, {
 	runOnJS,
-	useAnimatedGestureHandler,
 	useAnimatedStyle,
 	useSharedValue,
 	withTiming,
 } from 'react-native-reanimated';
 import {
-	PanGestureHandler,
-	PanGestureHandlerGestureEvent,
+	Gesture,
+	GestureDetector,
+	GestureUpdateEvent,
+	PanGestureHandlerEventPayload,
 } from 'react-native-gesture-handler';
 import TrackPlayer, { State, useProgress } from 'react-native-track-player';
 import { useTabMapStore } from '@/zustand/TabMapStore';
@@ -52,20 +53,18 @@ export default function MediaBubble() {
 	const [closeBubble, setCloseBubble] = useState(false);
 
 	const position = useSharedValue(width / 2);
-	const panGestureEvent = useAnimatedGestureHandler<
-		PanGestureHandlerGestureEvent,
-		GestureContext
-	>({
-		onStart: (_, context) => {
-			context.startX = position.value;
-		},
-		onActive: (event, context) => {
-			const newPosition = context.startX + event.translationX;
-			position.value = newPosition;
-		},
-		onEnd: (event) => {
-			const diference = position.value - width / 2;
-			if (diference > 15 && event.velocityX > 0) {
+	const panGesture = Gesture.Pan()
+		// .onStart((event: GestureUpdateEvent<PanGestureHandlerEventPayload>) => {
+		// 	// event.x = position.value;
+		// })
+		.onUpdate((event: GestureUpdateEvent<PanGestureHandlerEventPayload>) => {
+			// const newPosition = event.x + event.translationX;
+			position.value += event.absoluteX / 10;
+		})
+		.onEnd((event: GestureUpdateEvent<PanGestureHandlerEventPayload>) => {
+			const difference = position.value - width / 2;
+			console.log('width', width);
+			if (difference > 15 && event.velocityX > 0) {
 				position.value = withTiming(
 					width * 2,
 					{ duration: width * 2 - position.value },
@@ -73,7 +72,7 @@ export default function MediaBubble() {
 						runOnJS(setCloseBubble)(true);
 					},
 				);
-			} else if (-diference > 15 && event.velocityX < 0) {
+			} else if (-difference > 15 && event.velocityX < 0) {
 				position.value = withTiming(
 					-width,
 					{ duration: position.value + width },
@@ -84,8 +83,8 @@ export default function MediaBubble() {
 			} else {
 				position.value = withTiming(width / 2);
 			}
-		},
-	});
+		});
+
 	const animatedStyle = useAnimatedStyle(() => {
 		const diference = position.value - width / 2;
 		return {
@@ -103,17 +102,21 @@ export default function MediaBubble() {
 	useEffect(() => {
 		async function closePlayer() {
 			try {
+				console.log('closePlayer');
+				await TrackPlayer.stop();
 				await TrackPlayer.reset();
-				setCloseBubble(true);
 			} catch (e) {
 				console.log(e);
 			}
 		}
-		closeBubble && closePlayer();
+		console.log('closeBubble', closeBubble);
+		if (closeBubble) {
+			closePlayer();
+		}
 	}, [closeBubble]);
 
 	return (
-		<PanGestureHandler onGestureEvent={panGestureEvent}>
+		<GestureDetector gesture={panGesture}>
 			<Animated.View
 				style={[
 					styles.animatedContainer,
@@ -274,7 +277,7 @@ export default function MediaBubble() {
 					</View>
 				</TouchableWithoutFeedback>
 			</Animated.View>
-		</PanGestureHandler>
+		</GestureDetector>
 	);
 }
 

@@ -9,13 +9,14 @@ import {
 	View,
 } from 'react-native';
 import {
-	PanGestureHandler,
-	PanGestureHandlerGestureEvent,
+	Gesture,
+	GestureDetector,
+	GestureUpdateEvent,
+	PanGestureHandlerEventPayload,
 } from 'react-native-gesture-handler';
 import { LinearGradient } from 'expo-linear-gradient';
 import Animated, {
 	runOnJS,
-	useAnimatedGestureHandler,
 	useAnimatedStyle,
 	useSharedValue,
 	withTiming,
@@ -47,23 +48,22 @@ export default function MediaExpanded() {
 	const [isFullExtended, setIsFullExtended] = useState(false);
 	const [isMain, setIsMain] = useState(true);
 
-	const panGestureEvent = useAnimatedGestureHandler<
-		PanGestureHandlerGestureEvent,
-		GestureContext
-	>({
-		onStart: (_, context) => {
-			context.startY = position.value;
-		},
-		onActive: (event, context) => {
-			const newPosition = context.startY + event.translationY;
+	const panGesture = Gesture.Pan()
+		// .onStart((event: GestureUpdateEvent<PanGestureHandlerEventPayload>) => {
+		// 	event.y = position.value;
+		// })
+		.onUpdate((event: GestureUpdateEvent<PanGestureHandlerEventPayload>) => {
+			const newPosition = event.translationY;
+			console.log(newPosition);
 			position.value = newPosition;
 			if (position.value <= -extensionHeight) {
 				runOnJS(setIsFullExtended)(true);
 			} else {
 				runOnJS(setIsFullExtended)(false);
 			}
-		},
-		onEnd: (event) => {
+		})
+		.onEnd((event: GestureUpdateEvent<PanGestureHandlerEventPayload>) => {
+			console.log('end', event.velocityY);
 			if (
 				(position.value > height / 2 || event.velocityY > 0) &&
 				isMain === true
@@ -86,8 +86,8 @@ export default function MediaExpanded() {
 					runOnJS(setIsMain)(true);
 				});
 			}
-		},
-	});
+		});
+
 	const animatedStyle = useAnimatedStyle(() => {
 		return {
 			marginTop: position.value,
@@ -120,21 +120,20 @@ export default function MediaExpanded() {
 
 	return (
 		<View style={styles.container}>
-			<PanGestureHandler onGestureEvent={panGestureEvent}>
+			<GestureDetector gesture={panGesture}>
 				<Animated.View style={[styles.animatedContainer, animatedStyle]}>
 					<View style={{ flex: 1 }}>
 						<View style={{ height: height * 0.65 }}>
 							<Carousel
 								loop
 								width={width}
-								height={height * 0.65}
 								data={imagesUrl}
 								scrollAnimationDuration={500}
 								onProgressChange={(_, absoluteProgress) =>
 									(progressValue.value = absoluteProgress)
 								}
 								renderItem={({ index }) => (
-									<View>
+									<View style={styles.imageContainer}>
 										<Image
 											source={{
 												uri: imagesUrl[index],
@@ -215,7 +214,7 @@ export default function MediaExpanded() {
 						/>
 					</View>
 				</Animated.View>
-			</PanGestureHandler>
+			</GestureDetector>
 		</View>
 	);
 }
@@ -240,12 +239,17 @@ const styles = StyleSheet.create({
 		borderTopLeftRadius: 24,
 		borderTopRightRadius: 24,
 	},
-	imageContainer: {},
+	imageContainer: {
+		height: '100%',
+		width: '100%',
+		alignItems: 'center',
+		justifyContent: 'center',
+		borderTopLeftRadius: 24,
+		borderTopRightRadius: 24,
+	},
 	image: {
-		top: 0,
 		width: '100%',
 		height: '100%',
-		bottom: 0,
 		paddingBottom: 13,
 	},
 	arrowContainer: {

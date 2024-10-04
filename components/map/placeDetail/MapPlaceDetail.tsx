@@ -2,12 +2,13 @@
 import { useEffect } from 'react';
 import { Dimensions, Platform, StyleSheet, View } from 'react-native';
 import {
-	PanGestureHandler,
-	PanGestureHandlerGestureEvent,
+	Gesture,
+	GestureDetector,
+	GestureUpdateEvent,
+	PanGestureHandlerEventPayload,
 } from 'react-native-gesture-handler';
 import Animated, {
 	runOnJS,
-	useAnimatedGestureHandler,
 	useAnimatedStyle,
 	useSharedValue,
 	withTiming,
@@ -67,15 +68,13 @@ export default function MapPlaceDetail() {
 		});
 	};
 
-	const panGestureEvent = useAnimatedGestureHandler<
-		PanGestureHandlerGestureEvent,
-		GestureContext
-	>({
-		onStart: (_, context) => {
-			context.startY = position.value;
-		},
-		onActive: (event, context) => {
-			const newPosition = context.startY - event.translationY;
+	const panGestureEvent = Gesture.Pan()
+		// .onStart((event: GestureUpdateEvent<PanGestureHandlerEventPayload>) => {
+		// 	event.y = position.value;
+		// })
+		.onUpdate((event: GestureUpdateEvent<PanGestureHandlerEventPayload>) => {
+			const newPosition = height - event.translationY;
+			console.log('newPosition', newPosition);
 			if (!showPlaceDetailExpanded) {
 				if (newPosition >= BOTTOM_TOTAL_TAB_HEIGHT) {
 					position.value = BOTTOM_TOTAL_TAB_HEIGHT;
@@ -89,8 +88,8 @@ export default function MapPlaceDetail() {
 					position.value = newPosition;
 				}
 			}
-		},
-		onEnd: (event) => {
+		})
+		.onEnd((event: GestureUpdateEvent<PanGestureHandlerEventPayload>) => {
 			if (!showPlaceDetailExpanded) {
 				if (
 					position.value < BOTTOM_TOTAL_TAB_HEIGHT / 2 ||
@@ -104,11 +103,10 @@ export default function MapPlaceDetail() {
 				if (position.value < height / 2 || event.velocityY > 0) {
 					runOnJS(closePlaceDetail)();
 				} else {
-					position.value = withTiming(height - MAX_MARGIN_TOP);
+					position.value = withTiming(height);
 				}
 			}
-		},
-	});
+		});
 
 	const animatedStyle = useAnimatedStyle(() => {
 		return {
@@ -130,6 +128,7 @@ export default function MapPlaceDetail() {
 
 	useEffect(() => {
 		if (place && showPlaceDetailExpanded) {
+			console.log('MAX_MARGIN_TOP', MAX_MARGIN_TOP);
 			position.value = withTiming(height - MAX_MARGIN_TOP, { duration: 300 });
 		}
 	}, [showPlaceDetailExpanded, place]);
@@ -145,7 +144,7 @@ export default function MapPlaceDetail() {
 				},
 			]}
 		>
-			<PanGestureHandler onGestureEvent={panGestureEvent}>
+			<GestureDetector gesture={panGestureEvent}>
 				<Animated.View
 					style={[
 						styles.animatedContainer,
@@ -166,7 +165,7 @@ export default function MapPlaceDetail() {
 						<MapPlaceDetailReduced importanceIcon={importanceIcon()} />
 					)}
 				</Animated.View>
-			</PanGestureHandler>
+			</GestureDetector>
 		</View>
 	) : null;
 }

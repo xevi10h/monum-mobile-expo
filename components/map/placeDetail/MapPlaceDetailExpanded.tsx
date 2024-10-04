@@ -20,6 +20,7 @@ import { useTabMapStore } from '@/zustand/TabMapStore';
 import { useTranslation } from '@/hooks/useTranslation';
 import { ScrollView } from 'react-native-gesture-handler';
 import { getApps } from 'react-native-map-link';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const BORDER_RADIUS = 24;
 
@@ -45,7 +46,7 @@ export default function MapPlaceDetailExpanded({
 	}
 
 	return (
-		<View
+		<SafeAreaView
 			style={{ borderTopLeftRadius: 24, borderTopRightRadius: 24, flex: 1 }}
 		>
 			<View
@@ -263,7 +264,7 @@ export default function MapPlaceDetailExpanded({
 					resizeMode="contain"
 				/>
 			</Pressable>
-		</View>
+		</SafeAreaView>
 	);
 }
 
