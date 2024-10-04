@@ -298,7 +298,7 @@ export default function RouteDetailScreen() {
 							zoom: 15,
 							altitude: 10,
 						}}
-						googleMapsApiKey="AIzaSyAm0KAb8uG0fBoYsce_owdlbTKKeNh0POo"
+						googleMapsApiKey={process.env.GOOGLE_MAPS_API_KEY}
 						options={{
 							disableDefaultUI: true,
 						}}

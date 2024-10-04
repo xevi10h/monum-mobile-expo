@@ -218,27 +218,6 @@ export default function RootLayout() {
 	}, [startWatchingLocation]);
 
 	useEffect(() => {
-		function loadGoogleMapsAPI(callback: any) {
-			if (window.google && window.google.maps) {
-				// Google Maps API is already loaded, call the callback function
-				callback();
-			} else {
-				// Google Maps API is not loaded, dynamically load it
-				const script = document.createElement('script');
-				script.src = `https://maps.googleapis.com/maps/api/js?key='YOUR_API_KEY'`;
-				script.async = true;
-				script.defer = true;
-				script.onload = callback;
-				// Append the script to the document
-				document.head.appendChild(script);
-			}
-		}
-		loadGoogleMapsAPI(() => {
-			// Initialize the map
-		});
-	}, []);
-
-	useEffect(() => {
 		console.log('user', user);
 		if ((loaded || error) && allLoaded && isLoading) {
 			user.token ? router.replace('/(main)/(map)') : router.replace('/(auth)');
