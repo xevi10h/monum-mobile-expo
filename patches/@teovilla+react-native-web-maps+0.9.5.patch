@@ -1,0 +1,8 @@
+diff --git a/node_modules/@teovilla/react-native-web-maps/dist/typescript/index.d.ts b/node_modules/@teovilla/react-native-web-maps/dist/typescript/index.d.ts
+index 8cbd89c..c0fcd6e 100644
+--- a/node_modules/@teovilla/react-native-web-maps/dist/typescript/index.d.ts
++++ b/node_modules/@teovilla/react-native-web-maps/dist/typescript/index.d.ts
+@@ -1 +1,2 @@
+ export * from './components/marker-clusterer';
++export * from './components/marker';
+\ No newline at end of file

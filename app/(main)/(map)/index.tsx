@@ -1,20 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import MapViewType, {
-	Camera,
-	Marker,
-	PROVIDER_GOOGLE,
-} from 'react-native-maps';
+import MapViewType, { Camera } from 'react-native-maps';
 import { useEffect, useRef, useState } from 'react';
-import {
-	ActivityIndicator,
-	Platform,
-	StyleSheet,
-	Text,
-	View,
-} from 'react-native';
+import { ActivityIndicator, Platform, View } from 'react-native';
 import MapView from '@/components/map/crossPlatformComponents/MapView';
 import MapScreenButton from '@/components/map/MapScreenButton';
-import { MarkerComponent } from '@/components/map/Marker';
+import { MarkerComponent } from '@/components/map/CustomMarker';
 import MapPlaceDetail from '@/components/map/placeDetail/MapPlaceDetail';
 import MapServices from '@/services/map/MapServices';
 import { useTabMapStore } from '@/zustand/TabMapStore';
@@ -177,14 +167,14 @@ export default function MapScreen() {
 						}}
 						loadingFallback={<ActivityIndicator size="large" color="#3F713B" />}
 					>
-						{/* {markers.map((marker, index) => (
+						{markers.map((marker, index) => (
 							<MarkerComponent
 								key={index}
 								id={marker.id}
 								importance={marker.importance}
 								coordinates={marker.coordinates}
 							/>
-						))} */}
+						))}
 					</MapView>
 				</View>
 				<MapScreenButton

@@ -12,7 +12,7 @@ import MapView from '@/components/map/crossPlatformComponents/MapView';
 import React, { createRef, useEffect, useRef, useState } from 'react';
 import { useQuery } from '@apollo/client';
 import { GET_ROUTE_DETAIL } from '@/graphql/queries/routeQueries';
-import { MarkerComponent } from '@/components/routes/Marker';
+import { MarkerComponent } from '@/components/map/CustomMarker';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import RatingPill from '@/components/routes/RatingPill';
 import TextSearch from '@/components/routes/TextSearch';
@@ -304,14 +304,14 @@ export default function RouteDetailScreen() {
 						}}
 						loadingFallback={<ActivityIndicator size="large" color="#3F713B" />}
 					>
-						{/* {markers.map((marker) => (
+						{markers.map((marker) => (
 							<MarkerComponent
 								key={marker.id}
 								id={marker.id}
 								importance={marker.importance}
 								coordinates={marker.coordinates}
 							/>
-						))} */}
+						))}
 					</MapView>
 					<CenterStopsButton onPress={async () => await centerStopsCamera()} />
 					<CenterCoordinatesButton
