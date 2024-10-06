@@ -1,6 +1,7 @@
 import {
 	Dimensions,
 	Image,
+	Platform,
 	Pressable,
 	StyleSheet,
 	Text,
@@ -9,7 +10,6 @@ import {
 import { SharedValue, runOnJS, withTiming } from 'react-native-reanimated';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useMainStore } from '@/zustand/MainStore';
-import { useRef } from 'react';
 import MediaPlayer from './MediaPlayer';
 import { useTranslation } from '@/hooks/useTranslation';
 
@@ -21,6 +21,7 @@ interface MediaExpandedTextProps {
 	isFullExtended: boolean;
 	setIsFullExtended: (isExtended: boolean) => void;
 	setIsMain: (isMain: boolean) => void;
+	scrollRef: React.RefObject<ScrollView>;
 }
 
 export default function MediaExpandedText({
@@ -29,10 +30,10 @@ export default function MediaExpandedText({
 	isFullExtended,
 	setIsFullExtended,
 	setIsMain,
+	scrollRef,
 }: MediaExpandedTextProps) {
 	const { t } = useTranslation();
 	const currentTrack = useMainStore((state) => state.main.currentTrack);
-	const scrollRef = useRef<ScrollView>(null);
 	return (
 		<View style={styles.mediaOfPlaceGreatContainer}>
 			<Pressable
@@ -64,16 +65,14 @@ export default function MediaExpandedText({
 						justifyContent: 'center',
 					}}
 				>
-					{isFullExtended && (
-						<Image
-							source={require('@/assets/images/place_pre_detail_arrow_top.png')}
-							resizeMode="contain"
-							style={{
-								transform: [{ rotate: '180deg' }],
-								width: 24,
-							}}
-						/>
-					)}
+					<Image
+						source={require('@/assets/images/place_pre_detail_arrow_top.png')}
+						resizeMode="contain"
+						style={{
+							transform: isFullExtended ? [{ rotate: '180deg' }] : [],
+							width: 24,
+						}}
+					/>
 				</View>
 				<View
 					style={{
@@ -92,6 +91,7 @@ export default function MediaExpandedText({
 				<ScrollView
 					style={{ width: '100%', height: height * 0.6 }}
 					ref={scrollRef}
+					disableScrollViewPanResponder
 					scrollEnabled={isFullExtended}
 				>
 					<Text style={styles.descriptionText}>{currentTrack?.text}</Text>
@@ -111,7 +111,7 @@ export default function MediaExpandedText({
 
 const styles = StyleSheet.create({
 	mediaOfPlaceGreatContainer: {
-		marginTop: 50,
+		marginTop: Platform.OS === 'web' ? 20 : 50,
 		alignSelf: 'flex-start',
 		backgroundColor: '#ECF3EC',
 		paddingHorizontal: 20,

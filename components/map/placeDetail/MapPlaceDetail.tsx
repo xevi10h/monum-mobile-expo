@@ -30,7 +30,7 @@ type GestureContext = {
 };
 
 export default function MapPlaceDetail() {
-	const MAX_MARGIN_TOP = useSafeAreaInsets().top;
+	const MAX_MARGIN_TOP = Platform.OS === 'web' ? 160 : useSafeAreaInsets().top;
 	const markerSelected = useTabMapStore((state) => state.tabMap.markerSelected);
 	const setMarkerSelected = useTabMapStore((state) => state.setMarkerSelected);
 	const place = useTabMapStore((state) => state.tabMap.place);
@@ -103,7 +103,7 @@ export default function MapPlaceDetail() {
 				if (position.value < height / 2 || event.velocityY > 0) {
 					runOnJS(closePlaceDetail)();
 				} else {
-					position.value = withTiming(height);
+					position.value = withTiming(height - MAX_MARGIN_TOP);
 				}
 			}
 		});

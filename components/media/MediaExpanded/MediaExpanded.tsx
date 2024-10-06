@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
 	Dimensions,
 	Image,
@@ -13,6 +13,7 @@ import {
 	GestureDetector,
 	GestureUpdateEvent,
 	PanGestureHandlerEventPayload,
+	ScrollView,
 } from 'react-native-gesture-handler';
 import { LinearGradient } from 'expo-linear-gradient';
 import Animated, {
@@ -31,9 +32,6 @@ import MediaPlayer from './MediaPlayer';
 
 const { height } = Dimensions.get('window');
 const extensionHeight = height * 0.65 + 160;
-type GestureContext = {
-	startY: number;
-};
 
 export default function MediaExpanded() {
 	const placeOfMedia = useMainStore((state) => state.main.placeOfMedia);
@@ -47,15 +45,16 @@ export default function MediaExpanded() {
 
 	const [isFullExtended, setIsFullExtended] = useState(false);
 	const [isMain, setIsMain] = useState(true);
+	const scrollRef = useRef<ScrollView>(null);
 
 	const panGesture = Gesture.Pan()
-		// .onStart((event: GestureUpdateEvent<PanGestureHandlerEventPayload>) => {
-		// 	event.y = position.value;
-		// })
+		.simultaneousWithExternalGesture(scrollRef)
+		.enabled(!isFullExtended)
 		.onUpdate((event: GestureUpdateEvent<PanGestureHandlerEventPayload>) => {
-			const newPosition = event.translationY;
-			console.log(newPosition);
-			position.value = newPosition;
+			const newPosition = isFullExtended
+				? event.translationY - height
+				: event.translationY;
+			position.value = newPosition < -height ? -height : newPosition;
 			if (position.value <= -extensionHeight) {
 				runOnJS(setIsFullExtended)(true);
 			} else {
@@ -63,7 +62,6 @@ export default function MediaExpanded() {
 			}
 		})
 		.onEnd((event: GestureUpdateEvent<PanGestureHandlerEventPayload>) => {
-			console.log('end', event.velocityY);
 			if (
 				(position.value > height / 2 || event.velocityY > 0) &&
 				isMain === true
@@ -211,6 +209,7 @@ export default function MediaExpanded() {
 							setIsFullExtended={setIsFullExtended}
 							extensionHeight={extensionHeight}
 							setIsMain={setIsMain}
+							scrollRef={scrollRef}
 						/>
 					</View>
 				</Animated.View>

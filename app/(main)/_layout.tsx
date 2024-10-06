@@ -31,11 +31,6 @@ export type BottomTabBarIconProps = {
 function BottomTabNavigator() {
 	const navigationRef = useRef<NavigationContainerRef<RootBottomTabList>>(null);
 	const bottomSafeArea = useSafeAreaInsets().bottom;
-	const markerSelected = useTabMapStore((state) => state.tabMap.markerSelected);
-	const placeOfMedia = useMainStore((state) => state.main.placeOfMedia);
-	const showPlaceDetailExpanded = useTabMapStore(
-		(state) => state.tabMap.showPlaceDetailExpanded,
-	);
 	const activeTab = useMainStore((state) => state.main.activeTab);
 	const setActiveTab = useMainStore((state) => state.setActiveTab);
 	const setStatePlayer = useMainStore((state) => state.setStatePlayer);
@@ -44,8 +39,6 @@ function BottomTabNavigator() {
 	const setCurrentTrackIndex = useMainStore(
 		(state) => state.setCurrentTrackIndex,
 	);
-
-	const [showMedia, setShowMedia] = useState(false);
 
 	useTrackPlayerEvents([Event.PlaybackState], async (event) => {
 		setStatePlayer(event.state);
@@ -125,30 +118,6 @@ function BottomTabNavigator() {
 		if (Platform.OS !== 'web') screenOrientationLock();
 	}, [videoPlayer]);
 
-	useEffect(() => {
-		if (!placeOfMedia) {
-			setShowMedia(false);
-			return;
-		}
-		if (activeTab !== 'Map') {
-			setShowMedia(true);
-		} else {
-			if (!markerSelected) {
-				setShowMedia(true);
-			} else if (markerSelected && showPlaceDetailExpanded) {
-				setShowMedia(true);
-			} else {
-				setShowMedia(false);
-			}
-		}
-	}, [
-		placeOfMedia,
-		activeTab,
-		markerSelected,
-		showPlaceDetailExpanded,
-		currentTrack,
-	]);
-
 	return (
 		<>
 			<StatusBar
@@ -208,7 +177,7 @@ function BottomTabNavigator() {
 					}}
 				/>
 			</Tabs>
-			{showMedia && <MediaComponent />}
+			{currentTrack && <MediaComponent />}
 			{videoPlayer && <VideoPlayer />}
 		</>
 	);

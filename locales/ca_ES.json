@@ -107,5 +107,9 @@
 		"directionSheet": {
 			"title": "Obrir amb"
 		}
+	},
+	"downloadBanner": {
+		"text": "Descarrega la app de Monum per a disfrutar de totes les funcionalitats!",
+		"button": "Obrir"
 	}
 }

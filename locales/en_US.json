@@ -107,5 +107,9 @@
 		"directionSheet": {
 			"title": "Open with"
 		}
+	},
+	"downloadBanner": {
+		"text": "For a better experience, download the app",
+		"button": "Download"
 	}
 }

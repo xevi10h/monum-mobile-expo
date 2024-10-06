@@ -32,11 +32,6 @@ import CarouselText from '@/components/CarouselText';
 const BOTTOM_TAB_NAVIGATOR_HEIGHT = Platform.OS === 'android' ? 70 : 56;
 const { width } = Dimensions.get('window');
 
-type GestureContext = {
-	startY: number;
-	startX: number;
-};
-
 export default function MediaBubble() {
 	const progress = useProgress();
 	const currentTrackIndex = useMainStore(
@@ -50,34 +45,34 @@ export default function MediaBubble() {
 		(state) => state.setExpandedMediaDetail,
 	);
 	const bottomSafeAreaInsets = useSafeAreaInsets().bottom;
-	const [closeBubble, setCloseBubble] = useState(false);
+	const setCurrentTrack = useMainStore((state) => state.setCurrentTrack);
 
 	const position = useSharedValue(width / 2);
 	const panGesture = Gesture.Pan()
-		// .onStart((event: GestureUpdateEvent<PanGestureHandlerEventPayload>) => {
-		// 	// event.x = position.value;
-		// })
 		.onUpdate((event: GestureUpdateEvent<PanGestureHandlerEventPayload>) => {
-			// const newPosition = event.x + event.translationX;
-			position.value += event.absoluteX / 10;
+			position.value += event.translationX / 5;
+			console.log('position', position.value);
 		})
 		.onEnd((event: GestureUpdateEvent<PanGestureHandlerEventPayload>) => {
 			const difference = position.value - width / 2;
+			console.log('position', position.value);
 			console.log('width', width);
 			if (difference > 15 && event.velocityX > 0) {
 				position.value = withTiming(
 					width * 2,
 					{ duration: width * 2 - position.value },
-					() => {
-						runOnJS(setCloseBubble)(true);
+					async () => {
+						await TrackPlayer.reset();
+						setCurrentTrack(undefined);
 					},
 				);
 			} else if (-difference > 15 && event.velocityX < 0) {
 				position.value = withTiming(
 					-width,
 					{ duration: position.value + width },
-					() => {
-						runOnJS(setCloseBubble)(true);
+					async () => {
+						await TrackPlayer.reset();
+						setCurrentTrack(undefined);
 					},
 				);
 			} else {
@@ -98,22 +93,6 @@ export default function MediaBubble() {
 			duration: 300,
 		});
 	}, []);
-
-	useEffect(() => {
-		async function closePlayer() {
-			try {
-				console.log('closePlayer');
-				await TrackPlayer.stop();
-				await TrackPlayer.reset();
-			} catch (e) {
-				console.log(e);
-			}
-		}
-		console.log('closeBubble', closeBubble);
-		if (closeBubble) {
-			closePlayer();
-		}
-	}, [closeBubble]);
 
 	return (
 		<GestureDetector gesture={panGesture}>
@@ -292,6 +271,7 @@ const styles = StyleSheet.create({
 		shadowOpacity: 0.5,
 		shadowRadius: 4,
 		elevation: 10,
+		zIndex: 1000,
 	},
 	mediaBubbleContainer: {
 		width: '100%',

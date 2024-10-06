@@ -22,6 +22,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import TrackPlayer from 'react-native-track-player';
 import { PlaybackService, setupPlayerService } from '@/track-player/service';
+import DownloadBanner from '@/components/banners/DownloadBanner';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -247,11 +248,13 @@ export default function RootLayout() {
 			<ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
 				<GestureHandlerRootView>
 					<ActionSheetProvider>
-						<Stack screenOptions={{ headerShown: false }}>
-							<Stack.Screen name="(auth)" options={{ headerShown: false }} />
-							<Stack.Screen name="(main)" options={{ headerShown: false }} />
-							<Stack.Screen name="+not-found" />
-						</Stack>
+						<>
+							<DownloadBanner />
+							<Stack screenOptions={{ headerShown: false }}>
+								<Stack.Screen name="(auth)" options={{ headerShown: false }} />
+								<Stack.Screen name="(main)" options={{ headerShown: false }} />
+							</Stack>
+						</>
 					</ActionSheetProvider>
 				</GestureHandlerRootView>
 			</ThemeProvider>
