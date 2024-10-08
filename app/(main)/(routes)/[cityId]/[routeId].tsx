@@ -265,7 +265,7 @@ export default function RouteDetailScreen() {
 					<MapView
 						provider={Platform.OS !== 'ios' ? 'google' : undefined}
 						followsUserLocation
-						showsUserLocation={Platform.OS === 'ios'}
+						showsUserLocation
 						ref={mapViewRef}
 						style={{
 							flex: 1,
