@@ -72,7 +72,6 @@ export const MarkerComponent = ({ id, coordinates, importance }: any) => {
 			anchor={{ x: 0.5, y: 0.5 }}
 			onPress={async () => {
 				const placeData = await MapServices.getPlaceInfo(id, 'map', language);
-				console.log(placeData);
 				setPlace(placeData);
 				setMarkerSelected(id);
 				const mediasFetched = await MapServices.getPlaceMedia(id, language);

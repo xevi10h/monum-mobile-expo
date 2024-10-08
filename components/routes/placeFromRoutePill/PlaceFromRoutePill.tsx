@@ -38,36 +38,23 @@ export default function StopFromRoutePill({
 	stopsFromRoute,
 }: StopFromRoutePillInterfaceExtended) {
 	const { showActionSheetWithOptions } = useActionSheet();
-	const [expandedPill, setExpandedPill] = useState<boolean>(isExpanded);
 	const animationValue = useSharedValue(0);
 	const { t } = useTranslation();
 
 	const toggleExpanded = () => {
-		expandedPill ? reducePill() : expandPill();
+		const finalAnimationValue = isExpanded ? 0 : 1;
+		animationValue.value = withTiming(finalAnimationValue, {
+			duration: 300,
+			easing: Easing.bezier(0.5, 0.01, 0, 1),
+		});
 		setStopsFromRoute(
 			stopsFromRoute.map((stop) => {
 				if (stop.place.id === place.id) {
-					return { ...stop, isExpanded: !expandedPill };
+					return { ...stop, isExpanded: !isExpanded };
 				}
 				return stop;
 			}),
 		);
-	};
-
-	const expandPill = () => {
-		animationValue.value = withTiming(1, {
-			duration: 300,
-			easing: Easing.bezier(0.5, 0.01, 0, 1),
-		});
-		setExpandedPill(true);
-	};
-
-	const reducePill = () => {
-		animationValue.value = withTiming(0, {
-			duration: 300,
-			easing: Easing.bezier(0.5, 0.01, 0, 1),
-		});
-		setExpandedPill(false);
 	};
 
 	const animatedStyle = useAnimatedStyle(() => {
@@ -100,8 +87,8 @@ export default function StopFromRoutePill({
 						<View
 							style={[
 								styles.placeMediaPillContainer,
-								{ marginBottom: expandedPill ? 10 : 17.5 },
-								{ height: expandedPill ? 32.5 : 25 },
+								{ marginBottom: isExpanded ? 10 : 17.5 },
+								{ height: isExpanded ? 32.5 : 25 },
 								{ backgroundColor: isHighlighted ? '#D6E5D6' : '#ECF3EC' },
 							]}
 						>
@@ -111,7 +98,7 @@ export default function StopFromRoutePill({
 								</Text>
 								<Text
 									style={styles.placeDescriptionText}
-									numberOfLines={expandedPill ? 3 : 2}
+									numberOfLines={isExpanded ? 3 : 2}
 								>
 									{place.description}
 								</Text>
@@ -218,7 +205,7 @@ export default function StopFromRoutePill({
 									</Text>
 									<Image
 										source={
-											expandedPill
+											isExpanded
 												? require('@/assets/images/route_detail_contract_place.png')
 												: require('@/assets/images/route_detail_expand_place.png')
 										}
@@ -229,7 +216,7 @@ export default function StopFromRoutePill({
 							</View>
 						</View>
 					</TouchableOpacity>
-					{expandedPill && (
+					{isExpanded && (
 						<View style={{ flex: 1 }}>
 							<View
 								style={{

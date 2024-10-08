@@ -9,10 +9,10 @@ import {
 } from 'react-native';
 import MapViewOriginal, { Camera, Region } from 'react-native-maps';
 import MapView from '@/components/map/crossPlatformComponents/MapView';
-import React, { createRef, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useQuery } from '@apollo/client';
 import { GET_ROUTE_DETAIL } from '@/graphql/queries/routeQueries';
-import { MarkerComponent } from '@/components/map/CustomMarker';
+import { MarkerComponent } from '@/components/routes/CustomMarker';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import RatingPill from '@/components/routes/RatingPill';
 import TextSearch from '@/components/routes/TextSearch';
@@ -28,7 +28,6 @@ import { IMarker } from '../../../../shared/interfaces/IMarker';
 import { useUserStore } from '../../../../zustand/UserStore';
 import { router, useLocalSearchParams } from 'expo-router';
 import StopFromRoutePill from '@/components/routes/placeFromRoutePill/PlaceFromRoutePill';
-import IRouteOfCity from '@/shared/interfaces/IRouteOfCity';
 import IRouteComplete from '@/shared/interfaces/IRouteComplete';
 
 export interface StopFromRoutePillInterface extends IStop {
@@ -165,8 +164,9 @@ export default function RouteDetailScreen() {
 				setStopsFromRoute(
 					stopsFromRoute.map((stop) => ({
 						...stop,
-						isExpanded: stop.place.id === markerSelected,
-						isHighlighted: stop.place.id === markerSelected,
+						isExpanded: stop.isExpanded || stop.place.id === markerSelected,
+						isHighlighted:
+							stop.isHighlighted || stop.place.id === markerSelected,
 					})),
 				);
 				const coordinatesToSet =
@@ -202,8 +202,8 @@ export default function RouteDetailScreen() {
 					setStopsFromRoute(
 						stopsFromRoute.map((stop) => ({
 							...stop,
-							isExpanded: stop.place.id === markerSelected,
 							isHighlighted: false,
+							isExpanded: stop.isExpanded || stop.place.id === markerSelected,
 						})),
 					);
 				}, 3000);

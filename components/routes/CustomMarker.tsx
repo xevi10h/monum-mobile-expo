@@ -1,7 +1,6 @@
-import { Marker } from 'react-native-maps';
-import { useState } from 'react';
-import React, { useEffect } from 'react';
-import { Image, Pressable, TouchableOpacity } from 'react-native';
+import Marker from '@/components/map/crossPlatformComponents/Marker';
+import React, { useEffect, useState } from 'react';
+import { Image } from 'react-native';
 
 import { IMarker } from '@/shared/interfaces/IMarker';
 import { useTabRouteStore } from '@/zustand/TabRouteStore';
