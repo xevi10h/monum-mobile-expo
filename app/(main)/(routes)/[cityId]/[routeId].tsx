@@ -301,6 +301,7 @@ export default function RouteDetailScreen() {
 						googleMapsApiKey="AIzaSyDvzNpAZfrhv5GN8JyGWet9dcjnfoL8y-Y"
 						options={{
 							disableDefaultUI: true,
+							clickableIcons: false,
 						}}
 						loadingFallback={<ActivityIndicator size="large" color="#3F713B" />}
 					>
