@@ -1,5 +1,5 @@
 import React from 'react';
-import { Marker } from 'react-native-maps';
+import Marker from '@/components/map/crossPlatformComponents/Marker';
 import { View } from 'react-native';
 import { useMainStore } from '@/zustand/MainStore';
 

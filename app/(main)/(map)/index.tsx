@@ -13,6 +13,8 @@ import TextSearchMapScreen from '@/components/map/TextSearchMapDisabled';
 import { router } from 'expo-router';
 import { useCameraPermissions } from 'expo-camera';
 import * as Location from 'expo-location';
+import CurrentPositionMarker from '@/components/map/CurrentPositionMarker';
+import * as Device from 'expo-device';
 
 export default function MapScreen() {
 	const mapViewRef = useRef<MapViewType>(null);
@@ -127,6 +129,7 @@ export default function MapScreen() {
 
 	useEffect(() => {
 		async function recalculateCurrentLocation() {
+			console.log('Recalculating current location');
 			await centerCoordinatesButtonAction();
 			setIsLoadingCoordinates(false);
 		}
@@ -146,7 +149,11 @@ export default function MapScreen() {
 					<MapView
 						provider={Platform.OS !== 'ios' ? 'google' : undefined}
 						followsUserLocation
-						showsUserLocation
+						showsUserLocation={
+							Device.osName === 'Android' && Platform.OS === 'web'
+								? false
+								: true
+						}
 						ref={mapViewRef}
 						style={{
 							flex: 1,
@@ -176,6 +183,9 @@ export default function MapScreen() {
 								coordinates={marker.coordinates}
 							/>
 						))}
+						{Device.osName === 'Android' && Platform.OS === 'web' ? (
+							<CurrentPositionMarker />
+						) : null}
 					</MapView>
 				</View>
 				<MapScreenButton

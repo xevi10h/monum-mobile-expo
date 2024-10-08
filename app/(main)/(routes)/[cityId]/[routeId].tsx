@@ -29,6 +29,8 @@ import { useUserStore } from '../../../../zustand/UserStore';
 import { router, useLocalSearchParams } from 'expo-router';
 import StopFromRoutePill from '@/components/routes/placeFromRoutePill/PlaceFromRoutePill';
 import IRouteComplete from '@/shared/interfaces/IRouteComplete';
+import * as Device from 'expo-device';
+import CurrentPositionMarker from '@/components/map/CurrentPositionMarker';
 
 export interface StopFromRoutePillInterface extends IStop {
 	isExpanded: boolean;
@@ -265,7 +267,11 @@ export default function RouteDetailScreen() {
 					<MapView
 						provider={Platform.OS !== 'ios' ? 'google' : undefined}
 						followsUserLocation
-						showsUserLocation
+						showsUserLocation={
+							Device.osName === 'Android' && Platform.OS === 'web'
+								? false
+								: true
+						}
 						ref={mapViewRef}
 						style={{
 							flex: 1,
@@ -295,6 +301,9 @@ export default function RouteDetailScreen() {
 								coordinates={marker.coordinates}
 							/>
 						))}
+						{Device.osName === 'Android' && Platform.OS === 'web' ? (
+							<CurrentPositionMarker />
+						) : null}
 					</MapView>
 					<CenterStopsButton onPress={async () => await centerStopsCamera()} />
 					<CenterCoordinatesButton
