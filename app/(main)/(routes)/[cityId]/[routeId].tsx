@@ -60,39 +60,17 @@ export default function RouteDetailScreen() {
 		(state) => state.setCurrentUserLocation,
 	);
 
-	const calculateCoordinateForMarkers = (markers: IMarker[]): Region => {
-		let minLng = 90;
-		let maxLng = 0;
-		let minLat = 90;
-		let maxLat = 0;
-
-		markers.forEach((marker) => {
-			if (marker.coordinates[0] < minLng) minLng = marker.coordinates[0];
-			if (marker.coordinates[0] > maxLng) maxLng = marker.coordinates[0];
-			if (marker.coordinates[1] < minLat) minLat = marker.coordinates[1];
-			if (marker.coordinates[1] > maxLat) maxLat = marker.coordinates[1];
-		});
-
-		const centerCoordinates = [
-			(minLng + maxLng) / 2,
-			(minLat + maxLat) / 2,
-		] as [number, number];
-
-		return {
-			latitude: centerCoordinates[1],
-			longitude: centerCoordinates[0],
-			latitudeDelta: maxLat - minLat + 0.01,
-			longitudeDelta: maxLng - minLng + 0.01,
-		};
-	};
-
 	const centerStopsCamera = async () => {
 		if (!mapViewRef.current) {
 			console.log('Camera not ready');
 			return;
 		}
-		const region = calculateCoordinateForMarkers(markers);
-		mapViewRef?.current?.animateToRegion(region, 1000);
+		mapViewRef?.current.fitToCoordinates(
+			markers.map((m) => ({
+				latitude: m.coordinates[1],
+				longitude: m.coordinates[0],
+			})),
+		);
 	};
 
 	const { loading, error, data, refetch } = useQuery(GET_ROUTE_DETAIL, {
@@ -103,8 +81,12 @@ export default function RouteDetailScreen() {
 
 	useEffect(() => {
 		if (markers.length > 0) {
-			const region = calculateCoordinateForMarkers(markers);
-			mapViewRef?.current?.animateToRegion(region, 1000);
+			mapViewRef?.current?.fitToCoordinates(
+				markers.map((m) => ({
+					latitude: m.coordinates[1],
+					longitude: m.coordinates[0],
+				})),
+			);
 		}
 	}, [markers]);
 
