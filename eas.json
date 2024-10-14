@@ -6,7 +6,13 @@
 	"build": {
 		"development": {
 			"developmentClient": true,
-			"distribution": "internal"
+			"distribution": "internal",
+			"env": {
+				"EXPO_PUBLIC_GOOGLE_MAPS_API_KEY_WEB": "AIzaSyDvzNpAZfrhv5GN8JyGWet9dcjnfoL8y-Y",
+				"EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID_NATIVE": "495065540860-dslpkch1rbhbvvcn0rf6h038llstup7t.apps.googleusercontent.com",
+				"EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID_WEB": "495065540860-dslpkch1rbhbvvcn0rf6h038llstup7t.apps.googleusercontent.com",
+				"EXPO_PUBLIC_MONUM_API_URL": "https://api.monum.es"
+			}
 		},
 		"development-simulator": {
 			"developmentClient": true,
@@ -19,7 +25,13 @@
 			"distribution": "internal"
 		},
 		"production": {
-			"autoIncrement": true
+			"autoIncrement": true,
+			"env": {
+				"EXPO_PUBLIC_GOOGLE_MAPS_API_KEY_WEB": "AIzaSyDvzNpAZfrhv5GN8JyGWet9dcjnfoL8y-Y",
+				"EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID_NATIVE": "495065540860-dslpkch1rbhbvvcn0rf6h038llstup7t.apps.googleusercontent.com",
+				"EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID_WEB": "495065540860-dslpkch1rbhbvvcn0rf6h038llstup7t.apps.googleusercontent.com",
+				"EXPO_PUBLIC_MONUM_API_URL": "https://api.monum.es"
+			}
 		}
 	},
 	"submit": {

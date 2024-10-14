@@ -5,8 +5,7 @@ import { AuthSessionResult } from 'expo-auth-session';
 
 class GoogleAuthService {
 	config = {
-		webClientId:
-			'495065540860-dslpkch1rbhbvvcn0rf6h038llstup7t.apps.googleusercontent.com',
+		webClientId: process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID_NATIVE,
 	};
 
 	async getUserInfo(token: string) {
