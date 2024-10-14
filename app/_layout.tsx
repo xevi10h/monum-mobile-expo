@@ -17,12 +17,13 @@ import { useTabMapStore } from '@/zustand/TabMapStore';
 import AuthServices from '@/services/auth/AuthServices';
 import MapServices from '@/services/map/MapServices';
 import * as Location from 'expo-location';
-import { Linking } from 'react-native';
+import { Linking, Platform } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import TrackPlayer from 'react-native-track-player';
 import { PlaybackService, setupPlayerService } from '@/track-player/service';
 import DownloadBanner from '@/components/banners/DownloadBanner';
+import * as Device from 'expo-device';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -122,6 +123,13 @@ export default function RootLayout() {
 
 		const initializeApp = async () => {
 			try {
+				if (
+					Device.deviceType !== Device.DeviceType.PHONE &&
+					Platform.OS === 'web'
+				) {
+					window.location.href = 'https://monum.es';
+				}
+
 				if (
 					statusBackgroundPermissions?.canAskAgain &&
 					!statusBackgroundPermissions?.granted
