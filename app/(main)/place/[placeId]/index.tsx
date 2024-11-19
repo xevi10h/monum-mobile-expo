@@ -10,13 +10,16 @@ import MapServices from '@/services/map/MapServices';
 import { useTabMapStore } from '@/zustand/TabMapStore';
 import { useMainStore } from '@/zustand/MainStore';
 import TextSearchMapScreen from '@/components/map/TextSearchMapDisabled';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useCameraPermissions } from 'expo-camera';
 import * as Location from 'expo-location';
 import CurrentPositionMarker from '@/components/map/CurrentPositionMarker';
 import * as Device from 'expo-device';
+import { useUserStore } from '@/zustand/UserStore';
+import AuthServices from '@/services/auth/AuthServices';
 
 export default function MapScreen() {
+	const { placeId } = useLocalSearchParams();
 	const mapViewRef = useRef<MapViewType>(null);
 	const [statusCameraPermissions, requestCameraPermissions] =
 		useCameraPermissions();
@@ -24,6 +27,7 @@ export default function MapScreen() {
 		Location.useForegroundPermissions();
 	const [isLoadingCoordinates, setIsLoadingCoordinates] = useState(false);
 	const markerSelected = useTabMapStore((state) => state.tabMap.markerSelected);
+
 	const currentUserLocation = useMainStore(
 		(state) => state.main.currentUserLocation,
 	);
@@ -32,6 +36,45 @@ export default function MapScreen() {
 	const setCurrentUserLocation = useMainStore(
 		(state) => state.setCurrentUserLocation,
 	);
+	const user = useUserStore((state) => state.user);
+	const setUser = useUserStore((state) => state.setUser);
+	const setMarkerSelected = useTabMapStore((state) => state.setMarkerSelected);
+	const setPlace = useTabMapStore((state) => state.setPlace);
+	const setMediasOfPlace = useTabMapStore((state) => state.setMediasOfPlace);
+	const setShowPlaceDetailExpanded = useTabMapStore(
+		(state) => state.setShowPlaceDetailExpanded,
+	);
+	const setTextSearchIsLoading = useTabMapStore(
+		(state) => state.setTextSearchIsLoading,
+	);
+
+	useEffect(() => {
+		async function placeFromQR() {
+			if (
+				placeId &&
+				typeof placeId === 'string' &&
+				mapViewRef.current &&
+				currentUserLocation
+			) {
+				if (!user.token) {
+					const guestUser = await AuthServices.loginAsGuest();
+					setUser(guestUser);
+				}
+				setTextSearchIsLoading(true);
+				const placeData = await MapServices.getPlaceInfo(
+					placeId,
+					'mapTextSearch',
+				);
+				const mediasFetched = await MapServices.getPlaceMedia(placeId);
+				setTextSearchIsLoading(false);
+				setPlace(placeData);
+				setMarkerSelected(placeId);
+				setMediasOfPlace(mediasFetched);
+				setShowPlaceDetailExpanded(false);
+			}
+		}
+		placeFromQR();
+	}, [placeId, mapViewRef, currentUserLocation]);
 
 	useEffect(() => {
 		const fetchMarkers = async () => {
@@ -122,7 +165,9 @@ export default function MapScreen() {
 
 	useEffect(() => {
 		async function prepareWhenAuthenticated() {
-			await centerCoordinatesButtonAction();
+			if (!placeId || !markerSelected) {
+				await centerCoordinatesButtonAction();
+			}
 		}
 		prepareWhenAuthenticated();
 	}, []);
@@ -133,7 +178,7 @@ export default function MapScreen() {
 			await centerCoordinatesButtonAction();
 			setIsLoadingCoordinates(false);
 		}
-		if (!currentUserLocation) {
+		if (!currentUserLocation && !placeId && !markerSelected) {
 			recalculateCurrentLocation();
 		}
 	}, [currentUserLocation, mapViewRef.current]);
@@ -148,12 +193,8 @@ export default function MapScreen() {
 				>
 					<MapView
 						provider={Platform.OS !== 'ios' ? 'google' : undefined}
-						followsUserLocation
-						showsUserLocation={
-							Device.osName === 'Android' && Platform.OS === 'web'
-								? false
-								: true
-						}
+						followsUserLocation={!placeId}
+						showsUserLocation={Platform.OS === 'web' ? false : true}
 						ref={mapViewRef}
 						style={{
 							flex: 1,
@@ -183,9 +224,7 @@ export default function MapScreen() {
 								coordinates={marker.coordinates}
 							/>
 						))}
-						{Device.osName === 'Android' && Platform.OS === 'web' ? (
-							<CurrentPositionMarker />
-						) : null}
+						{Platform.OS === 'web' ? <CurrentPositionMarker /> : null}
 					</MapView>
 				</View>
 				<MapScreenButton
@@ -200,7 +239,7 @@ export default function MapScreen() {
 						} catch (error) {
 							console.log(error);
 						}
-						router.push('/qr-scanner');
+						router.push('/place/qr-scanner');
 					}}
 					image={require('@/assets/images/map_qr_scanner.png')}
 					additionalBottom={60}
@@ -212,7 +251,7 @@ export default function MapScreen() {
 				<MapPlaceDetail />
 				<TextSearchMapScreen
 					onPress={() => {
-						router.push('/text-search');
+						router.push('/place/text-search');
 					}}
 				/>
 				{isLoadingCoordinates && (

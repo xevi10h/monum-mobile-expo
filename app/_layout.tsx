@@ -129,7 +129,6 @@ export default function RootLayout() {
 				) {
 					window.location.href = 'https://monum.es';
 				}
-
 				if (
 					statusBackgroundPermissions?.canAskAgain &&
 					!statusBackgroundPermissions?.granted
@@ -145,17 +144,17 @@ export default function RootLayout() {
 
 				let initialURL = await Linking.getInitialURL();
 				console.log('initialURL', initialURL);
-				if (initialURL) {
-					await handleOpenURL(initialURL);
-				}
+				// if (initialURL) {
+				// 	await handleOpenURL(initialURL);
+				// }
 			} catch (error) {
 				console.log('Error initializing app:', error);
 			}
 			setAllLoaded(true);
 
-			Linking.addEventListener('url', async (link) => {
-				await handleOpenURL(link.url);
-			});
+			// Linking.addEventListener('url', async (link) => {
+			// 	await handleOpenURL(link.url);
+			// });
 
 			return () => {
 				Linking.removeAllListeners('url');
@@ -229,7 +228,7 @@ export default function RootLayout() {
 	useEffect(() => {
 		console.log('user', user);
 		if ((loaded || error) && allLoaded && isLoading) {
-			user.token ? router.replace('/(main)/(map)') : router.replace('/(auth)');
+			user.token ? router.replace('/(main)/place') : router.replace('/(auth)');
 		}
 	}, [loaded, isLoading, error, allLoaded, user.token]);
 

@@ -149,7 +149,7 @@ function BottomTabNavigator() {
 				/>
 
 				<Tabs.Screen
-					name="(map)"
+					name="place"
 					listeners={{
 						focus: () => setActiveTab('Map'),
 					}}
