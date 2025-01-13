@@ -28,10 +28,14 @@ export default function ListRoutePill({ route, onPress }: ListRoutePillProps) {
 				<View
 					style={[styles.placeMediaPill, { opacity: globalPressed ? 0.2 : 1 }]}
 				>
-					<Text style={styles.placeMediaPillTitle}>{route.title}</Text>
-					<Text style={styles.placeMediaPillDuration}>
-						{`${route.stopsCount} ${t('routes.stops')}`}
-					</Text>
+					<View style={{ flex: 10 }}>
+						<Text style={styles.placeMediaPillTitle}>{route.title}</Text>
+					</View>
+					<View style={{ flex: 2 }}>
+						<Text style={styles.placeMediaPillDuration}>
+							{`${route.stopsCount} ${t('routes.stops')}`}
+						</Text>
+					</View>
 				</View>
 				{route.rating && (
 					<RatingPill
@@ -62,18 +66,19 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
-		paddingHorizontal: 10,
+		paddingHorizontal: 15,
 		elevation: 5,
 		shadowColor: '#000',
 		shadowOffset: { width: 0, height: 4 },
 		shadowOpacity: 0.25,
 		shadowRadius: 4,
+		width: '100%',
+		gap: 10,
 	},
 	placeMediaPillTitle: {
 		fontSize: 14,
 		color: '#032000',
 		fontFamily: 'Montserrat-Regular',
-		backgroundColor: 'white',
 	},
 	placeMediaPillDuration: {
 		fontSize: 10,

@@ -11,7 +11,6 @@ import {
 	LOGIN_APPLE_USER,
 } from '../../graphql/queries/userQueries';
 import * as AppleAuthentication from 'expo-apple-authentication';
-import { getDeviceId } from 'react-native-device-info';
 import { getLocales } from 'expo-localization';
 
 interface LoginGoogle {
@@ -97,7 +96,7 @@ class AuthService {
 			const response = await client.mutate({
 				mutation: LOGIN_APPLE_USER,
 				variables: {
-					loginAppleInput: {
+					newLoginAppleInput: {
 						name,
 						identityToken,
 						email,
@@ -105,7 +104,7 @@ class AuthService {
 					},
 				},
 			});
-			const userResponse = response.data?.loginAppleUser;
+			const userResponse = response.data?.newLoginAppleUser;
 			return userResponse;
 		} catch (error) {
 			console.error('Error al realizar el inicio de sesión:', error);
@@ -115,7 +114,7 @@ class AuthService {
 
 	public async loginAsGuest() {
 		try {
-			const deviceId = getDeviceId();
+			const deviceId = '1';
 			const deviceLanguage = getLocales()[0].languageTag || 'en-US';
 			const language = deviceLanguage.replace('-', '_');
 			const response = await client.mutate({

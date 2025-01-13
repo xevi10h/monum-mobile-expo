@@ -4,7 +4,7 @@ import {
 	ThemeProvider,
 } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-import { Slot, Stack, router } from 'expo-router';
+import { Stack, router } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect, useState, useRef } from 'react';
 import 'react-native-reanimated';
@@ -14,8 +14,6 @@ import { useUserStore } from '@/zustand/UserStore';
 import { ApolloProvider } from '@apollo/client';
 import { useMainStore } from '@/zustand/MainStore';
 import { useTabMapStore } from '@/zustand/TabMapStore';
-import AuthServices from '@/services/auth/AuthServices';
-import MapServices from '@/services/map/MapServices';
 import * as Location from 'expo-location';
 import { Linking, Platform } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -24,9 +22,15 @@ import TrackPlayer from 'react-native-track-player';
 import { PlaybackService, setupPlayerService } from '@/track-player/service';
 import DownloadBanner from '@/components/banners/DownloadBanner';
 import * as Device from 'expo-device';
+import * as Orientation from 'expo-screen-orientation';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
+
+SplashScreen.setOptions({
+	duration: 1000,
+	fade: true,
+});
 
 export default function RootLayout() {
 	const colorScheme = useColorScheme();
@@ -36,91 +40,25 @@ export default function RootLayout() {
 	});
 	const [allLoaded, setAllLoaded] = useState(false);
 
-	const [isLoading, setIsLoading] = useState(true);
 	const [statusBackgroundPermissions, requestStatusBackgroundPermissions] =
 		Location.useBackgroundPermissions();
 	const [statusForegroundPermissions, requestStatusForegroundPermissions] =
 		Location.useForegroundPermissions();
 
-	const hasInitByUrl = useMainStore((state) => state.main.hasInitByUrl);
-	const setHasInitByUrl = useMainStore((state) => state.setHasInitByUrl);
-	const setMarkerSelected = useTabMapStore((state) => state.setMarkerSelected);
-	const setPlace = useTabMapStore((state) => state.setPlace);
-	const setShowPlaceDetailExpanded = useTabMapStore(
-		(state) => state.setShowPlaceDetailExpanded,
-	);
-	const setMediasOfPlace = useTabMapStore((state) => state.setMediasOfPlace);
-	const setUser = useUserStore((state) => state.setUser);
-	const setMarkers = useTabMapStore((state) => state.setMarkers);
-	const setMapCameraCoordinates = useTabMapStore(
-		(state) => state.setMapCameraCoordinates,
-	);
 	const setCurrentUserLocation = useMainStore(
 		(state) => state.setCurrentUserLocation,
 	);
 	const startWatchingLocation = useMainStore(
 		(state) => state.startWatchingLocation,
 	);
+	const videoPlayer = useMainStore((state) => state.main.videoPlayer);
 	const currentUserLocation = useMainStore(
 		(state) => state.main.currentUserLocation,
 	);
-	const setForceUpdateMapCamera = useTabMapStore(
-		(state) => state.setForceUpdateMapCamera,
-	);
 	const user = useUserStore((state) => state.user);
-	const setActiveTab = useMainStore((state) => state.setActiveTab);
-	const setPitch = useTabMapStore((state) => state.setPitch);
 	const setLanguage = useUserStore((state) => state.setLanguage);
 
 	useEffect(() => {
-		async function handleOpenURL(url: string, isFromOutsideApp = false) {
-			try {
-				const [, placeId] = url.match(/place\/([^?]+)/) || [];
-				console.log('placeId', placeId);
-				if (placeId) {
-					setHasInitByUrl(true);
-					setPitch(60);
-					if (!user.token) {
-						const guestUser = await AuthServices.loginAsGuest();
-						setUser(guestUser);
-					}
-					const markersData = await MapServices.getMarkers(
-						'',
-						[0, 0],
-						'importance',
-						'asc',
-					);
-					setMarkers(
-						markersData.map((marker) => ({
-							id: marker.id,
-							coordinates: [
-								marker.address.coordinates.lng,
-								marker.address.coordinates.lat,
-							] as [number, number],
-							importance: marker.importance,
-							selected: marker.id === placeId,
-						})),
-					);
-					setActiveTab('Map');
-					const fromSupport = isFromOutsideApp
-						? 'outsideQRAppClosed'
-						: 'outsideQRAppRunning';
-					const placeData = await MapServices.getPlaceInfo(
-						placeId,
-						fromSupport,
-					);
-					setMarkerSelected(placeId);
-					setPlace(placeData);
-					const mediasFetched = await MapServices.getPlaceMedia(placeId);
-					setMediasOfPlace(mediasFetched);
-					setShowPlaceDetailExpanded(false);
-					setForceUpdateMapCamera(true);
-				}
-			} catch (e) {
-				console.log('error', e);
-			}
-		}
-
 		const initializeApp = async () => {
 			try {
 				if (
@@ -141,20 +79,10 @@ export default function RootLayout() {
 				) {
 					await requestStatusForegroundPermissions();
 				}
-
-				let initialURL = await Linking.getInitialURL();
-				console.log('initialURL', initialURL);
-				// if (initialURL) {
-				// 	await handleOpenURL(initialURL);
-				// }
 			} catch (error) {
 				console.log('Error initializing app:', error);
 			}
 			setAllLoaded(true);
-
-			// Linking.addEventListener('url', async (link) => {
-			// 	await handleOpenURL(link.url);
-			// });
 
 			return () => {
 				Linking.removeAllListeners('url');
@@ -173,6 +101,17 @@ export default function RootLayout() {
 		}
 		prepareTrackPlayer();
 	}, []);
+
+	useEffect(() => {
+		async function screenOrientationLock() {
+			if (videoPlayer) {
+				await Orientation.unlockAsync();
+			} else {
+				await Orientation.lockAsync(Orientation.OrientationLock.PORTRAIT_UP);
+			}
+		}
+		if (Platform.OS !== 'web') screenOrientationLock();
+	}, [videoPlayer]);
 
 	useEffect(() => {
 		async function prepareWhenAuthenticated() {
@@ -206,17 +145,12 @@ export default function RootLayout() {
 					userLocation = [longitude, latitude];
 					setCurrentUserLocation(userLocation);
 				}
-
-				if (user.token && !hasInitByUrl) {
-					setMapCameraCoordinates(userLocation);
-					setForceUpdateMapCamera(true);
-				}
 			} catch (error) {
 				console.error('Error obtaining geolocation:', error);
 				setCurrentUserLocation(null);
 			}
 		}
-		if (user.token) {
+		if (user?.token) {
 			prepareWhenAuthenticated();
 		}
 	}, [user.token]);
@@ -226,11 +160,10 @@ export default function RootLayout() {
 	}, [startWatchingLocation]);
 
 	useEffect(() => {
-		console.log('user', user);
-		if ((loaded || error) && allLoaded && isLoading) {
-			user.token ? router.replace('/(main)/place') : router.replace('/(auth)');
+		if ((loaded || error) && allLoaded) {
+			user?.token ? router.replace('/(main)/place') : router.replace('/(auth)');
 		}
-	}, [loaded, isLoading, error, allLoaded, user.token]);
+	}, [loaded, error, allLoaded, user.token]);
 
 	useEffect(() => {
 		async function initializeApp() {}

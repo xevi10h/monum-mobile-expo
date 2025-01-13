@@ -1,19 +1,16 @@
-import * as Orientation from 'expo-screen-orientation';
-import { NavigationContainerRef } from '@react-navigation/native';
-import { useEffect, useRef, useState } from 'react';
 import { StyleSheet, Image, StatusBar, Platform } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import TrackPlayer, {
 	Event,
 	useTrackPlayerEvents,
 } from 'react-native-track-player';
-import { useTabMapStore } from '@/zustand/TabMapStore';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { useMainStore } from '@/zustand/MainStore';
 import VideoPlayer from '@/components/video/VideoPlayer';
 import { Tabs } from 'expo-router';
 import MediaComponent from '@/components/media/MediaComponent';
 
-export const BOTTOM_TAB_NAVIGATOR_HEIGHT = Platform.OS === 'android' ? 70 : 60;
+export const BOTTOM_TAB_NAVIGATOR_HEIGHT = 70;
 
 // Define un tipo para las rutas
 export type RootBottomTabList = {
@@ -29,16 +26,14 @@ export type BottomTabBarIconProps = {
 };
 
 function BottomTabNavigator() {
-	const navigationRef = useRef<NavigationContainerRef<RootBottomTabList>>(null);
 	const bottomSafeArea = useSafeAreaInsets().bottom;
-	const activeTab = useMainStore((state) => state.main.activeTab);
-	const setActiveTab = useMainStore((state) => state.setActiveTab);
 	const setStatePlayer = useMainStore((state) => state.setStatePlayer);
 	const currentTrack = useMainStore((state) => state.main.currentTrack);
 	const setCurrentTrack = useMainStore((state) => state.setCurrentTrack);
 	const setCurrentTrackIndex = useMainStore(
 		(state) => state.setCurrentTrackIndex,
 	);
+	const videoPlayer = useMainStore((state) => state.main.videoPlayer);
 
 	useTrackPlayerEvents([Event.PlaybackState], async (event) => {
 		setStatePlayer(event.state);
@@ -63,61 +58,6 @@ function BottomTabNavigator() {
 		}
 	});
 
-	const videoPlayer = useMainStore((state) => state.main.videoPlayer);
-
-	useEffect(() => {
-		if (navigationRef.current) {
-			if (
-				activeTab === 'Routes' ||
-				activeTab === 'Map' ||
-				activeTab === 'Profile'
-			) {
-				navigationRef.current.navigate(activeTab);
-			}
-		}
-	}, [activeTab]);
-
-	const renderTabBarIcon = ({ focused, name }: BottomTabBarIconProps) => {
-		let source;
-		switch (name) {
-			case 'Routes':
-				source = require('@/assets/images/bottom_bar_list_inactive.png');
-				break;
-			case 'Map':
-				source = require('@/assets/images/bottom_bar_map_inactive.png');
-				break;
-			case 'Profile':
-				source = require('@/assets/images/bottom_bar_config_inactive.png');
-				break;
-			default:
-				source = require('@/assets/images/bottom_bar_config_inactive.png');
-				break;
-		}
-		return (
-			<Image
-				source={source}
-				style={[
-					styles.bottom_bar_logo_image,
-					{
-						tintColor: focused ? '#3F713B' : '#BDBDBD',
-					},
-				]}
-				resizeMode="contain"
-			/>
-		);
-	};
-
-	useEffect(() => {
-		async function screenOrientationLock() {
-			if (videoPlayer) {
-				await Orientation.unlockAsync();
-			} else {
-				await Orientation.lockAsync(Orientation.OrientationLock.DEFAULT);
-			}
-		}
-		if (Platform.OS !== 'web') screenOrientationLock();
-	}, [videoPlayer]);
-
 	return (
 		<>
 			<StatusBar
@@ -126,55 +66,83 @@ function BottomTabNavigator() {
 				barStyle="dark-content"
 			/>
 			<Tabs
-				screenOptions={{
+				initialRouteName="place"
+				screenOptions={({ route }) => ({
 					tabBarStyle: [
 						styles.map,
 						{
 							height: bottomSafeArea + BOTTOM_TAB_NAVIGATOR_HEIGHT,
+							flexDirection: 'row',
+							alignItems: 'center',
+							elevation: 0,
 						},
 					],
-					tabBarShowLabel: false,
 					headerShown: false,
-				}}
+					tabBarShowLabel: false,
+					tabBarButton: (props: any) => (
+						<TouchableWithoutFeedback
+							{...props}
+							style={{
+								alignItems: 'center',
+								justifyContent: 'center',
+								height: BOTTOM_TAB_NAVIGATOR_HEIGHT,
+							}}
+						/>
+					),
+					tabBarIcon: ({ focused, color }) => {
+						if (route.name === 'route') {
+							return (
+								<Image
+									source={require('@/assets/images/bottom_bar_list_inactive.png')}
+									style={{
+										tintColor: focused ? '#3F713B' : color,
+										height: 32,
+										width: 32,
+									}}
+									resizeMode="contain"
+								/>
+							);
+						}
+						if (route.name === 'place') {
+							return (
+								<Image
+									source={require('@/assets/images/bottom_bar_map_inactive.png')}
+									style={{
+										tintColor: focused ? '#3F713B' : color,
+										height: 32,
+										width: 32,
+									}}
+									resizeMode="contain"
+								/>
+							);
+						}
+						if (route.name === 'profile') {
+							return (
+								<Image
+									source={require('@/assets/images/bottom_bar_config_inactive.png')}
+									style={{
+										tintColor: focused ? '#3F713B' : color,
+										height: 32,
+										width: 32,
+									}}
+									resizeMode="contain"
+								/>
+							);
+						}
+					},
+				})}
 			>
 				<Tabs.Screen
-					name="(routes)"
-					listeners={{
-						focus: () => setActiveTab('Routes'),
-					}}
-					options={{
-						tabBarIcon: ({ focused }) =>
-							renderTabBarIcon({ focused, name: 'Routes' }),
-					}}
+					name="route"
+					options={{ headerPressOpacity: 1, headerPressColor: 'transparent' }}
 				/>
-
 				<Tabs.Screen
 					name="place"
-					listeners={{
-						focus: () => setActiveTab('Map'),
-					}}
-					options={{
-						tabBarIcon: ({ focused }) =>
-							renderTabBarIcon({ focused, name: 'Map' }),
-						tabBarStyle: [
-							styles.map,
-							{
-								display: 'flex',
-								height: bottomSafeArea + BOTTOM_TAB_NAVIGATOR_HEIGHT,
-							},
-						],
-					}}
+					options={{ headerPressOpacity: 1, headerPressColor: 'transparent' }}
 				/>
-
 				<Tabs.Screen
-					name="(profile)"
-					listeners={{
-						focus: () => setActiveTab('Profile'),
-					}}
-					options={{
-						tabBarIcon: ({ focused }) =>
-							renderTabBarIcon({ focused, name: 'Profile' }),
-					}}
+					name="profile"
+					options={{ headerPressOpacity: 1, headerPressColor: 'transparent' }}
 				/>
 			</Tabs>
 			{currentTrack && <MediaComponent />}

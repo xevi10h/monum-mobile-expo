@@ -7,25 +7,19 @@ import { router } from 'expo-router';
 
 interface TextSearchMapResultPillProps {
 	searcherResult: ISearchResult;
-	navigation: any;
 }
 
 export default function TextSearchMapResultPill({
 	searcherResult,
-	navigation,
 }: TextSearchMapResultPillProps) {
-	const setCamera = useTabMapStore((state) => state.setCamera);
-	const setPlace = useTabMapStore((state) => state.setPlace);
-	const setShowPlaceDetailExpanded = useTabMapStore(
-		(state) => state.setShowPlaceDetailExpanded,
-	);
 	const setTextSearch = useTabMapStore((state) => state.setTextSearch);
-	const setMarkerSelected = useTabMapStore((state) => state.setMarkerSelected);
-	const setMediasOfPlace = useTabMapStore((state) => state.setMediasOfPlace);
 	const setTextSearchIsLoading = useTabMapStore(
 		(state) => state.setTextSearchIsLoading,
 	);
-
+	const setCitySelectedCoordinates = useTabMapStore(
+		(state) => state.setCitySelectedCoordinates,
+	);
+	const setMarkerSelected = useTabMapStore((state) => state.setMarkerSelected);
 	const distanceToText = () => {
 		if (searcherResult.distance < 1000) {
 			return `${searcherResult.distance.toFixed(1).replace('.', ',')} m`;
@@ -43,33 +37,17 @@ export default function TextSearchMapResultPill({
 				setTextSearch(searcherResult?.name);
 				router.back();
 				if (searcherResult.type === 'place') {
-					setTextSearchIsLoading(true);
-					const placeData = await MapServices.getPlaceInfo(
-						searcherResult.id,
-						'mapTextSearch',
-					);
-					const mediasFetched = await MapServices.getPlaceMedia(
-						searcherResult.id,
-					);
-					setTextSearchIsLoading(false);
-					setPlace(placeData);
-					setMarkerSelected(searcherResult.id);
-					setMediasOfPlace(mediasFetched);
-					setShowPlaceDetailExpanded(false);
+					router.push({
+						pathname: `/(main)/place`,
+						params: { placeId: searcherResult.id },
+					});
 				} else {
 					setTextSearchIsLoading(true);
-					setPlace(null);
+					router.setParams({ placeId: '' });
 					setMarkerSelected(null);
-					setMediasOfPlace(undefined);
-					setShowPlaceDetailExpanded(false);
-					setCamera({
-						zoomLevel: 10,
-						pitch: 0,
-						centerCoordinate: [
-							searcherResult.coordinates.lng,
-							searcherResult.coordinates.lat,
-						],
-						animationDuration: 2000,
+					setCitySelectedCoordinates({
+						latitude: searcherResult.coordinates.lat,
+						longitude: searcherResult.coordinates.lng,
 					});
 					setTextSearchIsLoading(false);
 				}

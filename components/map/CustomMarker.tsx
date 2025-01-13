@@ -1,66 +1,44 @@
+import { useMemo } from 'react';
 import Marker from '@/components/map/crossPlatformComponents/Marker';
-import { useEffect, useState } from 'react';
 import { Image } from 'react-native';
 import { useTabMapStore } from '@/zustand/TabMapStore';
-import MapServices from '@/services/map/MapServices';
-import { useUserStore } from '@/zustand/UserStore';
+import { router } from 'expo-router';
+import { IMarker } from '@/shared/interfaces/IMarker';
 
-export const MarkerComponent = ({ id, coordinates, importance }: any) => {
-	const setMarkerSelected = useTabMapStore((state) => state.setMarkerSelected);
-	const language = useUserStore((state) => state.user.language);
-	const setPlace = useTabMapStore((state) => state.setPlace);
-	const setMediasOfPlace = useTabMapStore((state) => state.setMediasOfPlace);
+export const MarkerComponent = ({ id, coordinates, importance }: IMarker) => {
 	const markerSelected = useTabMapStore((state) => state.tabMap.markerSelected);
 	const lastMarkerSelected = useTabMapStore(
 		(state) => state.tabMap.lastMarkerSelected,
 	);
-	const [icon, setIcon] = useState(
-		require('@/assets/images/map_marker_importance_1.png'),
-	);
-	const dimensions = 50;
-	const chooseIcon = () => {
-		const selected = markerSelected === id;
+
+	const icon = useMemo(() => {
+		const isSelected = markerSelected === id;
 		switch (importance) {
 			case 1:
-				setIcon(
-					selected
-						? require('@/assets/images/map_marker_importance_1_selected.png')
-						: require('@/assets/images/map_marker_importance_1.png'),
-				);
-				break;
+				return isSelected
+					? require('@/assets/images/map_marker_importance_1_selected.png')
+					: require('@/assets/images/map_marker_importance_1.png');
 			case 2:
-				setIcon(
-					selected
-						? require('@/assets/images/map_marker_importance_2_selected.png')
-						: require('@/assets/images/map_marker_importance_2.png'),
-				);
-				break;
+				return isSelected
+					? require('@/assets/images/map_marker_importance_2_selected.png')
+					: require('@/assets/images/map_marker_importance_2.png');
 			case 3:
-				setIcon(
-					selected
-						? require('@/assets/images/map_marker_importance_3_selected.png')
-						: require('@/assets/images/map_marker_importance_3.png'),
-				);
-				break;
+				return isSelected
+					? require('@/assets/images/map_marker_importance_3_selected.png')
+					: require('@/assets/images/map_marker_importance_3.png');
 			default:
-				setIcon(
-					selected
-						? require('@/assets/images/map_marker_importance_1_selected.png')
-						: require('@/assets/images/map_marker_importance_1.png'),
-				);
-				break;
+				return isSelected
+					? require('@/assets/images/map_marker_importance_1_selected.png')
+					: require('@/assets/images/map_marker_importance_1.png');
 		}
-	};
+	}, [markerSelected, lastMarkerSelected, importance, id]);
 
-	useEffect(() => {
-		if (markerSelected === id || lastMarkerSelected === id) {
-			chooseIcon();
-		}
-	}, [markerSelected, lastMarkerSelected]);
-
-	useEffect(() => {
-		chooseIcon();
-	}, []);
+	const tracksViewChanges = useMemo(() => {
+		return (
+			markerSelected === id ||
+			(markerSelected !== null && lastMarkerSelected === id)
+		);
+	}, [markerSelected, lastMarkerSelected, id]);
 
 	return (
 		<Marker
@@ -70,21 +48,19 @@ export const MarkerComponent = ({ id, coordinates, importance }: any) => {
 				longitude: coordinates[0],
 			}}
 			anchor={{ x: 0.5, y: 0.5 }}
-			onPress={async () => {
-				const placeData = await MapServices.getPlaceInfo(id, 'map', language);
-				setPlace(placeData);
-				setMarkerSelected(id);
-				const mediasFetched = await MapServices.getPlaceMedia(id, language);
-				setMediasOfPlace(mediasFetched);
+			onPress={() => {
+				router.push({
+					pathname: `/(main)/place`,
+					params: { placeId: id },
+				});
 			}}
+			tracksViewChanges={tracksViewChanges}
 		>
 			<Image
 				source={icon}
-				style={{ width: dimensions, height: dimensions }}
+				style={{ width: 50, height: 50 }}
 				resizeMode={'contain'}
 			/>
 		</Marker>
 	);
 };
-
-export default MarkerComponent;

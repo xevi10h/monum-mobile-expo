@@ -7,7 +7,7 @@ import {
 	Text,
 	View,
 } from 'react-native';
-import MapViewOriginal, { Camera, Region } from 'react-native-maps';
+import MapViewOriginal, { Camera } from 'react-native-maps';
 import MapView from '@/components/map/crossPlatformComponents/MapView';
 import React, { useEffect, useRef, useState } from 'react';
 import { useQuery } from '@apollo/client';
@@ -88,6 +88,15 @@ export default function RouteDetailScreen() {
 					latitude: m.coordinates[1],
 					longitude: m.coordinates[0],
 				})),
+				{
+					edgePadding: {
+						top: 30,
+						left: 30,
+						right: 30,
+						bottom: 30,
+					},
+					animated: true,
+				},
 			);
 		}
 	}, [markers]);
@@ -286,7 +295,7 @@ export default function RouteDetailScreen() {
 							zoom: 15,
 							altitude: 10,
 						}}
-						googleMapsApiKey="AIzaSyDvzNpAZfrhv5GN8JyGWet9dcjnfoL8y-Y"
+						googleMapsApiKey={process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY_WEB}
 						options={{
 							disableDefaultUI: true,
 							clickableIcons: false,
@@ -335,7 +344,7 @@ export default function RouteDetailScreen() {
 									Platform.OS !== 'web'
 										? router.back()
 										: router.push({
-												pathname: '/[cityId]',
+												pathname: '/route/[cityId]',
 												params: { cityId: cityId as string },
 										  });
 									setMarkerSelected(null);

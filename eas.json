@@ -1,7 +1,7 @@
 {
 	"cli": {
 		"version": ">= 12.3.0",
-		"appVersionSource": "remote"
+		"appVersionSource": "local"
 	},
 	"build": {
 		"development": {
@@ -9,9 +9,12 @@
 			"distribution": "internal",
 			"env": {
 				"EXPO_PUBLIC_GOOGLE_MAPS_API_KEY_WEB": "AIzaSyDvzNpAZfrhv5GN8JyGWet9dcjnfoL8y-Y",
-				"EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID_NATIVE": "495065540860-dslpkch1rbhbvvcn0rf6h038llstup7t.apps.googleusercontent.com",
-				"EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID_WEB": "495065540860-dslpkch1rbhbvvcn0rf6h038llstup7t.apps.googleusercontent.com",
-				"EXPO_PUBLIC_MONUM_API_URL": "https://api.monum.es"
+				"EXPO_PUBLIC_GOOGLE_MAPS_API_KEY_ANDROID": "AIzaSyAItbW-zthHPPs1Bb6VBBMsZ7TnX1W31yI",
+				"EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID_WEB": "716205684564-fuirar3iu7t1ko699quc98bc55dbmbd9.apps.googleusercontent.com",
+				"EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID_IOS": "716205684564-oi4tgflp8o3r9k8m04prruq6aka7btd2.apps.googleusercontent.com",
+				"EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID_ANDROID": "716205684564-869f8h9bi90he9i15oh1hmp5r2klkjd3.apps.googleusercontent.com",
+				"EXPO_PUBLIC_MONUM_API_URL": "https://api.monum.es",
+				"EXPO_PUBLIC_MONUM_PRIVACY_URL": "https://app.monum.es/ca/privacy"
 			}
 		},
 		"development-simulator": {
@@ -19,31 +22,50 @@
 			"distribution": "internal",
 			"ios": {
 				"simulator": true
+			},
+			"env": {
+				"EXPO_PUBLIC_GOOGLE_MAPS_API_KEY_WEB": "AIzaSyDvzNpAZfrhv5GN8JyGWet9dcjnfoL8y-Y",
+				"EXPO_PUBLIC_GOOGLE_MAPS_API_KEY_ANDROID": "AIzaSyAItbW-zthHPPs1Bb6VBBMsZ7TnX1W31yI",
+				"EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID_WEB": "716205684564-fuirar3iu7t1ko699quc98bc55dbmbd9.apps.googleusercontent.com",
+				"EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID_IOS": "716205684564-oi4tgflp8o3r9k8m04prruq6aka7btd2.apps.googleusercontent.com",
+				"EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID_ANDROID": "716205684564-869f8h9bi90he9i15oh1hmp5r2klkjd3.apps.googleusercontent.com",
+				"EXPO_PUBLIC_MONUM_API_URL": "https://api.monum.es",
+				"EXPO_PUBLIC_MONUM_PRIVACY_URL": "https://app.monum.es/ca/privacy"
 			}
 		},
 		"preview": {
-			"distribution": "internal"
+			"distribution": "internal",
+			"env": {
+				"EXPO_PUBLIC_GOOGLE_MAPS_API_KEY_WEB": "AIzaSyDvzNpAZfrhv5GN8JyGWet9dcjnfoL8y-Y",
+				"EXPO_PUBLIC_GOOGLE_MAPS_API_KEY_ANDROID": "AIzaSyAItbW-zthHPPs1Bb6VBBMsZ7TnX1W31yI",
+				"EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID_WEB": "716205684564-fuirar3iu7t1ko699quc98bc55dbmbd9.apps.googleusercontent.com",
+				"EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID_IOS": "716205684564-oi4tgflp8o3r9k8m04prruq6aka7btd2.apps.googleusercontent.com",
+				"EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID_ANDROID": "716205684564-869f8h9bi90he9i15oh1hmp5r2klkjd3.apps.googleusercontent.com",
+				"EXPO_PUBLIC_MONUM_API_URL": "https://api.monum.es",
+				"EXPO_PUBLIC_MONUM_PRIVACY_URL": "https://app.monum.es/ca/privacy"
+			}
 		},
 		"production": {
 			"autoIncrement": true,
 			"env": {
 				"EXPO_PUBLIC_GOOGLE_MAPS_API_KEY_WEB": "AIzaSyDvzNpAZfrhv5GN8JyGWet9dcjnfoL8y-Y",
-				"EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID_NATIVE": "495065540860-dslpkch1rbhbvvcn0rf6h038llstup7t.apps.googleusercontent.com",
-				"EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID_WEB": "495065540860-dslpkch1rbhbvvcn0rf6h038llstup7t.apps.googleusercontent.com",
-				"EXPO_PUBLIC_MONUM_API_URL": "https://api.monum.es"
+				"EXPO_PUBLIC_GOOGLE_MAPS_API_KEY_ANDROID": "AIzaSyAItbW-zthHPPs1Bb6VBBMsZ7TnX1W31yI",
+				"EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID_WEB": "716205684564-fuirar3iu7t1ko699quc98bc55dbmbd9.apps.googleusercontent.com",
+				"EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID_IOS": "716205684564-oi4tgflp8o3r9k8m04prruq6aka7btd2.apps.googleusercontent.com",
+				"EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID_ANDROID": "716205684564-869f8h9bi90he9i15oh1hmp5r2klkjd3.apps.googleusercontent.com",
+				"EXPO_PUBLIC_MONUM_API_URL": "https://api.monum.es",
+				"EXPO_PUBLIC_MONUM_PRIVACY_URL": "https://app.monum.es/ca/privacy"
 			}
 		}
 	},
 	"submit": {
 		"production": {
 			"android": {
-				"serviceAccountKeyPath": "../path/to/api-xxx-yyy-zzz.json",
+				"serviceAccountKeyPath": "./playstore-credentials.json",
 				"track": "internal"
 			},
 			"ios": {
-				"appleId": "john@turtle.com",
-				"ascAppId": "1234567890",
-				"appleTeamId": "AB12XYZ34S"
+				"ascAppId": "6474858222"
 			}
 		}
 	}

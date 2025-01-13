@@ -46,39 +46,48 @@ export default function MediaBubble() {
 	);
 	const bottomSafeAreaInsets = useSafeAreaInsets().bottom;
 	const setCurrentTrack = useMainStore((state) => state.setCurrentTrack);
+	const [closeBubble, setCloseBubble] = useState(false);
 
 	const position = useSharedValue(width / 2);
 	const panGesture = Gesture.Pan()
 		.onUpdate((event: GestureUpdateEvent<PanGestureHandlerEventPayload>) => {
 			position.value += event.translationX / 5;
-			console.log('position', position.value);
 		})
 		.onEnd((event: GestureUpdateEvent<PanGestureHandlerEventPayload>) => {
 			const difference = position.value - width / 2;
-			console.log('position', position.value);
-			console.log('width', width);
 			if (difference > 15 && event.velocityX > 0) {
 				position.value = withTiming(
 					width * 2,
 					{ duration: width * 2 - position.value },
-					async () => {
-						await TrackPlayer.reset();
-						setCurrentTrack(undefined);
+					() => {
+						runOnJS(setCloseBubble)(true);
 					},
 				);
 			} else if (-difference > 15 && event.velocityX < 0) {
 				position.value = withTiming(
 					-width,
 					{ duration: position.value + width },
-					async () => {
-						await TrackPlayer.reset();
-						setCurrentTrack(undefined);
+					() => {
+						runOnJS(setCloseBubble)(true);
 					},
 				);
 			} else {
 				position.value = withTiming(width / 2);
 			}
 		});
+
+	useEffect(() => {
+		async function closePlayer() {
+			try {
+				await TrackPlayer.reset();
+				setCurrentTrack(undefined);
+				setCloseBubble(true);
+			} catch (e) {
+				console.log(e);
+			}
+		}
+		closeBubble && closePlayer();
+	}, [closeBubble]);
 
 	const animatedStyle = useAnimatedStyle(() => {
 		const diference = position.value - width / 2;

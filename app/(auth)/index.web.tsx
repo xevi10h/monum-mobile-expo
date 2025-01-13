@@ -1,3 +1,4 @@
+import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
 import * as AppleAuthentication from 'expo-apple-authentication';
 import { router } from 'expo-router';
@@ -6,7 +7,6 @@ import {
 	Text,
 	TouchableOpacity,
 	Linking,
-	Image,
 	ImageBackground,
 	Platform,
 } from 'react-native';
@@ -22,15 +22,11 @@ import { useTranslation } from '@/hooks/useTranslation';
 import { changeLanguage } from '@/i18n';
 import { useEffect } from 'react';
 import ButtonWithLogo from '@/components/auth/ButtonWithLogo';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useMainStore } from '@/zustand/MainStore';
 
 export default function Login() {
+	WebBrowser.maybeCompleteAuthSession();
 	const setUser = useUserStore((state) => state.setUser);
 	const { t } = useTranslation();
-	const setIsGeneralLoading = useMainStore(
-		(state) => state.setIsGeneralLoading,
-	);
 
 	const [request, response, promptAsync] = Google.useAuthRequest(
 		GoogleAuthService.config,
@@ -38,9 +34,7 @@ export default function Login() {
 
 	useEffect(() => {
 		const signIn = async () => {
-			setIsGeneralLoading(true);
 			const user = await GoogleAuthService.signInWithGoogle(response);
-			setIsGeneralLoading(false);
 			if (user) {
 				setUser(user);
 				changeLanguage(user.language || 'ca_ES');
@@ -85,11 +79,6 @@ export default function Login() {
 												AppleAuthentication.AppleAuthenticationScope.EMAIL,
 											],
 										});
-
-										await AsyncStorage.setItem(
-											'apple-user',
-											JSON.stringify(credential),
-										);
 										const user = await AuthServices.loginWithApple(credential);
 										if (user) {
 											setUser(user);

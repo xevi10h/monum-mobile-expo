@@ -98,6 +98,7 @@ const styles = StyleSheet.create({
 	container: {
 		height: '100%',
 		width: '100%',
+		zIndex: 10,
 		borderTopLeftRadius: 24,
 		borderTopRightRadius: 24,
 	},

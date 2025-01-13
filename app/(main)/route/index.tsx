@@ -71,7 +71,7 @@ export default function ListCitiesScreen() {
 									key={i}
 									onPress={() => {
 										router.push({
-											pathname: '/[cityId]',
+											pathname: '/route/[cityId]',
 											params: { cityId: city.id },
 										});
 									}}

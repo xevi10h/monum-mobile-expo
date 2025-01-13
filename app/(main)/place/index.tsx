@@ -14,7 +14,6 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { useCameraPermissions } from 'expo-camera';
 import * as Location from 'expo-location';
 import CurrentPositionMarker from '@/components/map/CurrentPositionMarker';
-import * as Device from 'expo-device';
 import { useUserStore } from '@/zustand/UserStore';
 import AuthServices from '@/services/auth/AuthServices';
 
@@ -27,6 +26,9 @@ export default function MapScreen() {
 		Location.useForegroundPermissions();
 	const [isLoadingCoordinates, setIsLoadingCoordinates] = useState(false);
 	const markerSelected = useTabMapStore((state) => state.tabMap.markerSelected);
+	const citySelectedCoordinates = useTabMapStore(
+		(state) => state.tabMap.citySelectedCoordinates,
+	);
 
 	const currentUserLocation = useMainStore(
 		(state) => state.main.currentUserLocation,
@@ -49,7 +51,7 @@ export default function MapScreen() {
 	);
 
 	useEffect(() => {
-		async function placeFromQR() {
+		async function placeSelected() {
 			if (
 				placeId &&
 				typeof placeId === 'string' &&
@@ -73,12 +75,13 @@ export default function MapScreen() {
 				setShowPlaceDetailExpanded(false);
 			}
 		}
-		placeFromQR();
+		placeSelected();
 	}, [placeId, mapViewRef, currentUserLocation]);
 
 	useEffect(() => {
 		const fetchMarkers = async () => {
 			try {
+				setIsLoadingCoordinates(true);
 				const markersData = await MapServices.getAllMarkers(
 					'importance',
 					'asc',
@@ -94,6 +97,7 @@ export default function MapScreen() {
 						selected: marker.id === markerSelected,
 					})),
 				);
+				setIsLoadingCoordinates(false);
 			} catch (error) {
 				console.error(error);
 			}
@@ -102,10 +106,11 @@ export default function MapScreen() {
 	}, []);
 
 	useEffect(() => {
-		if (markerSelected && markers.length > 0) {
+		if (markerSelected && markers.length > 0 && mapViewRef.current) {
 			const coordinatesToSet =
 				markers?.find((m) => m.id === markerSelected)?.coordinates ||
 				currentUserLocation;
+
 			if (coordinatesToSet) {
 				const newCamera: Camera = {
 					center: {
@@ -115,12 +120,12 @@ export default function MapScreen() {
 					zoom: 18,
 					heading: 0,
 					pitch: 0,
-					altitude: 10,
+					altitude: 500,
 				};
-				mapViewRef?.current?.animateCamera(newCamera, { duration: 1000 });
+				mapViewRef.current?.animateCamera(newCamera, { duration: 1000 });
 			}
 		}
-	}, [markerSelected]);
+	}, [markerSelected, markers, mapViewRef.current]);
 
 	const centerCoordinatesButtonAction = async () => {
 		try {
@@ -151,12 +156,12 @@ export default function MapScreen() {
 						latitude: position[1],
 						longitude: position[0],
 					},
-					zoom: 15,
+					zoom: 16,
 					heading: 0,
 					pitch: 0,
-					altitude: 10,
+					altitude: 500,
 				};
-				mapViewRef?.current?.animateCamera(newCamera, { duration: 1000 });
+				mapViewRef.current?.animateCamera(newCamera, { duration: 1000 });
 			}
 		} catch (error) {
 			console.error(error);
@@ -164,21 +169,33 @@ export default function MapScreen() {
 	};
 
 	useEffect(() => {
-		async function prepareWhenAuthenticated() {
-			if (!placeId || !markerSelected) {
-				await centerCoordinatesButtonAction();
-			}
+		if (citySelectedCoordinates) {
+			const newCamera: Camera = {
+				center: citySelectedCoordinates,
+				zoom: 13,
+				heading: 0,
+				pitch: 0,
+				altitude: 30000,
+			};
+			mapViewRef.current?.animateCamera(newCamera, { duration: 1000 });
 		}
-		prepareWhenAuthenticated();
-	}, []);
+	}, [citySelectedCoordinates]);
+
+	// useEffect(() => {
+	// 	async function prepareWhenAuthenticated() {
+	// 		if (!placeId || !markerSelected) {
+	// 			await centerCoordinatesButtonAction();
+	// 		}
+	// 	}
+	// 	prepareWhenAuthenticated();
+	// }, []);
 
 	useEffect(() => {
 		async function recalculateCurrentLocation() {
-			console.log('Recalculating current location');
 			await centerCoordinatesButtonAction();
 			setIsLoadingCoordinates(false);
 		}
-		if (!currentUserLocation && !placeId && !markerSelected) {
+		if (!currentUserLocation && !placeId) {
 			recalculateCurrentLocation();
 		}
 	}, [currentUserLocation, mapViewRef.current]);
@@ -193,8 +210,10 @@ export default function MapScreen() {
 				>
 					<MapView
 						provider={Platform.OS !== 'ios' ? 'google' : undefined}
-						followsUserLocation={!placeId}
+						followsUserLocation={Platform.OS !== 'ios' && !placeId}
 						showsUserLocation={Platform.OS === 'web' ? false : true}
+						showsMyLocationButton={false}
+						showsCompass={false}
 						ref={mapViewRef}
 						style={{
 							flex: 1,
@@ -209,11 +228,20 @@ export default function MapScreen() {
 							zoom: 15,
 							altitude: 10,
 						}}
-						googleMapsApiKey={process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY_WEB}
+						googleMapsApiKey={
+							Platform.OS === 'android'
+								? process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY_ANDROID
+								: process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY_WEB
+						}
 						options={{
 							disableDefaultUI: true,
 							clickableIcons: false,
 						}}
+						showsBuildings={false}
+						showsIndoors={false}
+						showsScale={false}
+						showsTraffic={false}
+						showsIndoorLevelPicker={false}
 						loadingFallback={<ActivityIndicator size="large" color="#3F713B" />}
 					>
 						{markers.map((marker, index) => (

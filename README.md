@@ -1,8 +1,8 @@
-# Welcome to your Expo app 👋
+## Monum Mobile App (Expo)
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+This is the mobile app for Monum, a platform for citizens to share their places and experiences.
 
-## Get started
+## Local Development (Expo Go)
 
 1. Install dependencies
 
@@ -10,41 +10,136 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
    npm install
    ```
 
-2. Start the app
+2. Start the app (be sure to use the Expo Go - "s" to switch between the Expo Go and Expo Dev apps)
 
    ```bash
     npx expo start
    ```
 
-In the output, you'll find options to open the app in a
+3. Press "i" to open the app in the iOS simulator
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+4. Press "a" to open the app in the Android simulator
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+5. Press "w" to open the app in the web browser
 
-## Get a fresh project
+6. Press "r" to reload the app
 
-When you're ready, run:
+## Local Development (Expo Dev Server)
 
-```bash
-npm run reset-project
-```
+1. Install dependencies
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+   ```bash
+   npm install
+   ```
 
-## Learn more
+2. Install the Expo CLI
 
-To learn more about developing your project with Expo, look at the following resources:
+   ```bash
+   npm install -g eas-cli
+   ```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+3. Login to Expo
 
-## Join the community
+   ```bash
+   eas login
+   ```
 
-Join our community of developers creating universal apps.
+4. Create a new dev app for iOS
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+   ```bash
+   eas build --profile development-simulator --platform ios
+   ```
+
+5. Create a new dev app for Android
+
+   ```bash
+   eas build --profile development-simulator --platform android
+   ```
+
+6. Start the app (be sure to use the Expo development - "s" to switch between the Expo Go and Expo Dev apps)
+
+   ```bash
+    npx expo start
+   ```
+
+7. Press "i" to open the app in the iOS simulator
+
+8. Press "a" to open the app in the Android simulator
+
+9. Press "w" to open the app in the web browser
+
+10. Press "r" to reload the app
+
+## Deploying to the App Store
+
+1. Install the Expo CLI
+
+   ```bash
+   npm install -g eas-cli
+   ```
+
+2. Login to Expo
+
+   ```bash
+   eas login
+   ```
+
+3. Build the app for iOS
+
+   ```bash
+   eas build --profile production --platform ios
+   ```
+
+4. Submit the app to the App Store
+
+   ```bash
+   eas submit -p ios
+   ```
+
+## Deploying to the Play Store
+
+1. Install the Expo CLI
+
+   ```bash
+   npm install -g eas-cli
+   ```
+
+2. Login to Expo
+
+   ```bash
+   eas login
+   ```
+
+3. Be sure to have "playstore-credentials.json" file in the root folder
+
+4. Build the app for Android
+
+   ```bash
+   eas build --profile production --platform android
+   ```
+
+5. Submit the app to the App Store
+
+   ```bash
+   eas submit -p android
+   ```
+
+## Deploying to Web
+
+1. Install the Expo CLI
+
+   ```bash
+   npm install -g eas-cli
+   ```
+
+2. Login to Expo
+
+   ```bash
+   eas login
+   ```
+
+3. Build the app for Web and deploy to Netlify
+
+   ```bash
+   npx expo export -p web && netlify deploy --dir dist
+   ```

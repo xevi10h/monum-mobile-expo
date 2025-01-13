@@ -4,32 +4,29 @@ import IPlace from '../shared/interfaces/IPlace';
 import * as Location from 'expo-location';
 
 export interface IMain {
-	activeTab: string;
 	statePlayer: State;
 	placeOfMedia: IPlace | null;
 	currentUserLocation: [number, number] | null;
-	hasInitByUrl: boolean;
 	videoPlayer: boolean;
 	videoUrl: string;
 	currentTrack: Track | undefined;
 	currentTrackIndex: number | undefined;
+	isGeneralLoading: boolean;
 }
 
 export const defaultMain: IMain = {
-	activeTab: 'Map',
 	statePlayer: State.Paused,
 	placeOfMedia: null,
 	currentUserLocation: null,
-	hasInitByUrl: false,
 	videoPlayer: false,
 	videoUrl: '',
 	currentTrack: undefined,
 	currentTrackIndex: undefined,
+	isGeneralLoading: false,
 };
 
 interface MainState {
 	main: IMain;
-	setActiveTab: (activeTab: string) => void;
 	setStatePlayer: (statePlayer: State) => void;
 	setPlaceOfMedia: (placeOfMedia: IPlace | null) => void;
 	setCurrentUserLocation: (
@@ -43,13 +40,11 @@ interface MainState {
 	setVideoUrl: (videoUrl: string) => void;
 	setCurrentTrack: (currentTrack: Track | undefined) => void;
 	setCurrentTrackIndex: (currentTrackIndex: number | undefined) => void;
+	setIsGeneralLoading: (isGeneralLoading: boolean) => void;
 }
 
 export const useMainStore = create<MainState>((set) => ({
 	main: defaultMain,
-	setActiveTab: (activeTab: string) => {
-		set((state) => ({ main: { ...state.main, activeTab } }));
-	},
 	setStatePlayer: (statePlayer: State) => {
 		set((state) => ({ main: { ...state.main, statePlayer } }));
 	},
@@ -85,5 +80,8 @@ export const useMainStore = create<MainState>((set) => ({
 	},
 	setCurrentTrackIndex: (currentTrackIndex: number | undefined) => {
 		set((state) => ({ main: { ...state.main, currentTrackIndex } }));
+	},
+	setIsGeneralLoading: (isGeneralLoading: boolean) => {
+		set((state) => ({ main: { ...state.main, isGeneralLoading } }));
 	},
 }));

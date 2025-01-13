@@ -3,7 +3,6 @@ import {
 	StyleSheet,
 	Text,
 	TouchableOpacity,
-	Linking,
 	View,
 	TextInput,
 } from 'react-native';
@@ -13,25 +12,16 @@ import {
 	useCameraPermissions,
 } from 'expo-camera';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useTabMapStore } from '../../../zustand/TabMapStore';
 import MapServices from '@/services/map/MapServices';
 import QRSpinner from '@/components/map/QRSpinner';
 import QRSuccess from '@/components/map/QRSuccess';
 import QRError from '@/components/map/QRError';
 import { router } from 'expo-router';
 import { useTranslation } from '@/hooks/useTranslation';
+import { useTabMapStore } from '@/zustand/TabMapStore';
 
-export default function ScanScreen({ navigation }: any) {
+export default function ScanScreen() {
 	const { t } = useTranslation();
-	const setMarkerSelected = useTabMapStore((state) => state.setMarkerSelected);
-	const setPlace = useTabMapStore((state) => state.setPlace);
-	const setShowPlaceDetailExpanded = useTabMapStore(
-		(state) => state.setShowPlaceDetailExpanded,
-	);
-	const setMediasOfPlace = useTabMapStore((state) => state.setMediasOfPlace);
-	const setCamera = useTabMapStore((state) => state.setCamera);
-
-	// const device = useCameraDevice('back');
 
 	const [manualCode, setManualCode] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
@@ -45,6 +35,7 @@ export default function ScanScreen({ navigation }: any) {
 
 	const [isCameraReady, setIsCameraReady] = useState(false);
 	const [status, requestPermission] = useCameraPermissions();
+	const setMarkers = useTabMapStore((state) => state.setMarkers);
 
 	useEffect(() => {
 		let timer: any;
@@ -79,24 +70,11 @@ export default function ScanScreen({ navigation }: any) {
 				}, 2000);
 				return;
 			}
-			const mediasFetched = await MapServices.getPlaceMedia(placeId);
 			isScanner ? setIsScanSuccess(true) : setIsManualSuccess(true);
-			setTimeout(() => {
-				navigation.navigate('MapScreen');
-				setCamera({
-					zoomLevel: 17,
-					pitch: 0,
-					centerCoordinate: [
-						placeData.address.coordinates.lng,
-						placeData.address.coordinates.lat,
-					],
-					animationDuration: 2000,
-				});
-				setPlace(placeData);
-				setMarkerSelected(placeId);
-				setMediasOfPlace(mediasFetched);
-				setShowPlaceDetailExpanded(false);
-			}, 1000);
+			router.push({
+				pathname: `/(main)/place`,
+				params: { placeId: placeId },
+			});
 		} catch (error) {
 			console.log(error);
 			setTimeout(() => {
@@ -110,10 +88,10 @@ export default function ScanScreen({ navigation }: any) {
 
 	const codeScanner = async (barcodeScanningResult: BarcodeScanningResult) => {
 		setIsLoading(true);
-		const [, placeId] =
-			barcodeScanningResult?.data?.match(/place\/([^?]+)/) || [];
+		const url = new URL(barcodeScanningResult?.data);
+		const placeId = url.searchParams.get('placeId');
 		if (placeId) {
-			searchForCode(placeId, true);
+			await searchForCode(placeId, true);
 		} else {
 			setTimeout(() => {
 				setIsScanError(true);
@@ -228,6 +206,7 @@ export default function ScanScreen({ navigation }: any) {
 						}}
 					>
 						<CameraView
+							facing={'back'}
 							barcodeScannerSettings={{
 								barcodeTypes: ['qr'],
 							}}

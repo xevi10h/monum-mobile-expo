@@ -3,16 +3,40 @@ import IMedia from '@/shared/interfaces/IMedia';
 import TrackPlayer, { RepeatMode } from 'react-native-track-player';
 import { useTabMapStore } from '@/zustand/TabMapStore';
 import { useMainStore } from '@/zustand/MainStore';
+import { Language } from '@/shared/types/Language';
+import { useUserStore } from '@/zustand/UserStore';
 
 interface MediaOfPlacePillProps {
 	index: number;
 	media: IMedia;
 }
 
+function durationToString(duration: number | undefined, language: Language) {
+	if (!duration) {
+		return '';
+	}
+	const minutes = Math.floor(duration / 60);
+	const seconds = Math.floor(duration % 60);
+
+	switch (language) {
+		case 'es_ES':
+			return `${minutes} min ${seconds} seg`;
+		case 'en_US':
+			return `${minutes} min ${seconds} sec`;
+		case 'ca_ES':
+			return `${minutes} min ${seconds} seg`;
+		case 'fr_FR':
+			return `${minutes} min ${seconds} seg`;
+		default:
+			return `${minutes} min ${seconds} seg`;
+	}
+}
+
 export default function MediaOfPlacePill({
 	index,
 	media,
 }: MediaOfPlacePillProps) {
+	const language = useUserStore((state) => state.user.language);
 	const place = useTabMapStore((state) => state.tabMap.place);
 	const setPlaceOfMedia = useMainStore((state) => state.setPlaceOfMedia);
 	const mediasOfPlace = useTabMapStore((state) => state.tabMap.mediasOfPlace);
@@ -84,7 +108,7 @@ export default function MediaOfPlacePill({
 							{media.title}
 						</Text>
 						<Text style={styles.placeMediaPillDuration}>
-							{`${(media.duration ? media.duration / 60 : 0).toFixed(0)} min`}
+							{durationToString(media.duration, language)}
 						</Text>
 					</View>
 					<View>

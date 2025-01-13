@@ -20,14 +20,11 @@ import MapPlaceDetailExpanded from './MapPlaceDetailExpanded';
 import MapPlaceDetailReduced from './MapPlaceDetailReduced';
 import { useTabMapStore } from '@/zustand/TabMapStore';
 import { useUserStore } from '@/zustand/UserStore';
+import { router } from 'expo-router';
 
 const { height } = Dimensions.get('screen');
 
 export const BOTTOM_TAB_HEIGHT = Platform.OS === 'android' ? 150 : 140;
-
-type GestureContext = {
-	startY: number;
-};
 
 export default function MapPlaceDetail() {
 	const MAX_MARGIN_TOP = Platform.OS === 'web' ? 160 : useSafeAreaInsets().top;
@@ -65,16 +62,16 @@ export default function MapPlaceDetail() {
 		position.value = withTiming(0, { duration: 300 }, () => {
 			runOnJS(setMarkerSelected)(null);
 			runOnJS(setShowPlaceDetailExpanded)(false);
+			runOnJS(router.push)({
+				pathname: `/(main)/place`,
+				params: { placeId: null },
+			});
 		});
 	};
 
 	const panGestureEvent = Gesture.Pan()
-		// .onStart((event: GestureUpdateEvent<PanGestureHandlerEventPayload>) => {
-		// 	event.y = position.value;
-		// })
 		.onUpdate((event: GestureUpdateEvent<PanGestureHandlerEventPayload>) => {
 			const newPosition = height - event.translationY;
-			console.log('newPosition', newPosition);
 			if (!showPlaceDetailExpanded) {
 				if (newPosition >= BOTTOM_TOTAL_TAB_HEIGHT) {
 					position.value = BOTTOM_TOTAL_TAB_HEIGHT;
@@ -92,7 +89,8 @@ export default function MapPlaceDetail() {
 		.onEnd((event: GestureUpdateEvent<PanGestureHandlerEventPayload>) => {
 			if (!showPlaceDetailExpanded) {
 				if (
-					position.value < BOTTOM_TOTAL_TAB_HEIGHT / 2 ||
+					height - event.translationY <
+						height - BOTTOM_TOTAL_TAB_HEIGHT / 2 + 80 ||
 					event.velocityY > 0
 				) {
 					runOnJS(closePlaceDetail)();
@@ -128,7 +126,6 @@ export default function MapPlaceDetail() {
 
 	useEffect(() => {
 		if (place && showPlaceDetailExpanded) {
-			console.log('MAX_MARGIN_TOP', MAX_MARGIN_TOP);
 			position.value = withTiming(height - MAX_MARGIN_TOP, { duration: 300 });
 		}
 	}, [showPlaceDetailExpanded, place]);
@@ -139,23 +136,16 @@ export default function MapPlaceDetail() {
 				styles.container,
 				{
 					bottom: -80,
-					backgroundColor: 'rgba(0, 0, 0, 0.8)',
+					backgroundColor: showPlaceDetailExpanded
+						? 'rgba(0, 0, 0, 0.8)'
+						: 'transparent',
+					// top: height - BOTTOM_TAB_HEIGHT - 80,
 					top: showPlaceDetailExpanded ? 0 : undefined,
 				},
 			]}
 		>
 			<GestureDetector gesture={panGestureEvent}>
-				<Animated.View
-					style={[
-						styles.animatedContainer,
-						animatedStyle,
-						// {
-						// 	backgroundColor: showPlaceDetailExpanded
-						// 		? 'transparent'
-						// 		: 'white',
-						// },
-					]}
-				>
+				<Animated.View style={[styles.animatedContainer, animatedStyle]}>
 					{showPlaceDetailExpanded && place && Array.isArray(mediasOfPlace) ? (
 						<MapPlaceDetailExpanded
 							importanceIcon={importanceIcon()}
@@ -174,7 +164,7 @@ const styles = StyleSheet.create({
 	container: {
 		position: 'absolute',
 		width: '100%',
-		zIndex: 3,
+		zIndex: 10,
 	},
 	animatedContainer: {
 		position: 'absolute',

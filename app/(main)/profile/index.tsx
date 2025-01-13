@@ -25,13 +25,11 @@ import ErrorComponent from '../../../shared/components/ErrorComponent';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Language } from '../../../shared/types/Language';
 import client from '../../../graphql/connection';
-import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { useUserStore } from '../../../zustand/UserStore';
 import { useMainStore } from '../../../zustand/MainStore';
 import { useTabMapStore } from '../../../zustand/TabMapStore';
 import { useTabRouteStore } from '../../../zustand/TabRouteStore';
 import { BOTTOM_TAB_NAVIGATOR_HEIGHT } from '@/app/(main)/_layout';
-import { i18n, changeLanguage } from '@/i18n';
 import { useTranslation } from '@/hooks/useTranslation';
 import DeleteButton from '@/components/profile/DeleteButton';
 import ConfirmDeleteAccountButton from '@/components/profile/ConfirmDeleteAccountButton';
@@ -76,7 +74,7 @@ export default function ProfileScreen() {
 	const [photoBase64, setPhotoBase64] = useState<string | undefined>(undefined);
 
 	const { data, loading, error } = useQuery(GET_USER_BY_ID, {
-		skip: !!user.token,
+		skip: !!user?.token,
 	});
 
 	const { persist } = useUserStore.getState();
@@ -285,14 +283,12 @@ export default function ProfileScreen() {
 											if (Platform.OS === 'web') {
 												localStorage.removeItem('user-storage');
 												localStorage.removeItem('google-user');
-												router.replace('/');
-												window.location.reload();
 											} else {
 												await AsyncStorage.removeItem('user-storage');
 												await AsyncStorage.removeItem('google-user');
+												await AsyncStorage.removeItem('apple-storage');
 											}
-
-											// Reset Zustand stores
+											setDefaultUser();
 											setDefaultMain();
 											setDefaultTabMap();
 											setDefaultTabRoute();
@@ -343,7 +339,7 @@ export default function ProfileScreen() {
 							<SecondaryButton
 								text={t('profile.changePassword')}
 								onPress={() => {
-									router.push('/profile-change-password');
+									router.push('/profile/profile-change-password');
 								}}
 								style={{ marginTop: height < 700 ? 10 : 20 }}
 							/>
@@ -380,14 +376,12 @@ export default function ProfileScreen() {
 									if (Platform.OS === 'web') {
 										localStorage.removeItem('user-storage');
 										localStorage.removeItem('google-user');
-										router.replace('/');
-										window.location.reload();
 									} else {
 										await AsyncStorage.removeItem('user-storage');
 										await AsyncStorage.removeItem('google-user');
+										await AsyncStorage.removeItem('apple-storage');
 									}
-
-									// Reset Zustand stores
+									setDefaultUser();
 									setDefaultMain();
 									setDefaultTabMap();
 									setDefaultTabRoute();

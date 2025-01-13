@@ -65,11 +65,7 @@ export default function TextSearchScreen({ navigation }: any) {
 				keyboardDismissMode="on-drag"
 			>
 				{searcherResults.map((searcherResult, index) => (
-					<TextSearchResultPill
-						key={index}
-						searcherResult={searcherResult}
-						navigation={navigation}
-					/>
+					<TextSearchResultPill key={index} searcherResult={searcherResult} />
 				))}
 			</ScrollView>
 		</View>

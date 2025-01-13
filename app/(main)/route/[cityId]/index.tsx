@@ -62,9 +62,7 @@ export default function ListRoutesScreen() {
 				cityName={city?.name || ''}
 				imageUrl={city?.imageUrl || ''}
 				onPress={() =>
-					Platform.OS !== 'web'
-						? router.back()
-						: router.push('/(main)/(routes)')
+					Platform.OS !== 'web' ? router.back() : router.push('/(main)/route')
 				}
 			/>
 			<View style={styles.contentContainer}>
@@ -98,7 +96,7 @@ export default function ListRoutesScreen() {
 									key={i}
 									onPress={() => {
 										router.push({
-											pathname: `/[cityId]/[routeId]`,
+											pathname: `/route/[cityId]/[routeId]`,
 											params: {
 												cityId: cityId as string,
 												routeId: route.id,

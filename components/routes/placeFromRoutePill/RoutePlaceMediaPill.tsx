@@ -10,12 +10,35 @@ import IPlace from '@/shared/interfaces/IPlace';
 import { Image } from 'react-native';
 import TrackPlayer, { RepeatMode } from 'react-native-track-player';
 import { useMainStore } from '@/zustand/MainStore';
+import { Language } from '@/shared/types/Language';
+import { useUserStore } from '@/zustand/UserStore';
 
 interface RoutePlaceMediaPillProps {
 	mediasOfStop: IMedia[];
 	media: IMedia;
 	place: IPlace;
 	index: number;
+}
+
+function durationToString(duration: number | undefined, language: Language) {
+	if (!duration) {
+		return '';
+	}
+	const minutes = Math.floor(duration / 60);
+	const seconds = Math.floor(duration % 60);
+
+	switch (language) {
+		case 'es_ES':
+			return `${minutes} min ${seconds} seg`;
+		case 'en_US':
+			return `${minutes} min ${seconds} sec`;
+		case 'ca_ES':
+			return `${minutes} min ${seconds} seg`;
+		case 'fr_FR':
+			return `${minutes} min ${seconds} seg`;
+		default:
+			return `${minutes} min ${seconds} seg`;
+	}
 }
 
 export default function RoutePlaceMediaPill({
@@ -25,6 +48,7 @@ export default function RoutePlaceMediaPill({
 	style,
 	index,
 }: RoutePlaceMediaPillProps & { style?: ViewStyle }) {
+	const language = useUserStore((state) => state.user.language);
 	const setPlaceOfMedia = useMainStore((state) => state.setPlaceOfMedia);
 	const setVideoPlayer = useMainStore((state) => state.setVideoPlayer);
 	const setVideoUrl = useMainStore((state) => state.setVideoUrl);
@@ -93,7 +117,7 @@ export default function RoutePlaceMediaPill({
 							{media.title}
 						</Text>
 						<Text style={styles.placeMediaPillDuration}>
-							{`${(media.duration ? media.duration / 60 : 0).toFixed(0)} min`}
+							{durationToString(media.duration, language)}
 						</Text>
 					</View>
 					<View>

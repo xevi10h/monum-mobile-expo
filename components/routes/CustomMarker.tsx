@@ -1,5 +1,5 @@
 import Marker from '@/components/map/crossPlatformComponents/Marker';
-import React, { useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 import { Image } from 'react-native';
 
 import { IMarker } from '@/shared/interfaces/IMarker';
@@ -10,47 +10,32 @@ export function MarkerComponent({ id, coordinates, importance }: IMarker) {
 		(state) => state.setMarkerSelected,
 	);
 	const markerSelected = useTabRouteStore((state) => state.markerSelected);
-	const [icon, setIcon] = useState(
-		require('@/assets/images/map_marker_importance_1.png'),
-	);
-	const dimensions = 50;
-	const chooseIcon = () => {
-		const selected = markerSelected === id;
+
+	const icon = useMemo(() => {
+		const isSelected = markerSelected === id;
 		switch (importance) {
 			case 1:
-				setIcon(
-					selected
-						? require('@/assets/images/map_marker_importance_1_selected.png')
-						: require('@/assets/images/map_marker_importance_1.png'),
-				);
-				break;
+				return isSelected
+					? require('@/assets/images/map_marker_importance_1_selected.png')
+					: require('@/assets/images/map_marker_importance_1.png');
 			case 2:
-				setIcon(
-					selected
-						? require('@/assets/images/map_marker_importance_2_selected.png')
-						: require('@/assets/images/map_marker_importance_2.png'),
-				);
-				break;
+				return isSelected
+					? require('@/assets/images/map_marker_importance_2_selected.png')
+					: require('@/assets/images/map_marker_importance_2.png');
 			case 3:
-				setIcon(
-					selected
-						? require('@/assets/images/map_marker_importance_3_selected.png')
-						: require('@/assets/images/map_marker_importance_3.png'),
-				);
-				break;
+				return isSelected
+					? require('@/assets/images/map_marker_importance_3_selected.png')
+					: require('@/assets/images/map_marker_importance_3.png');
 			default:
-				setIcon(
-					selected
-						? require('@/assets/images/map_marker_importance_1_selected.png')
-						: require('@/assets/images/map_marker_importance_1.png'),
-				);
-				break;
+				return isSelected
+					? require('@/assets/images/map_marker_importance_1_selected.png')
+					: require('@/assets/images/map_marker_importance_1.png');
 		}
-	};
+	}, [markerSelected, importance, id]);
 
-	useEffect(() => {
-		chooseIcon();
-	}, [markerSelected]);
+	const tracksViewChanges = useMemo(() => {
+		return markerSelected === id;
+	}, [markerSelected, id]);
 
 	return (
 		<Marker
@@ -63,10 +48,11 @@ export function MarkerComponent({ id, coordinates, importance }: IMarker) {
 			onPress={() => {
 				setMarkerSelected(id);
 			}}
+			tracksViewChanges={tracksViewChanges}
 		>
 			<Image
 				source={icon}
-				style={{ width: dimensions, height: dimensions }}
+				style={{ width: 50, height: 50 }}
 				resizeMode={'contain'}
 			/>
 		</Marker>

@@ -3,6 +3,7 @@ import IPlace from '../shared/interfaces/IPlace';
 import IMedia from '../shared/interfaces/IMedia';
 import { IMarker } from '../shared/interfaces/IMarker';
 import { ISearchResult } from '../shared/interfaces/ISearchResult';
+import MapViewType, { Camera } from 'react-native-maps';
 
 export interface ITabMap {
 	markerSelected: string | null;
@@ -12,18 +13,11 @@ export interface ITabMap {
 	mediasOfPlace: IMedia[] | undefined;
 	expandedMediaDetail: boolean;
 	markers: IMarker[];
-	mapCameraCoordinates: [number, number];
 	forceUpdateMapCamera: boolean;
 	textSearch: string | undefined;
 	searcherResults: ISearchResult[];
 	textSearchIsLoading: boolean;
-	citySelectedCoordinates: [number, number] | null;
-	camera: {
-		zoomLevel: number;
-		pitch: number;
-		centerCoordinate: [number, number];
-		animationDuration: number;
-	};
+	citySelectedCoordinates: Camera['center'] | null;
 }
 
 export const defaultTabMap: ITabMap = {
@@ -34,18 +28,11 @@ export const defaultTabMap: ITabMap = {
 	mediasOfPlace: undefined,
 	expandedMediaDetail: false,
 	markers: [],
-	mapCameraCoordinates: [0, 0],
 	forceUpdateMapCamera: false,
 	textSearch: undefined,
 	searcherResults: [],
 	textSearchIsLoading: false,
 	citySelectedCoordinates: null,
-	camera: {
-		zoomLevel: 0,
-		pitch: 0,
-		centerCoordinate: [0, 0],
-		animationDuration: 0,
-	},
 };
 
 interface TabMapState {
@@ -57,17 +44,13 @@ interface TabMapState {
 	setMediasOfPlace: (mediasOfPlace: IMedia[] | undefined) => void;
 	setExpandedMediaDetail: (expandedMediaDetail: boolean) => void;
 	setMarkers: (markers: IMarker[]) => void;
-	setMapCameraCoordinates: (mapCameraCoordinates: [number, number]) => void;
-	setForceUpdateMapCamera: (forceUpdateMapCamera: boolean) => void;
 	setDefaultTabMap: () => void;
 	setTextSearch: (textSearch: string | undefined) => void;
 	setSearcherResults: (searcherResults: ISearchResult[]) => void;
 	setTextSearchIsLoading: (textSearchIsLoading: boolean) => void;
 	setCitySelectedCoordinates: (
-		citySelectedCoordinates: [number, number] | null,
+		citySelectedCoordinates: Camera['center'] | null,
 	) => void;
-	setCamera: (camera: ITabMap['camera']) => void;
-	setPitch: (pitch: number) => void;
 }
 
 export const useTabMapStore = create<TabMapState>((set) => ({
@@ -101,12 +84,6 @@ export const useTabMapStore = create<TabMapState>((set) => ({
 	setMarkers: (markers: IMarker[]) => {
 		set((state) => ({ tabMap: { ...state.tabMap, markers } }));
 	},
-	setMapCameraCoordinates: (mapCameraCoordinates: [number, number]) => {
-		set((state) => ({ tabMap: { ...state.tabMap, mapCameraCoordinates } }));
-	},
-	setForceUpdateMapCamera: (forceUpdateMapCamera: boolean) => {
-		set((state) => ({ tabMap: { ...state.tabMap, forceUpdateMapCamera } }));
-	},
 	setDefaultTabMap: () => {
 		set(() => ({ tabMap: defaultTabMap }));
 	},
@@ -120,16 +97,8 @@ export const useTabMapStore = create<TabMapState>((set) => ({
 		set((state) => ({ tabMap: { ...state.tabMap, textSearchIsLoading } }));
 	},
 	setCitySelectedCoordinates: (
-		citySelectedCoordinates: [number, number] | null,
+		citySelectedCoordinates: Camera['center'] | null,
 	) => {
 		set((state) => ({ tabMap: { ...state.tabMap, citySelectedCoordinates } }));
-	},
-	setCamera: (camera: ITabMap['camera']) => {
-		set((state) => ({ tabMap: { ...state.tabMap, camera } }));
-	},
-	setPitch: (pitch: number) => {
-		set((state) => ({
-			tabMap: { ...state.tabMap, camera: { ...state.tabMap.camera, pitch } },
-		}));
 	},
 }));
