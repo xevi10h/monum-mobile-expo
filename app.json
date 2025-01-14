@@ -52,7 +52,7 @@
         "android.permission.ACCESS_FINE_LOCATION",
         "android.permission.ACCESS_COARSE_LOCATION"
       ],
-      "versionCode": 70
+      "versionCode": 72
     },
     "web": {
       "bundler": "metro",
