@@ -130,6 +130,12 @@ export default function MediaExpanded() {
 								onProgressChange={(_, absoluteProgress) =>
 									(progressValue.value = absoluteProgress)
 								}
+								style={{
+									borderTopLeftRadius: 24,
+									borderTopRightRadius: 24,
+									height: height * 0.65,
+									width: '100%',
+								}}
 								renderItem={({ index }) => (
 									<View style={styles.imageContainer}>
 										<Image

@@ -341,7 +341,7 @@ const styles = StyleSheet.create({
 	descriptionContainer: { paddingBottom: 20 },
 	descriptionText: {
 		color: '#032000',
-		textAlign: 'justify',
+		textAlign: 'left',
 		fontSize: 12,
 		fontFamily: 'Montserrat-Regular',
 	},

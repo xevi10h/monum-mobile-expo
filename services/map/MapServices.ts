@@ -68,7 +68,7 @@ class MapServices {
 				query: GET_PLACE_INFO,
 				variables: {
 					placeId,
-					imageSize: 'medium',
+					imageSize: 'original',
 					language,
 					fromSupport,
 					isMobile: true,
