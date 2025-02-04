@@ -16,7 +16,7 @@ import { useTranslation } from '@/hooks/useTranslation';
 const { height } = Dimensions.get('window');
 
 interface MediaExpandedTextProps {
-	position: SharedValue;
+	position: SharedValue<number>;
 	extensionHeight: number;
 	isFullExtended: boolean;
 	setIsFullExtended: (isExtended: boolean) => void;
