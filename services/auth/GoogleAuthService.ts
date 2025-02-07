@@ -8,6 +8,7 @@ class GoogleAuthService {
 		iosClientId: process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID_IOS,
 		androidClientId:
 			'716205684564-869f8h9bi90he9i15oh1hmp5r2klkjd3.apps.googleusercontent.com',
+		redirectUri: makeRedirectUri(),
 	};
 
 	async getUserInfo(token: string) {
