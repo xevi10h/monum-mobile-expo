@@ -1,3 +1,6 @@
 [build]
   command = "npx expo export --platform web"
   publish = "dist"
+
+[build.environment]
+  EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID_WEB = "AIzaSyDvzNpAZfrhv5GN8JyGWet9dcjnfoL8y-Y"
