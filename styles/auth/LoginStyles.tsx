@@ -1,4 +1,4 @@
-import { Platform, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
 	backgroundContainer: {
@@ -10,7 +10,6 @@ export const styles = StyleSheet.create({
 	},
 	background: {
 		flex: 1,
-		resizeMode: 'cover', // Ajusta la imagen para cubrir todo el fondo
 	},
 	container: {
 		flex: 1,
@@ -72,7 +71,6 @@ export const styles = StyleSheet.create({
 		position: 'relative',
 		width: 16,
 		height: 16,
-		resizeMode: 'contain',
 	},
 	secondaryButtonText: {
 		fontSize: 16,
@@ -96,7 +94,6 @@ export const styles = StyleSheet.create({
 	buttonWithLogoImage: {
 		width: '100%',
 		height: '100%',
-		resizeMode: 'contain',
 	},
 	buttonWithLogoText: {
 		fontSize: 16,
