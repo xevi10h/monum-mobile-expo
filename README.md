@@ -141,5 +141,5 @@ This is the mobile app for Monum, a platform for citizens to share their places 
 3. Build the app for Web and deploy to Netlify
 
    ```bash
-   npx expo export -p web && netlify deploy --dir dist
+   npx expo export -p web && netlify deploy --dir dist --prod
    ```
