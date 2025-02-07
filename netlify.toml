@@ -1,0 +1,2 @@
+[build]
+  publish = "dist"  # Ajusta esto según el nombre de la carpeta generada
