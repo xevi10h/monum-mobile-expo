@@ -3,4 +3,5 @@
   publish = "dist"
 
 [build.environment]
-  EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID_WEB = "AIzaSyDvzNpAZfrhv5GN8JyGWet9dcjnfoL8y-Y"
+  EXPO_PUBLIC_GOOGLE_MAPS_API_KEY_WEB = "AIzaSyDvzNpAZfrhv5GN8JyGWet9dcjnfoL8y-Y"
+  EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID_WEB = "716205684564-fuirar3iu7t1ko699quc98bc55dbmbd9.apps.googleusercontent.com"
