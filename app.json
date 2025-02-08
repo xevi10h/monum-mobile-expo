@@ -35,7 +35,8 @@
         "NSLocationAlwaysUsageDescription": "This app requires access to your location when open.",
         "deploymentTarget": "15.1"
       },
-      "buildNumber": "10"
+      "buildNumber": "12",
+      "appleTeamId": "4WWBHK245Y"
     },
     "android": {
       "package": "es.monum.mobile",
@@ -50,7 +51,11 @@
       },
       "permissions": [
         "android.permission.ACCESS_FINE_LOCATION",
-        "android.permission.ACCESS_COARSE_LOCATION"
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.RECEIVE_BOOT_COMPLETED",
+        "android.permission.WAKE_LOCK",
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
       ],
       "versionCode": 73
     },

@@ -41,11 +41,13 @@
       </dict>
     </array>
     <key>CFBundleVersion</key>
-    <string>1</string>
+    <string>12</string>
     <key>EXDefaultScreenOrientationMask</key>
     <string>UIInterfaceOrientationMaskAllButUpsideDown</string>
     <key>GMSApiKey</key>
-    <string>AIzaSyAv9zwWbrn_pqR8tsdFqxsXApApGSIXGKI</string>
+    <string>AIzaSyB9yYYln_LCAddS-ZViaeGfU_dfVpb_00E</string>
+    <key>ITSAppUsesNonExemptEncryption</key>
+    <false/>
     <key>LSApplicationQueriesSchemes</key>
     <array>
       <string>comgooglemaps</string>
@@ -70,95 +72,9 @@
       <string>lftgpas</string>
       <string>petalmaps</string>
       <string>sygic</string>
-      <string>comgooglemaps</string>
-      <string>citymapper</string>
-      <string>uber</string>
-      <string>lyft</string>
-      <string>transit</string>
-      <string>truckmap</string>
-      <string>waze</string>
-      <string>yandexnavi</string>
-      <string>moovit</string>
-      <string>yandextaxi</string>
-      <string>yandexmaps</string>
-      <string>kakaomap</string>
-      <string>tmap</string>
-      <string>szn-mapy</string>
-      <string>mapsme</string>
-      <string>osmandmaps</string>
-      <string>gett</string>
-      <string>nmap</string>
-      <string>dgis</string>
-      <string>lftgpas</string>
-      <string>petalmaps</string>
-      <string>sygic</string>
-      <string>comgooglemaps</string>
-      <string>citymapper</string>
-      <string>uber</string>
-      <string>lyft</string>
-      <string>transit</string>
-      <string>truckmap</string>
-      <string>waze</string>
-      <string>yandexnavi</string>
-      <string>moovit</string>
-      <string>yandextaxi</string>
-      <string>yandexmaps</string>
-      <string>kakaomap</string>
-      <string>tmap</string>
-      <string>szn-mapy</string>
-      <string>mapsme</string>
-      <string>osmandmaps</string>
-      <string>gett</string>
-      <string>nmap</string>
-      <string>dgis</string>
-      <string>lftgpas</string>
-      <string>petalmaps</string>
-      <string>sygic</string>
-      <string>comgooglemaps</string>
-      <string>citymapper</string>
-      <string>uber</string>
-      <string>lyft</string>
-      <string>transit</string>
-      <string>truckmap</string>
-      <string>waze</string>
-      <string>yandexnavi</string>
-      <string>moovit</string>
-      <string>yandextaxi</string>
-      <string>yandexmaps</string>
-      <string>kakaomap</string>
-      <string>tmap</string>
-      <string>szn-mapy</string>
-      <string>mapsme</string>
-      <string>osmandmaps</string>
-      <string>gett</string>
-      <string>nmap</string>
-      <string>dgis</string>
-      <string>lftgpas</string>
-      <string>petalmaps</string>
-      <string>sygic</string>
-      <string>comgooglemaps</string>
-      <string>citymapper</string>
-      <string>uber</string>
-      <string>lyft</string>
-      <string>transit</string>
-      <string>truckmap</string>
-      <string>waze</string>
-      <string>yandexnavi</string>
-      <string>moovit</string>
-      <string>yandextaxi</string>
-      <string>yandexmaps</string>
-      <string>kakaomap</string>
-      <string>tmap</string>
-      <string>szn-mapy</string>
-      <string>mapsme</string>
-      <string>osmandmaps</string>
-      <string>gett</string>
-      <string>nmap</string>
-      <string>dgis</string>
-      <string>lftgpas</string>
-      <string>petalmaps</string>
-      <string>sygic</string>
     </array>
+    <key>LSMinimumSystemVersion</key>
+    <string>12.0</string>
     <key>LSRequiresIPhoneOS</key>
     <true/>
     <key>NSAppTransportSecurity</key>
@@ -182,10 +98,6 @@
     <string>$(PRODUCT_NAME) necesita acceso a tu biblioteca de fotos para permitirte subir imágenes y videos desde tu galería.</string>
     <key>NSUserActivityTypes</key>
     <array>
-      <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
-      <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
-      <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
-      <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
       <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
     </array>
     <key>UIAppFonts</key>
@@ -213,6 +125,8 @@
     <array>
       <string>UIInterfaceOrientationPortrait</string>
       <string>UIInterfaceOrientationPortraitUpsideDown</string>
+      <string>UIInterfaceOrientationLandscapeLeft</string>
+      <string>UIInterfaceOrientationLandscapeRight</string>
     </array>
     <key>UISupportedInterfaceOrientations~ipad</key>
     <array>
@@ -226,6 +140,6 @@
     <key>UIViewControllerBasedStatusBarAppearance</key>
     <false/>
     <key>deploymentTarget</key>
-    <string>14</string>
+    <string>15.1</string>
   </dict>
 </plist>
