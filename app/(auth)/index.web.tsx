@@ -22,15 +22,19 @@ import { useTranslation } from '@/hooks/useTranslation';
 import { changeLanguage } from '@/i18n';
 import { useEffect } from 'react';
 import ButtonWithLogo from '@/components/auth/ButtonWithLogo';
+import { makeRedirectUri } from 'expo-auth-session';
 
 export default function Login() {
 	WebBrowser.maybeCompleteAuthSession();
 	const setUser = useUserStore((state) => state.setUser);
 	const { t } = useTranslation();
 
-	const [request, response, promptAsync] = Google.useAuthRequest(
-		GoogleAuthService.config,
-	);
+	const [request, response, promptAsync] = Google.useAuthRequest({
+		...GoogleAuthService.config,
+		redirectUri: makeRedirectUri({
+			path: '/place',
+		}),
+	});
 
 	useEffect(() => {
 		const signIn = async () => {

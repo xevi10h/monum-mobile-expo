@@ -77,8 +77,6 @@ export default function ProfileScreen() {
 		skip: !!user?.token,
 	});
 
-	const { persist } = useUserStore.getState();
-
 	const [
 		updateUser,
 		{ data: dataUpdated, loading: loadingUpdated, error: errorUpdated },
@@ -279,7 +277,7 @@ export default function ProfileScreen() {
 									onPress={async () => {
 										try {
 											await deleteHardMyUser();
-											persist?.clearStorage();
+											useUserStore.persist.clearStorage();
 											if (Platform.OS === 'web') {
 												localStorage.removeItem('user-storage');
 												localStorage.removeItem('google-user');
@@ -372,19 +370,21 @@ export default function ProfileScreen() {
 							onPress={async () => {
 								try {
 									// Clear persisted storage
-									persist?.clearStorage();
+									useUserStore.persist.clearStorage();
+
 									if (Platform.OS === 'web') {
 										localStorage.removeItem('user-storage');
 										localStorage.removeItem('google-user');
+										window.location.reload();
 									} else {
 										await AsyncStorage.removeItem('user-storage');
 										await AsyncStorage.removeItem('google-user');
 										await AsyncStorage.removeItem('apple-storage');
+										setDefaultUser();
+										setDefaultMain();
+										setDefaultTabMap();
+										setDefaultTabRoute();
 									}
-									setDefaultUser();
-									setDefaultMain();
-									setDefaultTabMap();
-									setDefaultTabRoute();
 								} catch (error) {
 									console.error('Error al cerrar sesión:', error);
 								}
