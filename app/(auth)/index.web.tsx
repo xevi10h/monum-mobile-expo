@@ -31,7 +31,7 @@ export default function Login() {
 
 	const [request, response, promptAsync] = Google.useAuthRequest({
 		...GoogleAuthService.config,
-		redirectUri: 'https://mobile.monum.es/oauthredirect',
+		redirectUri: 'https://mobile.monum.es',
 	});
 
 	useEffect(() => {
