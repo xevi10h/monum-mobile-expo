@@ -30,7 +30,11 @@ export default function Login() {
 	const { t } = useTranslation();
 
 	const [request, response, promptAsync] = Google.useAuthRequest({
-		...GoogleAuthService.config,
+		webClientId:
+			'716205684564-fuirar3iu7t1ko699quc98bc55dbmbd9.apps.googleusercontent.com',
+		clientId:
+			'716205684564-fuirar3iu7t1ko699quc98bc55dbmbd9.apps.googleusercontent.com',
+		clientSecret: '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',
 		redirectUri: 'https://mobile.monum.es',
 	});
 
