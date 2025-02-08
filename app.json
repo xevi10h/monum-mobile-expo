@@ -1,192 +1,179 @@
 {
-  "expo": {
-    "name": "Monum",
-    "slug": "monum-mobile-expo",
-    "version": "1.0.1",
-    "icon": "./assets/images/icon.png",
-    "scheme": "es.monum.mobile",
-    "userInterfaceStyle": "automatic",
-    "splash": {
-      "image": "./assets/images/splash-screen-green.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#FFFFFF"
-    },
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ],
-    "ios": {
-      "supportsTablet": true,
-      "usesAppleSignIn": true,
-      "bundleIdentifier": "es.monum.mobile",
-      "config": {
-        "googleMapsApiKey": "AIzaSyB9yYYln_LCAddS-ZViaeGfU_dfVpb_00E",
-        "usesNonExemptEncryption": false
-      },
-      "infoPlist": {
-        "UIBackgroundModes": [
-          "location",
-          "fetch",
-          "remote-notification"
-        ],
-        "NSLocationWhenInUseUsageDescription": "This app requires access to your location when open.",
-        "NSLocationAlwaysAndWhenInUseUsageDescription": "This app requires access to your location even when closed.",
-        "NSLocationAlwaysUsageDescription": "This app requires access to your location when open.",
-        "deploymentTarget": "15.1"
-      },
-      "associatedDomains": [
-        "applinks:mobile.monum.es"
-      ],
-      "buildNumber": "15",
-      "appleTeamId": "4WWBHK245Y"
-    },
-    "android": {
-      "package": "es.monum.mobile",
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      },
-      "config": {
-        "googleMaps": {
-          "apiKey": "AIzaSyAItbW-zthHPPs1Bb6VBBMsZ7TnX1W31yI"
-        }
-      },
-      "permissions": [
-        "android.permission.ACCESS_FINE_LOCATION",
-        "android.permission.ACCESS_COARSE_LOCATION",
-        "android.permission.RECEIVE_BOOT_COMPLETED",
-        "android.permission.WAKE_LOCK",
-        "android.permission.CAMERA",
-        "android.permission.RECORD_AUDIO"
-      ],
-      "intentFilters": [
-        {
-          "action": "VIEW",
-          "autoVerify": true,
-          "data": [
-            {
-              "scheme": "https",
-              "host": "*.mobile.monum.es",
-              "pathPrefix": "/place"
-            }
-          ],
-          "category": [
-            "BROWSABLE",
-            "DEFAULT"
-          ]
-        }
-      ],
-      "versionCode": 75
-    },
-    "web": {
-      "bundler": "metro",
-      "output": "static",
-      "favicon": "./assets/images/icon.png",
-      "config": {
-        "googleMapsApiKey": "AIzaSyAm0KAb8uG0fBoYsce_owdlbTKKeNh0POo",
-        "googleMaps": {
-          "apiKey": "AIzaSyAm0KAb8uG0fBoYsce_owdlbTKKeNh0POo"
-        }
-      }
-    },
-    "plugins": [
-      "expo-router",
-      "@react-native-google-signin/google-signin",
-      "expo-apple-authentication",
-      "react-native-map-link",
-      "expo-location",
-      "expo-background-fetch",
-      [
-        "expo-build-properties",
-        {
-          "android": {
-            "compileSdkVersion": 35,
-            "targetSdkVersion": 35,
-            "buildToolsVersion": "34.0.0"
-          },
-          "ios": {
-            "deploymentTarget": "15.1"
-          }
-        }
-      ],
-      [
-        "expo-task-manager",
-        {
-          "ios": {
-            "minimumOSVersion": "14"
-          }
-        }
-      ],
-      [
-        "expo-background-fetch",
-        {
-          "ios": {
-            "minimumOSVersion": "14"
-          }
-        }
-      ],
-      [
-        "expo-camera",
-        {
-          "cameraPermission": "$(PRODUCT_NAME) necesita acceder a tu cámara para poder escanear QRs que interactuan con nuestra app, redireccionandote a Monums específicos."
-        }
-      ],
-      [
-        "expo-location",
-        {
-          "locationAlwaysAndWhenInUsePermission": "$(PRODUCT_NAME) necesita acceder a tu ubicación para mostrar tu posición actual en el mapa y mejorar las recomendaciones de lugares cercanos.",
-          "locationAlwaysPermission": "Allow $(PRODUCT_NAME) to use your location.",
-          "locationWhenInUsePermission": "$(PRODUCT_NAME) usará tu ubicación actual para mostrar tu posición en el mapa y mejorar tu experiencia en la app.",
-          "isIosBackgroundLocationEnabled": true,
-          "isAndroidBackgroundLocationEnabled": true
-        }
-      ],
-      [
-        "expo-image-picker",
-        {
-          "photosPermission": "$(PRODUCT_NAME) necesita acceso a tu biblioteca de fotos para permitirte subir imágenes y videos desde tu galería."
-        }
-      ],
-      [
-        "expo-font",
-        {
-          "fonts": [
-            "./assets/fonts/Montserrat-Regular.ttf",
-            "./assets/fonts/Montserrat-SemiBold.ttf"
-          ]
-        }
-      ],
-      [
-        "expo-splash-screen",
-        {
-          "backgroundColor": "#FFFFFF",
-          "image": "./assets/images/splash-screen-green.png",
-          "dark": {
-            "image": "./assets/images/splash-screen-white.png",
-            "backgroundColor": "#000000"
-          },
-          "resizeMode": "contain"
-        }
-      ],
-      [
-        "expo-screen-orientation",
-        {
-          "initialOrientation": "DEFAULT"
-        }
-      ],
-      "expo-video"
-    ],
-    "experiments": {
-      "typedRoutes": true
-    },
-    "extra": {
-      "router": {
-        "origin": false
-      },
-      "eas": {
-        "projectId": "5d01d162-6626-4445-ad7c-48e91626d6c3"
-      }
-    }
-  }
+	"expo": {
+		"name": "Monum",
+		"slug": "monum-mobile-expo",
+		"version": "1.1.0",
+		"icon": "./assets/images/icon.png",
+		"scheme": "es.monum.mobile",
+		"userInterfaceStyle": "automatic",
+		"splash": {
+			"image": "./assets/images/splash-screen-green.png",
+			"resizeMode": "contain",
+			"backgroundColor": "#FFFFFF"
+		},
+		"platforms": ["ios", "android", "web"],
+		"ios": {
+			"supportsTablet": true,
+			"usesAppleSignIn": true,
+			"bundleIdentifier": "es.monum.mobile",
+			"config": {
+				"googleMapsApiKey": "AIzaSyB9yYYln_LCAddS-ZViaeGfU_dfVpb_00E",
+				"usesNonExemptEncryption": false
+			},
+			"infoPlist": {
+				"UIBackgroundModes": ["location", "fetch", "remote-notification"],
+				"NSLocationWhenInUseUsageDescription": "This app requires access to your location when open.",
+				"NSLocationAlwaysAndWhenInUseUsageDescription": "This app requires access to your location even when closed.",
+				"NSLocationAlwaysUsageDescription": "This app requires access to your location when open.",
+				"deploymentTarget": "15.1"
+			},
+			"associatedDomains": ["applinks:mobile.monum.es"],
+			"buildNumber": "15",
+			"appleTeamId": "4WWBHK245Y"
+		},
+		"android": {
+			"package": "es.monum.mobile",
+			"adaptiveIcon": {
+				"foregroundImage": "./assets/images/adaptive-icon.png",
+				"backgroundColor": "#ffffff"
+			},
+			"config": {
+				"googleMaps": {
+					"apiKey": "AIzaSyAItbW-zthHPPs1Bb6VBBMsZ7TnX1W31yI"
+				}
+			},
+			"permissions": [
+				"android.permission.ACCESS_FINE_LOCATION",
+				"android.permission.ACCESS_COARSE_LOCATION",
+				"android.permission.RECEIVE_BOOT_COMPLETED",
+				"android.permission.WAKE_LOCK",
+				"android.permission.CAMERA",
+				"android.permission.RECORD_AUDIO"
+			],
+			"intentFilters": [
+				{
+					"action": "VIEW",
+					"autoVerify": true,
+					"data": [
+						{
+							"scheme": "https",
+							"host": "*.mobile.monum.es",
+							"pathPrefix": "/place"
+						}
+					],
+					"category": ["BROWSABLE", "DEFAULT"]
+				}
+			],
+			"versionCode": 75
+		},
+		"web": {
+			"bundler": "metro",
+			"output": "static",
+			"favicon": "./assets/images/icon.png",
+			"config": {
+				"googleMapsApiKey": "AIzaSyAm0KAb8uG0fBoYsce_owdlbTKKeNh0POo",
+				"googleMaps": {
+					"apiKey": "AIzaSyAm0KAb8uG0fBoYsce_owdlbTKKeNh0POo"
+				}
+			}
+		},
+		"plugins": [
+			"expo-router",
+			"@react-native-google-signin/google-signin",
+			"expo-apple-authentication",
+			"react-native-map-link",
+			"expo-location",
+			"expo-background-fetch",
+			[
+				"expo-build-properties",
+				{
+					"android": {
+						"compileSdkVersion": 35,
+						"targetSdkVersion": 35,
+						"buildToolsVersion": "34.0.0"
+					},
+					"ios": {
+						"deploymentTarget": "15.1"
+					}
+				}
+			],
+			[
+				"expo-task-manager",
+				{
+					"ios": {
+						"minimumOSVersion": "14"
+					}
+				}
+			],
+			[
+				"expo-background-fetch",
+				{
+					"ios": {
+						"minimumOSVersion": "14"
+					}
+				}
+			],
+			[
+				"expo-camera",
+				{
+					"cameraPermission": "$(PRODUCT_NAME) necesita acceder a tu cámara para poder escanear QRs que interactuan con nuestra app, redireccionandote a Monums específicos."
+				}
+			],
+			[
+				"expo-location",
+				{
+					"locationAlwaysAndWhenInUsePermission": "$(PRODUCT_NAME) necesita acceder a tu ubicación para mostrar tu posición actual en el mapa y mejorar las recomendaciones de lugares cercanos.",
+					"locationAlwaysPermission": "Allow $(PRODUCT_NAME) to use your location.",
+					"locationWhenInUsePermission": "$(PRODUCT_NAME) usará tu ubicación actual para mostrar tu posición en el mapa y mejorar tu experiencia en la app.",
+					"isIosBackgroundLocationEnabled": true,
+					"isAndroidBackgroundLocationEnabled": true
+				}
+			],
+			[
+				"expo-image-picker",
+				{
+					"photosPermission": "$(PRODUCT_NAME) necesita acceso a tu biblioteca de fotos para permitirte subir imágenes y videos desde tu galería."
+				}
+			],
+			[
+				"expo-font",
+				{
+					"fonts": [
+						"./assets/fonts/Montserrat-Regular.ttf",
+						"./assets/fonts/Montserrat-SemiBold.ttf"
+					]
+				}
+			],
+			[
+				"expo-splash-screen",
+				{
+					"backgroundColor": "#FFFFFF",
+					"image": "./assets/images/splash-screen-green.png",
+					"dark": {
+						"image": "./assets/images/splash-screen-white.png",
+						"backgroundColor": "#000000"
+					},
+					"resizeMode": "contain"
+				}
+			],
+			[
+				"expo-screen-orientation",
+				{
+					"initialOrientation": "DEFAULT"
+				}
+			],
+			"expo-video"
+		],
+		"experiments": {
+			"typedRoutes": true
+		},
+		"extra": {
+			"router": {
+				"origin": false
+			},
+			"eas": {
+				"projectId": "5d01d162-6626-4445-ad7c-48e91626d6c3"
+			}
+		}
+	}
 }

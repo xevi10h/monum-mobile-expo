@@ -7,17 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		10724DE260C849FF8DC8B853 /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6521B711543C45FEB8B325F2 /* Montserrat-Regular.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		1528D6F320094145B2A8CD22 /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A6119B0D2CC24703AF4FF243 /* Montserrat-Regular.ttf */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
-		5E3FC98E01A54DD6B090E5AA /* Montserrat-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CB7DE430F0F249A8B9C3F42D /* Montserrat-SemiBold.ttf */; };
-		93215CD27F9F4DA18FBFEAD7 /* noop-file.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F6D85A51A74092A64CA565 /* noop-file.swift */; };
+		81D13868AC024F74B017B131 /* noop-file.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F599FB720334CB78A46F1EC /* noop-file.swift */; };
 		96905EF65AED1B983A6B3ABC /* libPods-Monum.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58EEBF8E8E6FB1BC6CAF49B5 /* libPods-Monum.a */; };
-		AD90C2977F9E1514DCF86ED8 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 620FFA40645A1C8639FF88B7 /* PrivacyInfo.xcprivacy */; };
+		AF85F45A98FD4A748DC6DAEF /* Montserrat-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A9964A9571D74B2CBBA99434 /* Montserrat-SemiBold.ttf */; };
 		B18059E884C0ABDD17F3DC3D /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC715A2D49A985799AEE119 /* ExpoModulesProvider.swift */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
+		DB02FA79CD4A686B8B35D050 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 601AB1DE841A8C3D6937B8C2 /* PrivacyInfo.xcprivacy */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,16 +27,16 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Monum/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Monum/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Monum/main.m; sourceTree = "<group>"; };
-		446DEAFF2B6E48AFA9F3D2A2 /* Monum-Bridging-Header.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "Monum-Bridging-Header.h"; path = "Monum/Monum-Bridging-Header.h"; sourceTree = "<group>"; };
+		4F599FB720334CB78A46F1EC /* noop-file.swift */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.swift; name = "noop-file.swift"; path = "Monum/noop-file.swift"; sourceTree = "<group>"; };
 		58EEBF8E8E6FB1BC6CAF49B5 /* libPods-Monum.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Monum.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		620FFA40645A1C8639FF88B7 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = Monum/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		601AB1DE841A8C3D6937B8C2 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = Monum/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		6521B711543C45FEB8B325F2 /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Regular.ttf"; path = "../assets/fonts/Montserrat-Regular.ttf"; sourceTree = "<group>"; };
 		6C2E3173556A471DD304B334 /* Pods-Monum.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Monum.debug.xcconfig"; path = "Target Support Files/Pods-Monum/Pods-Monum.debug.xcconfig"; sourceTree = "<group>"; };
 		7A4D352CD337FB3A3BF06240 /* Pods-Monum.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Monum.release.xcconfig"; path = "Target Support Files/Pods-Monum/Pods-Monum.release.xcconfig"; sourceTree = "<group>"; };
-		A6119B0D2CC24703AF4FF243 /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Regular.ttf"; path = "../assets/fonts/Montserrat-Regular.ttf"; sourceTree = "<group>"; };
+		A9964A9571D74B2CBBA99434 /* Montserrat-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-SemiBold.ttf"; path = "../assets/fonts/Montserrat-SemiBold.ttf"; sourceTree = "<group>"; };
 		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = Monum/SplashScreen.storyboard; sourceTree = "<group>"; };
+		B9B3A6EF7721416E9B7145DB /* Monum-Bridging-Header.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "Monum-Bridging-Header.h"; path = "Monum/Monum-Bridging-Header.h"; sourceTree = "<group>"; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
-		CB7DE430F0F249A8B9C3F42D /* Montserrat-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-SemiBold.ttf"; path = "../assets/fonts/Montserrat-SemiBold.ttf"; sourceTree = "<group>"; };
-		E7F6D85A51A74092A64CA565 /* noop-file.swift */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.swift; name = "noop-file.swift"; path = "Monum/noop-file.swift"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		FAC715A2D49A985799AEE119 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-Monum/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -63,9 +63,9 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
-				E7F6D85A51A74092A64CA565 /* noop-file.swift */,
-				446DEAFF2B6E48AFA9F3D2A2 /* Monum-Bridging-Header.h */,
-				620FFA40645A1C8639FF88B7 /* PrivacyInfo.xcprivacy */,
+				4F599FB720334CB78A46F1EC /* noop-file.swift */,
+				B9B3A6EF7721416E9B7145DB /* Monum-Bridging-Header.h */,
+				601AB1DE841A8C3D6937B8C2 /* PrivacyInfo.xcprivacy */,
 			);
 			name = Monum;
 			sourceTree = "<group>";
@@ -77,6 +77,16 @@
 				58EEBF8E8E6FB1BC6CAF49B5 /* libPods-Monum.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		546021DF16DA4959881383F9 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				6521B711543C45FEB8B325F2 /* Montserrat-Regular.ttf */,
+				A9964A9571D74B2CBBA99434 /* Montserrat-SemiBold.ttf */,
+			);
+			name = Resources;
+			path = "";
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -95,7 +105,7 @@
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				D65327D7A22EEC0BE12398D9 /* Pods */,
 				D7E4C46ADA2E9064B798F356 /* ExpoModulesProviders */,
-				E2BDFBD624A14B77A20FC0F6 /* Resources */,
+				546021DF16DA4959881383F9 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -144,16 +154,6 @@
 			name = ExpoModulesProviders;
 			sourceTree = "<group>";
 		};
-		E2BDFBD624A14B77A20FC0F6 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				A6119B0D2CC24703AF4FF243 /* Montserrat-Regular.ttf */,
-				CB7DE430F0F249A8B9C3F42D /* Montserrat-SemiBold.ttf */,
-			);
-			name = Resources;
-			path = "";
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -162,13 +162,13 @@
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Monum" */;
 			buildPhases = (
 				08A4A3CD28434E44B6B9DE2E /* [CP] Check Pods Manifest.lock */,
-				C6810EB5B334F1036D5A7668 /* [Expo] Configure project */,
+				C408105DB4CD9CCE1326B94D /* [Expo] Configure project */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */,
-				4761217543F007EA103C46A4 /* [CP] Embed Pods Frameworks */,
+				D8A1681839F972CA6B1C9F79 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -188,9 +188,7 @@
 				LastUpgradeCheck = 1130;
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = 4WWBHK245Y;
 						LastSwiftMigration = 1250;
-						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -220,9 +218,9 @@
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
-				1528D6F320094145B2A8CD22 /* Montserrat-Regular.ttf in Resources */,
-				5E3FC98E01A54DD6B090E5AA /* Montserrat-SemiBold.ttf in Resources */,
-				AD90C2977F9E1514DCF86ED8 /* PrivacyInfo.xcprivacy in Resources */,
+				10724DE260C849FF8DC8B853 /* Montserrat-Regular.ttf in Resources */,
+				AF85F45A98FD4A748DC6DAEF /* Montserrat-SemiBold.ttf in Resources */,
+				DB02FA79CD4A686B8B35D050 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -264,24 +262,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		4761217543F007EA103C46A4 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Monum/Pods-Monum-frameworks.sh",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermes.framework/hermes",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Monum/Pods-Monum-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */ = {
@@ -391,7 +371,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Monum/Pods-Monum-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C6810EB5B334F1036D5A7668 /* [Expo] Configure project */ = {
+		C408105DB4CD9CCE1326B94D /* [Expo] Configure project */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
@@ -410,6 +390,24 @@
 			shellPath = /bin/sh;
 			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-Monum/expo-configure-project.sh\"\n";
 		};
+		D8A1681839F972CA6B1C9F79 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Monum/Pods-Monum-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermes.framework/hermes",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Monum/Pods-Monum-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -420,7 +418,7 @@
 				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				B18059E884C0ABDD17F3DC3D /* ExpoModulesProvider.swift in Sources */,
-				93215CD27F9F4DA18FBFEAD7 /* noop-file.swift in Sources */,
+				81D13868AC024F74B017B131 /* noop-file.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -434,8 +432,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Monum/Monum.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 4WWBHK245Y;
 				ENABLE_BITCODE = NO;
@@ -470,8 +466,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Monum/Monum.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 4WWBHK245Y;
 				INFOPLIST_FILE = Monum/Info.plist;
