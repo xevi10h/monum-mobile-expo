@@ -2,15 +2,10 @@
   "expo": {
     "name": "Monum",
     "slug": "monum-mobile-expo",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "icon": "./assets/images/icon.png",
     "scheme": "es.monum.mobile",
     "userInterfaceStyle": "automatic",
-    "splash": {
-      "image": "./assets/images/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
     "platforms": [
       "ios",
       "android",
@@ -35,7 +30,10 @@
         "NSLocationAlwaysUsageDescription": "This app requires access to your location when open.",
         "deploymentTarget": "15.1"
       },
-      "buildNumber": "12",
+      "associatedDomains": [
+        "applinks:mobile.monum.es"
+      ],
+      "buildNumber": "15",
       "appleTeamId": "4WWBHK245Y"
     },
     "android": {
@@ -57,7 +55,24 @@
         "android.permission.CAMERA",
         "android.permission.RECORD_AUDIO"
       ],
-      "versionCode": 73
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "autoVerify": true,
+          "data": [
+            {
+              "scheme": "https",
+              "host": "*.mobile.monum.es",
+              "pathPrefix": "/place"
+            }
+          ],
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
+        }
+      ],
+      "versionCode": 75
     },
     "web": {
       "bundler": "metro",
