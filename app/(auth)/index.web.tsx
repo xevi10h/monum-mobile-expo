@@ -22,7 +22,6 @@ import { useTranslation } from '@/hooks/useTranslation';
 import { changeLanguage } from '@/i18n';
 import { useEffect } from 'react';
 import ButtonWithLogo from '@/components/auth/ButtonWithLogo';
-import { makeRedirectUri } from 'expo-auth-session';
 
 export default function Login() {
 	WebBrowser.maybeCompleteAuthSession();
@@ -32,9 +31,6 @@ export default function Login() {
 	const [request, response, promptAsync] = Google.useAuthRequest({
 		webClientId:
 			'716205684564-fuirar3iu7t1ko699quc98bc55dbmbd9.apps.googleusercontent.com',
-		clientId:
-			'716205684564-fuirar3iu7t1ko699quc98bc55dbmbd9.apps.googleusercontent.com',
-		clientSecret: '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',
 		redirectUri: 'https://mobile.monum.es',
 	});
 
