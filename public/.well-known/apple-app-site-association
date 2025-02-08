@@ -1,0 +1,17 @@
+{
+	"applinks": {
+		"details": [
+			{
+				"appID": "4WWBHK245Y.es.monum.mobile",
+				"paths": [
+					"*"
+				]
+			}
+		]
+	},
+	"webcredentials": {
+		"apps": [
+			"4WWBHK245Y.es.monum.mobile"
+		]
+	}
+}

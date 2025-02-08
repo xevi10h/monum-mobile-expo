@@ -1,0 +1,14 @@
+[
+	{
+		"relation": ["delegate_permission/common.handle_all_urls"],
+		"target": {
+			"namespace": "android_app",
+			"package_name": "es.monum.mobile",
+			"sha256_cert_fingerprints": [
+				"E0:4F:00:60:33:69:87:44:AE:6E:38:C4:CA:67:C0:BF:3F:C2:57:FB:D7:9B:A7:D6:5B:10:BD:BB:54:7A:3F:CC",
+				"DF:51:85:ED:12:C9:88:88:5A:44:85:7B:9D:81:6A:F7:C4:52:BF:90:3C:B4:4C:B8:08:DC:79:50:8A:81:F6:C6",
+				"05:E9:61:E0:05:10:3F:54:A1:2C:33:8C:0B:A5:C0:56:40:BB:A8:CD:84:6C:04:47:4B:45:A3:00:8D:86:8C:48"
+			]
+		}
+	}
+]

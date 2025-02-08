@@ -1,1 +1,5 @@
-/* /index.html 200
+# Impedir que .well-known se redirija y, en su lugar, servirlo directamente
+/.well-known/*  /.well-known/:splat  200
+
+# Después, aplicar la regla general de SPA:
+/*             /index.html          200
