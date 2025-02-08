@@ -32,8 +32,7 @@ export default function Login() {
 	const [request, response, promptAsync] = Google.useAuthRequest({
 		...GoogleAuthService.config,
 		redirectUri: makeRedirectUri({
-			scheme: 'https://mobile.monum.es',
-			path: 'place',
+			path: 'https://mobile.monum.es',
 		}),
 	});
 
