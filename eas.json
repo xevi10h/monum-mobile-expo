@@ -14,7 +14,8 @@
 				"EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID_IOS": "716205684564-oi4tgflp8o3r9k8m04prruq6aka7btd2.apps.googleusercontent.com",
 				"EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID_ANDROID": "716205684564-869f8h9bi90he9i15oh1hmp5r2klkjd3.apps.googleusercontent.com",
 				"EXPO_PUBLIC_MONUM_API_URL": "https://api.monum.es",
-				"EXPO_PUBLIC_MONUM_PRIVACY_URL": "https://app.monum.es/ca/privacy"
+				"EXPO_PUBLIC_MONUM_PRIVACY_URL": "https://app.monum.es/ca/privacy",
+				"NODE_ENV": "development"
 			}
 		},
 		"development-simulator": {
@@ -30,7 +31,8 @@
 				"EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID_IOS": "716205684564-oi4tgflp8o3r9k8m04prruq6aka7btd2.apps.googleusercontent.com",
 				"EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID_ANDROID": "716205684564-869f8h9bi90he9i15oh1hmp5r2klkjd3.apps.googleusercontent.com",
 				"EXPO_PUBLIC_MONUM_API_URL": "https://api.monum.es",
-				"EXPO_PUBLIC_MONUM_PRIVACY_URL": "https://app.monum.es/ca/privacy"
+				"EXPO_PUBLIC_MONUM_PRIVACY_URL": "https://app.monum.es/ca/privacy",
+				"NODE_ENV": "development"
 			}
 		},
 		"preview": {
@@ -42,7 +44,8 @@
 				"EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID_IOS": "716205684564-oi4tgflp8o3r9k8m04prruq6aka7btd2.apps.googleusercontent.com",
 				"EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID_ANDROID": "716205684564-869f8h9bi90he9i15oh1hmp5r2klkjd3.apps.googleusercontent.com",
 				"EXPO_PUBLIC_MONUM_API_URL": "https://api.monum.es",
-				"EXPO_PUBLIC_MONUM_PRIVACY_URL": "https://app.monum.es/ca/privacy"
+				"EXPO_PUBLIC_MONUM_PRIVACY_URL": "https://app.monum.es/ca/privacy",
+				"NODE_ENV": "development"
 			}
 		},
 		"production": {
@@ -54,7 +57,8 @@
 				"EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID_IOS": "716205684564-oi4tgflp8o3r9k8m04prruq6aka7btd2.apps.googleusercontent.com",
 				"EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID_ANDROID": "716205684564-869f8h9bi90he9i15oh1hmp5r2klkjd3.apps.googleusercontent.com",
 				"EXPO_PUBLIC_MONUM_API_URL": "https://api.monum.es",
-				"EXPO_PUBLIC_MONUM_PRIVACY_URL": "https://app.monum.es/ca/privacy"
+				"EXPO_PUBLIC_MONUM_PRIVACY_URL": "https://app.monum.es/ca/privacy",
+				"NODE_ENV": "production"
 			}
 		}
 	},
