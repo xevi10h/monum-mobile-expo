@@ -2,6 +2,7 @@ import {
 	Dimensions,
 	Image,
 	ImageSourcePropType,
+	Linking,
 	Platform,
 	Pressable,
 	StyleSheet,
@@ -57,7 +58,6 @@ export default function MapPlaceDetailExpanded({
 					scrollEventThrottle={16}
 					bounces={false}
 					alwaysBounceVertical={false}
-					// nestedScrollEnabled
 				>
 					<View
 						style={{
@@ -147,6 +147,24 @@ export default function MapPlaceDetailExpanded({
 												resizeMode="contain"
 												source={{ uri: place?.createdBy.photo }}
 											/>
+										)}
+										{place?.createdBy?.websiteUrl && (
+											<View style={styles.externalLinkIconContainer}>
+												<Pressable
+													onPress={() => {
+														const websiteUrl = place.createdBy.websiteUrl; // ✅ Ahora websiteUrl es string dentro del scope
+														if (websiteUrl) {
+															Linking.openURL(websiteUrl);
+														}
+													}}
+												>
+													<Image
+														source={require('@/assets/images/external_link_white.png')}
+														style={styles.externalLinkIcon}
+														resizeMode="contain"
+													/>
+												</Pressable>
+											</View>
 										)}
 									</View>
 								</View>
@@ -375,6 +393,19 @@ const styles = StyleSheet.create({
 		marginLeft: 5,
 		borderWidth: 1,
 		borderColor: '#3F713B',
+	},
+	externalLinkIconContainer: {
+		width: 16,
+		height: 16,
+		borderRadius: 20,
+		marginLeft: 5,
+		backgroundColor: '#3F713B',
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+	externalLinkIcon: {
+		width: 8,
+		height: 8,
 	},
 	createdByContainer: {
 		flexDirection: 'row',

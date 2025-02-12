@@ -33,7 +33,7 @@ export default function ListRoutePill({ route, onPress }: ListRoutePillProps) {
 					</View>
 					<View style={{ flex: 2 }}>
 						<Text style={styles.placeMediaPillDuration}>
-							{`${route.stopsCount} ${t('routes.stops')}`}
+							{`${route.stopsCount}  ${t('routes.stops')}`}
 						</Text>
 					</View>
 				</View>

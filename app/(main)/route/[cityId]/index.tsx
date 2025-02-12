@@ -84,7 +84,6 @@ export default function ListRoutesScreen() {
 							scrollEventThrottle={16}
 							style={{
 								width: '100%',
-								marginBottom: safeAreaInsets.bottom + 30,
 								marginTop: 15,
 								backgroundColor: 'white',
 							}}
@@ -105,6 +104,7 @@ export default function ListRoutesScreen() {
 									}}
 								/>
 							))}
+							<View style={{ height: 40, width: '100%' }} />
 						</ScrollView>
 					</View>
 				)}

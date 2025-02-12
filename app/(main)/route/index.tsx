@@ -61,7 +61,6 @@ export default function ListCitiesScreen() {
 							scrollEventThrottle={16}
 							style={{
 								width: '100%',
-								marginBottom: safeAreaInsets.bottom + 30,
 								marginTop: 15,
 							}}
 							showsVerticalScrollIndicator={false}
@@ -79,6 +78,7 @@ export default function ListCitiesScreen() {
 									imageUrl={city.imageUrl}
 								/>
 							))}
+							<View style={{ height: 60, width: '100%' }} />
 						</ScrollView>
 					</View>
 				)}
