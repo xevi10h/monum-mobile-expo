@@ -15,7 +15,8 @@
 				"EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID_ANDROID": "716205684564-869f8h9bi90he9i15oh1hmp5r2klkjd3.apps.googleusercontent.com",
 				"EXPO_PUBLIC_MONUM_API_URL": "https://api.monum.es",
 				"EXPO_PUBLIC_MONUM_PRIVACY_URL": "https://app.monum.es/ca/privacy",
-				"NODE_ENV": "development"
+				"NODE_ENV": "development",
+				"EXPO_TUNNEL_SUBDOMAIN": "mobile-monum-es"
 			}
 		},
 		"development-simulator": {
@@ -32,7 +33,8 @@
 				"EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID_ANDROID": "716205684564-869f8h9bi90he9i15oh1hmp5r2klkjd3.apps.googleusercontent.com",
 				"EXPO_PUBLIC_MONUM_API_URL": "https://api.monum.es",
 				"EXPO_PUBLIC_MONUM_PRIVACY_URL": "https://app.monum.es/ca/privacy",
-				"NODE_ENV": "development"
+				"NODE_ENV": "development",
+				"EXPO_TUNNEL_SUBDOMAIN": "mobile-monum-es"
 			}
 		},
 		"preview": {

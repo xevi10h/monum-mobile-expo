@@ -2,7 +2,7 @@
   "expo": {
     "name": "Monum",
     "slug": "monum-mobile-expo",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "icon": "./assets/images/icon.png",
     "scheme": "es.monum.mobile",
     "userInterfaceStyle": "automatic",
@@ -67,8 +67,8 @@
           "data": [
             {
               "scheme": "https",
-              "host": "*.mobile.monum.es",
-              "pathPrefix": "/place"
+              "host": "mobile.monum.es",
+              "pathPrefix": "/"
             }
           ],
           "category": [
