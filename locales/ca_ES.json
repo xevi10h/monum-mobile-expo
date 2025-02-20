@@ -70,7 +70,13 @@
 	},
 	"mediaDetailExpanded": {
 		"introTextMediaType": "Històries per descobrir llegint",
-		"introAudioMediaType": "Vols llegir-ho?"
+		"introAudioMediaType": "Vols llegir-ho?",
+		"rateAudio": "Valora l'àudio!",
+		"rateText": "Valora el text!",
+		"rateVideo": "Valora el vídeo!",
+		"audioAlreadyRated": "Ja has valorat aquest àudio.",
+		"textAlreadyRated": "Ja has valorat aquest text.",
+		"videoAlreadyRated": "Ja has valorat aquest vídeo."
 	},
 	"profile": {
 		"language": "Idioma",
@@ -101,7 +107,9 @@
 		"errorGettingAvailableCities": "Error al obtenir les ciutats disponibles",
 		"stops": "aturades",
 		"resource": "recurs",
-		"resources": "recursos"
+		"resources": "recursos",
+		"rateRoute": "Valora la ruta!",
+		"routeAlreadyRated": "Ja has valorat aquesta ruta."
 	},
 	"actionSheets": {
 		"directionSheet": {
@@ -111,5 +119,16 @@
 	"downloadBanner": {
 		"text": "Descarrega la app de Monum per a disfrutar de totes les funcionalitats!",
 		"button": "Obrir"
+	},
+	"reviewModal": {
+		"rateRoute": "Com valores aquesta ruta?",
+		"rateAudio": "Com valores aquest audio?",
+		"rateText": "Com valores aquest text?",
+		"rateVideo": "Com valores aquest video?",
+		"ratePlace": "Com valores aquest Monum?",
+		"comment": "Deixa'ns un comentari",
+		"send": "Enviar",
+		"error": "Ha succeït un error inesperat. Si us plau, torna-ho a intentar.",
+		"success": "Gràcies per la teva valoració!"
 	}
 }

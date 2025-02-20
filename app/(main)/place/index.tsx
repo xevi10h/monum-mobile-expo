@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import MapViewType, { Camera } from 'react-native-maps';
 import { useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, Platform, View } from 'react-native';
@@ -8,7 +7,6 @@ import { MarkerComponent } from '@/components/map/CustomMarker';
 import MapPlaceDetail from '@/components/map/placeDetail/MapPlaceDetail';
 import MapServices from '@/services/map/MapServices';
 import { useTabMapStore } from '@/zustand/TabMapStore';
-import { useMainStore } from '@/zustand/MainStore';
 import TextSearchMapScreen from '@/components/map/TextSearchMapDisabled';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useCameraPermissions } from 'expo-camera';
@@ -30,14 +28,8 @@ export default function MapScreen() {
 		(state) => state.tabMap.citySelectedCoordinates,
 	);
 
-	const currentUserLocation = useMainStore(
-		(state) => state.main.currentUserLocation,
-	);
 	const markers = useTabMapStore((state) => state.tabMap.markers);
 	const setMarkers = useTabMapStore((state) => state.setMarkers);
-	const setCurrentUserLocation = useMainStore(
-		(state) => state.setCurrentUserLocation,
-	);
 	const user = useUserStore((state) => state.user);
 	const setUser = useUserStore((state) => state.setUser);
 	const setMarkerSelected = useTabMapStore((state) => state.setMarkerSelected);
@@ -52,12 +44,7 @@ export default function MapScreen() {
 
 	useEffect(() => {
 		async function placeSelected() {
-			if (
-				placeId &&
-				typeof placeId === 'string' &&
-				mapViewRef.current &&
-				currentUserLocation
-			) {
+			if (placeId && typeof placeId === 'string' && mapViewRef.current) {
 				if (!user.token) {
 					const guestUser = await AuthServices.loginAsGuest();
 					setUser(guestUser);
@@ -76,7 +63,7 @@ export default function MapScreen() {
 			}
 		}
 		placeSelected();
-	}, [placeId, mapViewRef, currentUserLocation]);
+	}, [placeId, mapViewRef]);
 
 	useEffect(() => {
 		const fetchMarkers = async () => {
@@ -107,9 +94,9 @@ export default function MapScreen() {
 
 	useEffect(() => {
 		if (markerSelected && markers.length > 0 && mapViewRef.current) {
-			const coordinatesToSet =
-				markers?.find((m) => m.id === markerSelected)?.coordinates ||
-				currentUserLocation;
+			const coordinatesToSet = markers?.find(
+				(m) => m.id === markerSelected,
+			)?.coordinates;
 
 			if (coordinatesToSet) {
 				const newCamera: Camera = {
@@ -139,27 +126,18 @@ export default function MapScreen() {
 				}
 			}
 
-			// Proceder con la obtención de la ubicación si el permiso está concedido
-			let newPosition;
-			if (!currentUserLocation) {
-				newPosition = await Location.getCurrentPositionAsync();
-				newPosition = [
-					newPosition.coords.longitude,
-					newPosition.coords.latitude,
-				] as [number, number];
-				setCurrentUserLocation(newPosition);
-			}
-			const position = currentUserLocation || newPosition;
-			if (position && mapViewRef.current) {
+			const { coords } = await Location.getCurrentPositionAsync();
+			const { longitude, latitude } = coords;
+			if (longitude && latitude && mapViewRef.current) {
 				const newCamera: Camera = {
 					center: {
-						latitude: position[1],
-						longitude: position[0],
+						latitude,
+						longitude,
 					},
 					zoom: 16,
 					heading: 0,
 					pitch: 0,
-					altitude: 500,
+					altitude: 1000,
 				};
 				mapViewRef.current?.animateCamera(newCamera, { duration: 1000 });
 			}
@@ -181,124 +159,92 @@ export default function MapScreen() {
 		}
 	}, [citySelectedCoordinates]);
 
-	// useEffect(() => {
-	// 	async function prepareWhenAuthenticated() {
-	// 		if (!placeId || !markerSelected) {
-	// 			await centerCoordinatesButtonAction();
-	// 		}
-	// 	}
-	// 	prepareWhenAuthenticated();
-	// }, []);
-
-	useEffect(() => {
-		async function recalculateCurrentLocation() {
-			await centerCoordinatesButtonAction();
-			setIsLoadingCoordinates(false);
-		}
-		if (!currentUserLocation && !placeId) {
-			recalculateCurrentLocation();
-		}
-	}, [currentUserLocation, mapViewRef.current]);
-
 	return (
-		currentUserLocation && (
-			<View style={{ flex: 1 }}>
-				<View
+		<View style={{ flex: 1 }}>
+			<View
+				style={{
+					flex: 1,
+				}}
+			>
+				<MapView
+					provider={Platform.OS !== 'ios' ? 'google' : undefined}
+					ref={mapViewRef}
 					style={{
 						flex: 1,
 					}}
+					googleMapsApiKey={
+						Platform.OS === 'android'
+							? process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY_ANDROID
+							: process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY_WEB
+					}
+					options={{
+						disableDefaultUI: true,
+						clickableIcons: false,
+					}}
+					showsUserLocation
+					showsMyLocationButton={false}
+					showsCompass={false}
+					showsBuildings={false}
+					showsIndoors={false}
+					showsScale={false}
+					showsTraffic={false}
+					showsIndoorLevelPicker={false}
+					loadingFallback={<ActivityIndicator size="large" color="#3F713B" />}
 				>
-					<MapView
-						provider={Platform.OS !== 'ios' ? 'google' : undefined}
-						followsUserLocation={Platform.OS !== 'ios' && !placeId}
-						showsUserLocation={Platform.OS === 'web' ? false : true}
-						showsMyLocationButton={false}
-						showsCompass={false}
-						ref={mapViewRef}
-						style={{
-							flex: 1,
-						}}
-						camera={{
-							center: {
-								latitude: currentUserLocation[1] || 0,
-								longitude: currentUserLocation[0] || 0,
-							},
-							heading: 10,
-							pitch: 0,
-							zoom: 15,
-							altitude: 10,
-						}}
-						googleMapsApiKey={
-							Platform.OS === 'android'
-								? process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY_ANDROID
-								: process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY_WEB
-						}
-						options={{
-							disableDefaultUI: true,
-							clickableIcons: false,
-						}}
-						showsBuildings={false}
-						showsIndoors={false}
-						showsScale={false}
-						showsTraffic={false}
-						showsIndoorLevelPicker={false}
-						loadingFallback={<ActivityIndicator size="large" color="#3F713B" />}
-					>
-						{markers.map((marker, index) => (
-							<MarkerComponent
-								key={index}
-								id={marker.id}
-								importance={marker.importance}
-								coordinates={marker.coordinates}
-							/>
-						))}
-						{Platform.OS === 'web' ? <CurrentPositionMarker /> : null}
-					</MapView>
-				</View>
-				<MapScreenButton
-					onPress={async () => {
-						try {
-							if (
-								statusCameraPermissions?.canAskAgain &&
-								!statusCameraPermissions?.granted
-							) {
-								await requestCameraPermissions();
-							}
-						} catch (error) {
-							console.log(error);
-						}
-						router.push('/place/qr-scanner');
-					}}
-					image={require('@/assets/images/map_qr_scanner.png')}
-					additionalBottom={60}
-				/>
-				<MapScreenButton
-					onPress={async () => await centerCoordinatesButtonAction()}
-					image={require('@/assets/images/map_center_coordinates.png')}
-				/>
-				<MapPlaceDetail />
-				<TextSearchMapScreen
-					onPress={() => {
-						router.push('/place/text-search');
-					}}
-				/>
-				{isLoadingCoordinates && (
-					<View
-						style={{
-							position: 'absolute',
-							top: 0,
-							left: 0,
-							right: 0,
-							bottom: 0,
-							justifyContent: 'center',
-							alignItems: 'center',
-							backgroundColor: 'transparent',
-						}}
-					>
-						<ActivityIndicator size="large" color="#3F713B" />
-					</View>
-				)}
+					{markers.map((marker, index) => (
+						<MarkerComponent
+							key={index}
+							id={marker.id}
+							importance={marker.importance}
+							coordinates={marker.coordinates}
+						/>
+					))}
+					{Platform.OS === 'web' ? <CurrentPositionMarker /> : null}
+				</MapView>
 			</View>
-		)
+			<MapScreenButton
+				onPress={async () => {
+					try {
+						if (
+							statusCameraPermissions?.canAskAgain &&
+							!statusCameraPermissions?.granted
+						) {
+							await requestCameraPermissions();
+						}
+					} catch (error) {
+						console.log(error);
+					}
+					router.push('/place/qr-scanner');
+				}}
+				image={require('@/assets/images/map_qr_scanner.png')}
+				additionalBottom={60}
+			/>
+			<MapScreenButton
+				onPress={async () => await centerCoordinatesButtonAction()}
+				image={require('@/assets/images/map_center_coordinates.png')}
+			/>
+			<MapPlaceDetail />
+			<TextSearchMapScreen
+				onPress={() => {
+					router.push('/place/text-search');
+				}}
+			/>
+			{isLoadingCoordinates && (
+				<View
+					style={{
+						position: 'absolute',
+						top: 0,
+						left: 0,
+						right: 0,
+						bottom: 0,
+						justifyContent: 'center',
+						alignItems: 'center',
+						backgroundColor: 'transparent',
+					}}
+				>
+					<ActivityIndicator size="large" color="#3F713B" />
+				</View>
+			)}
+		</View>
 	);
 }

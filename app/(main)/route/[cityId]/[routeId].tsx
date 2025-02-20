@@ -21,16 +21,15 @@ import IStop from '../../../../shared/interfaces/IStop';
 import CenterCoordinatesButton from '@/components/routes/CenterCoordinatesButton';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useTabRouteStore } from '../../../../zustand/TabRouteStore';
-import { useMainStore } from '../../../../zustand/MainStore';
 import * as Location from 'expo-location';
 import CenterStopsButton from '@/components/routes/CenterStopsButton';
 import { IMarker } from '../../../../shared/interfaces/IMarker';
 import { useUserStore } from '../../../../zustand/UserStore';
 import { router, useLocalSearchParams } from 'expo-router';
-import StopFromRoutePill from '@/components/routes/placeFromRoutePill/PlaceFromRoutePill';
-import IRouteComplete from '@/shared/interfaces/IRouteComplete';
+import StopFromRoutePill from '@/components/routes/placeFromRoutePill/StopFromRoutePill';
 import * as Device from 'expo-device';
 import CurrentPositionMarker from '@/components/map/CurrentPositionMarker';
+import RateRouteButton from '@/components/routes/RateRouteButton';
 
 export interface StopFromRoutePillInterface extends IStop {
 	isExpanded: boolean;
@@ -40,11 +39,9 @@ export interface StopFromRoutePillInterface extends IStop {
 export default function RouteDetailScreen() {
 	const { routeId, cityId } = useLocalSearchParams();
 	const mapViewRef = useRef<MapViewOriginal>(null);
-	const [route, setRoute] = useState<IRouteComplete | null>(null);
+	const route = useTabRouteStore((state) => state.route);
+	const setRoute = useTabRouteStore((state) => state.setRoute);
 	const scrollViewRef = useRef<ScrollView>(null);
-	const currentUserLocation = useMainStore(
-		(state) => state.main.currentUserLocation,
-	);
 	const [statusForegroundPermissions, requestStatusForegroundPermissions] =
 		Location.useForegroundPermissions();
 	const [stopsFromRoute, setStopsFromRoute] = useState<
@@ -58,9 +55,6 @@ export default function RouteDetailScreen() {
 	);
 	const language = useUserStore((state) => state.user.language);
 	const [textSearch, setTextSearch] = useState<string | undefined>(undefined);
-	const setCurrentUserLocation = useMainStore(
-		(state) => state.setCurrentUserLocation,
-	);
 
 	const centerStopsCamera = async () => {
 		if (!mapViewRef.current) {
@@ -72,6 +66,15 @@ export default function RouteDetailScreen() {
 				latitude: m.coordinates[1],
 				longitude: m.coordinates[0],
 			})),
+			{
+				edgePadding: {
+					top: 30,
+					left: 30,
+					right: 30,
+					bottom: 30,
+				},
+				animated: true,
+			},
 		);
 	};
 
@@ -162,9 +165,9 @@ export default function RouteDetailScreen() {
 							stop.isHighlighted || stop.place.id === markerSelected,
 					})),
 				);
-				const coordinatesToSet =
-					markers?.find((m) => m.id === markerSelected)?.coordinates ||
-					currentUserLocation;
+				const coordinatesToSet = markers?.find(
+					(m) => m.id === markerSelected,
+				)?.coordinates;
 				if (coordinatesToSet) {
 					const newCamera: Camera = {
 						center: {
@@ -218,22 +221,18 @@ export default function RouteDetailScreen() {
 				}
 			}
 
-			// Proceder con la obtención de la ubicación si el permiso está concedido
-			if (!currentUserLocation) {
-				const position = await Location.getCurrentPositionAsync();
-				const { longitude, latitude } = position.coords;
-				setCurrentUserLocation([longitude, latitude]);
-			}
-			if (currentUserLocation) {
+			const { coords } = await Location.getCurrentPositionAsync();
+			const { longitude, latitude } = coords;
+			if (longitude && latitude) {
 				const newCamera: Camera = {
 					center: {
-						latitude: currentUserLocation[1],
-						longitude: currentUserLocation[0],
+						latitude,
+						longitude,
 					},
 					zoom: 15,
 					heading: 0,
 					pitch: 0,
-					altitude: 10,
+					altitude: 1000,
 				};
 				mapViewRef?.current?.animateCamera(newCamera, { duration: 1000 });
 			}
@@ -249,97 +248,84 @@ export default function RouteDetailScreen() {
 		prepareWhenAuthenticated();
 	}, []);
 
-	useEffect(() => {
-		async function recalculateCurrentLocation() {
-			await centerCoordinatesButtonAction();
-		}
-		if (!currentUserLocation) {
-			recalculateCurrentLocation();
-		}
-	}, [currentUserLocation]);
-
 	return (
-		currentUserLocation && (
-			<View style={{ flex: 1 }}>
+		<View style={{ flex: 1 }}>
+			<View
+				style={{
+					height: Dimensions.get('window').height * 0.4,
+					width: Dimensions.get('window').width,
+					elevation: 5,
+					backgroundColor: 'white',
+					shadowColor: '#000',
+					shadowOffset: { width: 0, height: 2 },
+					shadowOpacity: 0.5,
+					shadowRadius: 4,
+				}}
+			>
+				<MapView
+					provider={Platform.OS !== 'ios' ? 'google' : undefined}
+					ref={mapViewRef}
+					style={{
+						flex: 1,
+					}}
+					googleMapsApiKey={process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY_WEB}
+					options={{
+						disableDefaultUI: true,
+						clickableIcons: false,
+					}}
+					showsUserLocation
+					showsMyLocationButton={false}
+					showsCompass={false}
+					showsBuildings={false}
+					showsIndoors={false}
+					showsScale={false}
+					showsTraffic={false}
+					showsIndoorLevelPicker={false}
+					loadingFallback={<ActivityIndicator size="large" color="#3F713B" />}
+				>
+					{markers.map((marker) => (
+						<MarkerComponent
+							key={marker.id}
+							id={marker.id}
+							importance={marker.importance}
+							coordinates={marker.coordinates}
+						/>
+					))}
+					{Device.osName === 'Android' && Platform.OS === 'web' ? (
+						<CurrentPositionMarker />
+					) : null}
+				</MapView>
+				<CenterStopsButton onPress={async () => await centerStopsCamera()} />
+				<CenterCoordinatesButton
+					onPress={async () => await centerCoordinatesButtonAction()}
+				/>
+			</View>
+			<View style={{ flex: 1, backgroundColor: 'white' }}>
 				<View
 					style={{
-						height: Dimensions.get('window').height * 0.4,
-						width: Dimensions.get('window').width,
-						elevation: 5,
-						backgroundColor: 'white',
-						shadowColor: '#000',
-						shadowOffset: { width: 0, height: 2 },
-						shadowOpacity: 0.5,
-						shadowRadius: 4,
+						flexDirection: 'row',
+						paddingVertical: 15,
+						alignItems: 'center',
+						justifyContent: 'space-between',
+						width: '100%',
+						paddingHorizontal: 15,
+						height: 70,
+						gap: 10,
 					}}
 				>
-					<MapView
-						provider={Platform.OS !== 'ios' ? 'google' : undefined}
-						followsUserLocation
-						showsUserLocation={
-							Device.osName === 'Android' && Platform.OS === 'web'
-								? false
-								: true
-						}
-						ref={mapViewRef}
-						style={{
-							flex: 1,
-						}}
-						camera={{
-							center: {
-								latitude: currentUserLocation[1] || 0,
-								longitude: currentUserLocation[0] || 0,
-							},
-							heading: 10,
-							pitch: 0,
-							zoom: 15,
-							altitude: 10,
-						}}
-						googleMapsApiKey={process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY_WEB}
-						options={{
-							disableDefaultUI: true,
-							clickableIcons: false,
-						}}
-						loadingFallback={<ActivityIndicator size="large" color="#3F713B" />}
-					>
-						{markers.map((marker) => (
-							<MarkerComponent
-								key={marker.id}
-								id={marker.id}
-								importance={marker.importance}
-								coordinates={marker.coordinates}
-							/>
-						))}
-						{Device.osName === 'Android' && Platform.OS === 'web' ? (
-							<CurrentPositionMarker />
-						) : null}
-					</MapView>
-					<CenterStopsButton onPress={async () => await centerStopsCamera()} />
-					<CenterCoordinatesButton
-						onPress={async () => await centerCoordinatesButtonAction()}
-					/>
-				</View>
-				<View style={{ flex: 1, backgroundColor: 'white' }}>
 					<View
 						style={{
 							flexDirection: 'row',
-							paddingTop: 10,
 							alignItems: 'center',
-							justifyContent: 'space-between',
-							width: '100%',
-							marginBottom: 5,
-							paddingHorizontal: 15,
+							flex: 1,
 						}}
 					>
 						<View
 							style={{
-								flexDirection: 'row',
-								alignItems: 'center',
-								justifyContent: 'center',
+								marginRight: 20,
 							}}
 						>
 							<TouchableOpacity
-								style={{ padding: 10 }}
 								onPress={() => {
 									Platform.OS !== 'web'
 										? router.back()
@@ -352,76 +338,100 @@ export default function RouteDetailScreen() {
 							>
 								<Image
 									source={require('@/assets/images/media_bubble_back.png')}
-									style={{ height: 14, width: 8 }}
+									style={{ width: 6 }}
+									resizeMode="contain"
 								/>
 							</TouchableOpacity>
+						</View>
+						<View
+							style={{
+								flex: 1,
+							}}
+						>
 							<Text
 								style={{
 									color: '#032000',
 									fontFamily: 'Montserrat-Regular',
-									fontSize: 18,
+									fontSize: 16,
 								}}
+								numberOfLines={2}
 							>
 								{route?.title}
 							</Text>
 						</View>
-						{route?.rating && <RatingPill number={route.rating || 0} />}
 					</View>
-					<TextSearch setTextSearch={setTextSearch} textSearch={textSearch} />
-
-					<ScrollView
-						contentContainerStyle={{ flexGrow: 1 }}
-						style={{
-							paddingTop: 5,
-							width: '100%',
-							marginBottom: 20,
-							marginTop: 10,
-							paddingHorizontal: 12,
-							backgroundColor: 'white',
-							height: '100%',
-							flex: 1,
-						}}
-						showsVerticalScrollIndicator={false}
-						ref={scrollViewRef}
-					>
-						{stopsFromRoute?.map((stopFromRoute, index) => (
-							<StopFromRoutePill
-								key={`${stopFromRoute.place.id}_${index}`}
-								{...stopFromRoute}
-								stopsFromRoute={stopsFromRoute}
-								setStopsFromRoute={setStopsFromRoute}
-							/>
-						))}
-					</ScrollView>
-					<LinearGradient
-						start={{ x: 0, y: 0 }}
-						end={{ x: 0, y: 1 }}
-						colors={['rgba(0,0,0,0.2)', 'transparent']}
-						style={{
-							position: 'absolute',
-							height: 10,
-							left: 0,
-							right: 0,
-						}}
-					/>
-				</View>
-				{loading && (
 					<View
 						style={{
-							position: 'absolute',
-							top: 0,
-							left: 0,
-							right: 0,
-							bottom: 0,
-							justifyContent: 'center',
+							justifyContent: 'space-between',
 							alignItems: 'center',
-							backgroundColor: 'transparent',
+							flexDirection: 'row',
+							height: 20,
+							gap: 5,
 						}}
 					>
-						<ActivityIndicator size="large" color="#3F713B" />
+						<RateRouteButton
+							routeId={routeId as string}
+							routeTitle={route?.title}
+							routeAlreadyRated={route?.userReviewId ? true : false}
+						/>
+						{route?.rating && <RatingPill number={route.rating || 0} />}
 					</View>
-				)}
+				</View>
+				<TextSearch setTextSearch={setTextSearch} textSearch={textSearch} />
+
+				<ScrollView
+					contentContainerStyle={{ flexGrow: 1 }}
+					style={{
+						paddingTop: 5,
+						width: '100%',
+						marginBottom: 20,
+						marginTop: 10,
+						paddingHorizontal: 12,
+						backgroundColor: 'white',
+						height: '100%',
+						flex: 1,
+					}}
+					showsVerticalScrollIndicator={false}
+					ref={scrollViewRef}
+				>
+					{stopsFromRoute?.map((stopFromRoute, index) => (
+						<StopFromRoutePill
+							key={`${stopFromRoute.place.id}_${index}`}
+							{...stopFromRoute}
+							stopsFromRoute={stopsFromRoute}
+							setStopsFromRoute={setStopsFromRoute}
+						/>
+					))}
+					<View style={{ height: 40, width: '100%' }} />
+				</ScrollView>
+				<LinearGradient
+					start={{ x: 0, y: 0 }}
+					end={{ x: 0, y: 1 }}
+					colors={['rgba(0,0,0,0.2)', 'transparent']}
+					style={{
+						position: 'absolute',
+						height: 10,
+						left: 0,
+						right: 0,
+					}}
+				/>
 			</View>
-		)
+			{loading && (
+				<View
+					style={{
+						position: 'absolute',
+						top: 0,
+						left: 0,
+						right: 0,
+						bottom: 0,
+						justifyContent: 'center',
+						alignItems: 'center',
+						backgroundColor: 'transparent',
+					}}
+				>
+					<ActivityIndicator size="large" color="#3F713B" />
+				</View>
+			)}
+		</View>
 	);
 }

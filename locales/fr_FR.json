@@ -70,7 +70,13 @@
 	},
 	"mediaDetailExpanded": {
 		"introTextMediaType": "Des histoires à découvrir par la lecture",
-		"introAudioMediaType": "Voulez-vous le lire?"
+		"introAudioMediaType": "Voulez-vous le lire?",
+		"rateAudio": "Notez l'audio!",
+		"rateText": "Notez le texte!",
+		"rateVideo": "Notez la vidéo!",
+		"audioAlreadyRated": "Vous avez déjà noté cet audio.",
+		"textAlreadyRated": "Vous avez déjà noté ce texte.",
+		"videoAlreadyRated": "Vous avez déjà noté cette vidéo."
 	},
 	"profile": {
 		"language": "Langue",
@@ -101,8 +107,11 @@
 		"errorGettingAvailableCities": "Erreur lors de la récupération des villes disponibles",
 		"stops": "arrêts",
 		"resource": "ressource",
-		"resources": "ressources"
+		"resources": "ressources",
+		"rateRoute": "Notez l'itinéraire !",
+		"routeAlreadyRated": "Vous avez déjà noté cet itinéraire."
 	},
+
 	"actionSheets": {
 		"directionSheet": {
 			"title": "Ouvrir avec"
@@ -111,5 +120,16 @@
 	"downloadBanner": {
 		"text": "Pour une meilleure expérience, téléchargez l'application",
 		"button": "Télécharger"
+	},
+	"reviewModal": {
+		"rateRoute": "Quelle note donneriez-vous à cet itinéraire ?",
+		"rateAudio": "Quelle note donneriez-vous à cet audio ?",
+		"rateText": "Quelle note donneriez-vous à ce texte ?",
+		"rateVideo": "Quelle note donneriez-vous à cette vidéo ?",
+		"ratePlace": "Quelle note donneriez-vous à ce Monum ?",
+		"comment": "Laissez-nous un commentaire",
+		"send": "Envoyer",
+		"error": "Une erreur inattendue s'est produite. Veuillez réessayer.",
+		"success": "Merci pour votre note !"
 	}
 }

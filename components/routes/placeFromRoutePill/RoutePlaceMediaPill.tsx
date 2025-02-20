@@ -79,6 +79,7 @@ export default function RoutePlaceMediaPill({
 					rating: audio.rating,
 					text: audio.text,
 					mediaType: audio.type,
+					alreadyReviewed: audio.userReviewId ? true : false,
 				})),
 			);
 			await TrackPlayer.skip(index);

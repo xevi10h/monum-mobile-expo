@@ -2,18 +2,15 @@ import { View } from 'react-native';
 import TextSearchActive from '@/components/map/TextSearchActive';
 import { useTabMapStore } from '@/zustand/TabMapStore';
 import { useEffect } from 'react';
-import { useMainStore } from '@/zustand/MainStore';
 import MapServices from '@/services/map/MapServices';
 import { ScrollView } from 'react-native';
 import TextSearchResultPill from '@/components/map/TextSearchResultPill';
-import { router } from 'expo-router';
+import * as Location from 'expo-location';
 import { LinearGradient } from 'expo-linear-gradient';
 
 export default function TextSearchScreen({ navigation }: any) {
 	const textSearch = useTabMapStore((state) => state.tabMap.textSearch);
-	const currentUserLocation = useMainStore(
-		(state) => state.main.currentUserLocation,
-	);
+
 	const setSearcherResults = useTabMapStore(
 		(state) => state.setSearcherResults,
 	);
@@ -24,10 +21,12 @@ export default function TextSearchScreen({ navigation }: any) {
 	useEffect(() => {
 		const fetchSuggestions = async () => {
 			try {
+				const { coords } = await Location.getCurrentPositionAsync();
+
 				const suggestionsData = await MapServices.getMapSearcherResults(
 					{
-						lat: currentUserLocation ? currentUserLocation[1] : 0,
-						lng: currentUserLocation ? currentUserLocation[0] : 0,
+						lat: coords.latitude || 0,
+						lng: coords.longitude || 0,
 					},
 					textSearch,
 				);

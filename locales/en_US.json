@@ -70,7 +70,13 @@
 	},
 	"mediaDetailExpanded": {
 		"introTextMediaType": "Historias para descubrir leyendo",
-		"introAudioMediaType": "Do you want to read it?"
+		"introAudioMediaType": "Do you want to read it?",
+		"rateAudio": "Rate the audio!",
+		"rateText": "Rate the text!",
+		"rateVideo": "Rate the video!",
+		"audioAlreadyRated": "You have already rated this audio.",
+		"textAlreadyRated": "You have already rated this text.",
+		"videoAlreadyRated": "You have already rated this video."
 	},
 	"profile": {
 		"language": "Language",
@@ -101,7 +107,9 @@
 		"errorGettingAvailableCities": "Error getting available cities",
 		"stops": "stops",
 		"resource": "resource",
-		"resources": "resources"
+		"resources": "resources",
+		"rateRoute": "Rate the route!",
+		"routeAlreadyRated": "You have already rated this route."
 	},
 	"actionSheets": {
 		"directionSheet": {
@@ -111,5 +119,16 @@
 	"downloadBanner": {
 		"text": "For a better experience, download the app",
 		"button": "Download"
+	},
+	"reviewModal": {
+		"rateRoute": "How would you rate this route?",
+		"rateAudio": "How would you rate this audio?",
+		"rateText": "How would you rate this text?",
+		"rateVideo": "How would you rate this video?",
+		"ratePlace": "How would you rate this Monum?",
+		"comment": "Leave us a comment",
+		"send": "Send",
+		"error": "An unexpected error occurred. Please try again.",
+		"success": "Thank you for your rating!"
 	}
 }

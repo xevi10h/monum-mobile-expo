@@ -70,7 +70,13 @@
 	},
 	"mediaDetailExpanded": {
 		"introTextMediaType": "Historias para descubrir leyendo",
-		"introAudioMediaType": "¿Quieres leerlo?"
+		"introAudioMediaType": "¿Quieres leerlo?",
+		"rateAudio": "¡Valora el audio!",
+		"rateText": "¡Valora el texto!",
+		"rateVideo": "¡Valora el vídeo!",
+		"audioAlreadyRated": "Ya has valorado este audio.",
+		"textAlreadyRated": "Ya has valorado este texto.",
+		"videoAlreadyRated": "Ya has valorado este vídeo."
 	},
 	"profile": {
 		"language": "Idioma",
@@ -101,7 +107,9 @@
 		"errorGettingAvailableCities": "Error al obtener las ciudades disponibles",
 		"stops": "paradas",
 		"resource": "recurso",
-		"resources": "recursos"
+		"resources": "recursos",
+		"rateRoute": "¡Valora la ruta!",
+		"routeAlreadyRated": "Ya has valorado esta ruta."
 	},
 	"actionSheets": {
 		"directionSheet": {
@@ -111,5 +119,16 @@
 	"downloadBanner": {
 		"text": "¡Descarga la app de Monum para disfrutar de todas las funcionalidades!",
 		"button": "Abrir"
+	},
+	"reviewModal": {
+		"rateRoute": "¿Como valoras esta ruta?",
+		"rateAudio": "¿Cómo valorarías este audio?",
+		"rateText": "¿Cómo valorarías este texto?",
+		"rateVideo": "¿Cómo valorarías este video?",
+		"ratePlace": "¿Cómo valorarías este Monum?",
+		"comment": "Déjanos un comentario",
+		"send": "Enviar",
+		"error": "Ha ocurrido un error inesperado. Por favor, inténtalo de nuevo.",
+		"success": "¡Gracias por tu valoración!"
 	}
 }

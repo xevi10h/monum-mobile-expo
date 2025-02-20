@@ -72,6 +72,7 @@ export default function MediaOfPlacePill({
 					rating: audio.rating,
 					text: audio.text,
 					mediaType: audio.type,
+					alredyRated: audio.userReviewId ? true : false,
 				})),
 			);
 			await TrackPlayer.skip(index);

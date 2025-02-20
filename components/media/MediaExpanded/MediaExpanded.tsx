@@ -29,6 +29,7 @@ import { useTabMapStore } from '@/zustand/TabMapStore';
 import { useMainStore } from '@/zustand/MainStore';
 import MediaExpandedText from './MediaExpandedExtension';
 import MediaPlayer from './MediaPlayer';
+import RateMediaButton from './RateMediaButton';
 
 const { height } = Dimensions.get('window');
 const extensionHeight = height * 0.65 + 160;
@@ -206,6 +207,12 @@ export default function MediaExpanded() {
 								}}
 							/>
 						)}
+						<RateMediaButton
+							mediaId={currentTrack?.id}
+							mediaTitle={currentTrack?.title}
+							mediaType={currentTrack?.mediaType}
+							alredyRated={currentTrack?.alredyRated}
+						/>
 						<View style={{ paddingHorizontal: 12 }}>
 							<MediaPlayer />
 						</View>
@@ -293,5 +300,20 @@ const styles = StyleSheet.create({
 	mediaPillRating: {
 		fontSize: 14,
 		color: 'white',
+	},
+	rateMediaContainer: {
+		width: '100%',
+		height: 15,
+	},
+	rateMediaButton: {
+		width: '100%',
+		alignItems: 'flex-end',
+		paddingRight: 20,
+	},
+	rateMediaText: {
+		fontSize: 10,
+		color: '#032000',
+		fontFamily: 'Montserrat-Regular',
+		textDecorationLine: 'underline',
 	},
 });

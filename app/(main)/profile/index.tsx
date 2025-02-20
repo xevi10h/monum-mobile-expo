@@ -62,9 +62,6 @@ export default function ProfileScreen() {
 	const setDefaultUser = useUserStore((state) => state.setDefaultUser);
 	const setDefaultMain = useMainStore((state) => state.setDefaultMain);
 	const setDefaultTabMap = useTabMapStore((state) => state.setDefaultTabMap);
-	const setDefaultTabRoute = useTabRouteStore(
-		(state) => state.setDefaultTabRoute,
-	);
 
 	const [showDeleteAccountModal, setShowDeleteAccountModal] = useState(false);
 
@@ -289,7 +286,6 @@ export default function ProfileScreen() {
 											setDefaultUser();
 											setDefaultMain();
 											setDefaultTabMap();
-											setDefaultTabRoute();
 										} catch (error) {
 											console.error('Error al cerrar sesión:', error);
 										}
@@ -383,7 +379,6 @@ export default function ProfileScreen() {
 										setDefaultUser();
 										setDefaultMain();
 										setDefaultTabMap();
-										setDefaultTabRoute();
 									}
 								} catch (error) {
 									console.error('Error al cerrar sesión:', error);

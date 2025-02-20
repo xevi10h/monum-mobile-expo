@@ -13,14 +13,13 @@ import Animated, {
 	useSharedValue,
 	withTiming,
 } from 'react-native-reanimated';
-import { useEffect, useState } from 'react';
 import RoutePlaceMediaPill from './RoutePlaceMediaPill';
 import IMedia from '@/shared/interfaces/IMedia';
 import { ImportanceIcon } from './ImportanceIcon';
 import { useTranslation } from '@/hooks/useTranslation';
 import { getApps } from 'react-native-map-link';
 import { useActionSheet } from '@expo/react-native-action-sheet';
-import { StopFromRoutePillInterface } from '@/app/(main)/(routes)/[cityId]/[routeId]';
+import { StopFromRoutePillInterface } from '@/app/(main)/route/[cityId]/[routeId]';
 
 interface StopFromRoutePillInterfaceExtended
 	extends StopFromRoutePillInterface {
@@ -33,7 +32,6 @@ export default function StopFromRoutePill({
 	isHighlighted,
 	place,
 	medias,
-	order,
 	setStopsFromRoute,
 	stopsFromRoute,
 }: StopFromRoutePillInterfaceExtended) {
@@ -70,9 +68,6 @@ export default function StopFromRoutePill({
 					width: '100%',
 					elevation: 10,
 				},
-				order !== 0 && order === stopsFromRoute.length - 1
-					? { paddingBottom: 40 }
-					: {},
 			]}
 		>
 			<Animated.View

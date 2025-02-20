@@ -8,10 +8,7 @@ import DetailCityPill from '@/components/routes/DetailCityPill';
 import TextSearch from '@/components/routes/TextSearch';
 import LoadingSpinner from '../../../../shared/components/LoadingSpinner';
 import ErrorComponent from '../../../../shared/components/ErrorComponent';
-import {
-	SafeAreaView,
-	useSafeAreaInsets,
-} from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import ListRoutePill from '@/components/routes/ListRoutePill';
 import { useTabRouteStore } from '../../../../zustand/TabRouteStore';
 import { useUserStore } from '../../../../zustand/UserStore';
@@ -26,7 +23,6 @@ export default function ListRoutesScreen() {
 	const [city, setCity] = useState<ICity | undefined>(
 		cities.find((city) => city.id === cityId),
 	);
-	const safeAreaInsets = useSafeAreaInsets();
 	const language = useUserStore((state) => state.user.language);
 	const [routes, setRoutes] = useState<IRouteOfCity[]>([]);
 	const [textSearch, setTextSearch] = useState<string | undefined>(undefined);
@@ -116,6 +112,7 @@ export default function ListRoutesScreen() {
 const styles = StyleSheet.create({
 	page: {
 		flex: 1,
+		backgroundColor: 'white',
 	},
 	contentContainer: {
 		flex: 1,

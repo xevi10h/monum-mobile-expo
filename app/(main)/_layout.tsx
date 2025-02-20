@@ -1,4 +1,4 @@
-import { StyleSheet, Image, StatusBar, Platform } from 'react-native';
+import { StyleSheet, Image, StatusBar } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import TrackPlayer, {
 	Event,
@@ -9,6 +9,7 @@ import { useMainStore } from '@/zustand/MainStore';
 import VideoPlayer from '@/components/video/VideoPlayer';
 import { Tabs } from 'expo-router';
 import MediaComponent from '@/components/media/MediaComponent';
+import ReviewModal from '@/components/modals/ReviewModal';
 
 export const BOTTOM_TAB_NAVIGATOR_HEIGHT = 70;
 
@@ -34,6 +35,7 @@ function BottomTabNavigator() {
 		(state) => state.setCurrentTrackIndex,
 	);
 	const videoPlayer = useMainStore((state) => state.main.videoPlayer);
+	const reviewModal = useMainStore((state) => state.main.reviewModal);
 
 	useTrackPlayerEvents([Event.PlaybackState], async (event) => {
 		setStatePlayer(event.state);
@@ -147,6 +149,7 @@ function BottomTabNavigator() {
 			</Tabs>
 			{currentTrack && <MediaComponent />}
 			{videoPlayer && <VideoPlayer />}
+			{reviewModal && <ReviewModal />}
 		</>
 	);
 }

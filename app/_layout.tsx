@@ -6,14 +6,13 @@ import {
 import { useFonts } from 'expo-font';
 import { Stack, router } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import 'react-native-reanimated';
 import client from '@/graphql/connection';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { useUserStore } from '@/zustand/UserStore';
 import { ApolloProvider } from '@apollo/client';
 import { useMainStore } from '@/zustand/MainStore';
-import { useTabMapStore } from '@/zustand/TabMapStore';
 import * as Location from 'expo-location';
 import { Linking, Platform } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -23,8 +22,9 @@ import { PlaybackService, setupPlayerService } from '@/track-player/service';
 import DownloadBanner from '@/components/banners/DownloadBanner';
 import * as Device from 'expo-device';
 import * as Orientation from 'expo-screen-orientation';
+import { useLocationStore } from '@/zustand/LocationStore';
+import { LOCATION_TASK_NAME } from '@/tasks/LocationTask';
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 SplashScreen.setOptions({
@@ -44,19 +44,95 @@ export default function RootLayout() {
 		Location.useBackgroundPermissions();
 	const [statusForegroundPermissions, requestStatusForegroundPermissions] =
 		Location.useForegroundPermissions();
-
-	const setCurrentUserLocation = useMainStore(
-		(state) => state.setCurrentUserLocation,
-	);
-	const startWatchingLocation = useMainStore(
-		(state) => state.startWatchingLocation,
-	);
 	const videoPlayer = useMainStore((state) => state.main.videoPlayer);
-	const currentUserLocation = useMainStore(
-		(state) => state.main.currentUserLocation,
-	);
 	const user = useUserStore((state) => state.user);
 	const setLanguage = useUserStore((state) => state.setLanguage);
+
+	const setCoords = useLocationStore((state) => state.setCoords);
+	const setPermissionStatus = useLocationStore(
+		(state) => state.setPermissionStatus,
+	);
+	const isBackgroundLocationEnabled = useLocationStore(
+		(state) => state.isBackgroundLocationEnabled,
+	);
+	const setBackgroundLocationEnabled = useLocationStore(
+		(state) => state.setBackgroundLocationEnabled,
+	);
+	const coords = useLocationStore((state) => state.coords);
+	const permissionStatus = useLocationStore((state) => state.permissionStatus);
+
+	useEffect(() => {
+		(async () => {
+			let foregroundPermission =
+				await Location.requestForegroundPermissionsAsync();
+			if (foregroundPermission.status === 'granted') {
+				setPermissionStatus(foregroundPermission.status);
+			} else {
+				console.log('Permiso de ubicación en primer plano denegado');
+				return;
+			}
+
+			let backgroundPermission =
+				await Location.requestBackgroundPermissionsAsync();
+			if (backgroundPermission.status === 'granted') {
+				setBackgroundLocationEnabled(true);
+			} else {
+				console.log('Permiso de ubicación en segundo plano denegado');
+			}
+		})();
+	}, []);
+
+	useEffect(() => {
+		let locationWatcher: Location.LocationSubscription | null = null;
+		if (permissionStatus === 'granted') {
+			(async () => {
+				locationWatcher = await Location.watchPositionAsync(
+					{
+						accuracy: Location.Accuracy.BestForNavigation,
+						timeInterval: 1000,
+						distanceInterval: 1,
+					},
+					(location) => {
+						setCoords(location.coords);
+					},
+				);
+			})();
+		}
+
+		return () => {
+			if (locationWatcher) {
+				locationWatcher.remove();
+			}
+		};
+	}, [permissionStatus, setCoords]);
+
+	useEffect(() => {
+		const startBackgroundLocation = async () => {
+			if (permissionStatus === 'granted' && isBackgroundLocationEnabled) {
+				try {
+					await Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {
+						accuracy: Location.Accuracy.BestForNavigation,
+						timeInterval: 30000,
+						distanceInterval: 10,
+						foregroundService: {
+							notificationTitle: 'Ubicación en segundo plano activa',
+							notificationBody:
+								'Rastreo de ubicación en segundo plano activado',
+							killServiceOnDestroy: false,
+						},
+					});
+				} catch (error: any) {
+					console.error('Error al iniciar el rastreo en segundo plano:', error);
+				}
+			}
+		};
+
+		startBackgroundLocation();
+
+		return () => {
+			Location.stopLocationUpdatesAsync(LOCATION_TASK_NAME); // Detén la tarea al desmontar
+		};
+	}, [permissionStatus, isBackgroundLocationEnabled]);
 
 	useEffect(() => {
 		const initializeApp = async () => {
@@ -117,7 +193,6 @@ export default function RootLayout() {
 		async function prepareWhenAuthenticated() {
 			try {
 				setLanguage(user.language || 'ca_ES');
-				let userLocation = currentUserLocation;
 				if (
 					statusBackgroundPermissions?.canAskAgain &&
 					!statusBackgroundPermissions?.granted
@@ -132,32 +207,14 @@ export default function RootLayout() {
 					console.log('Requesting foreground permissions');
 					await requestStatusForegroundPermissions();
 				}
-				if (!userLocation) {
-					console.log('Getting user location');
-					const position: any = await Location.getCurrentPositionAsync({
-						accuracy: Location.Accuracy.Highest,
-						timeInterval: 5000,
-						distanceInterval: 1,
-					});
-
-					const longitude = position.coords.longitude;
-					const latitude = position.coords.latitude;
-					userLocation = [longitude, latitude];
-					setCurrentUserLocation(userLocation);
-				}
 			} catch (error) {
 				console.error('Error obtaining geolocation:', error);
-				setCurrentUserLocation(null);
 			}
 		}
 		if (user?.token) {
 			prepareWhenAuthenticated();
 		}
 	}, [user.token]);
-
-	useEffect(() => {
-		startWatchingLocation();
-	}, [startWatchingLocation]);
 
 	useEffect(() => {
 		if ((loaded || error) && allLoaded) {
