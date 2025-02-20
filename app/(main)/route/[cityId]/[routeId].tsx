@@ -165,6 +165,7 @@ export default function RouteDetailScreen() {
 							stop.isHighlighted || stop.place.id === markerSelected,
 					})),
 				);
+
 				const coordinatesToSet = markers?.find(
 					(m) => m.id === markerSelected,
 				)?.coordinates;
@@ -187,22 +188,14 @@ export default function RouteDetailScreen() {
 						break;
 					}
 					const pill = stopsFromRoute?.find(
-						(stop) => stop.place.id === markerSelected,
+						(stop) => stop.place.id === place.place.id,
 					);
 					height += pill?.isExpanded ? 230 : 80;
 				}
+
 				setTimeout(() => {
 					scrollViewRef.current?.scrollTo({ y: height, animated: true });
 				}, 300);
-				setTimeout(() => {
-					setStopsFromRoute(
-						stopsFromRoute.map((stop) => ({
-							...stop,
-							isHighlighted: false,
-							isExpanded: stop.isExpanded || stop.place.id === markerSelected,
-						})),
-					);
-				}, 3000);
 			}
 		}
 		markerIsSelected();

@@ -20,6 +20,7 @@ import { useTranslation } from '@/hooks/useTranslation';
 import { getApps } from 'react-native-map-link';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import { StopFromRoutePillInterface } from '@/app/(main)/route/[cityId]/[routeId]';
+import { useEffect } from 'react';
 
 interface StopFromRoutePillInterfaceExtended
 	extends StopFromRoutePillInterface {
@@ -39,6 +40,27 @@ export default function StopFromRoutePill({
 	const animationValue = useSharedValue(0);
 	const { t } = useTranslation();
 
+	useEffect(() => {
+		if (isExpanded) {
+			animationValue.value = 1;
+		}
+	}, [isExpanded]);
+
+	useEffect(() => {
+		if (isHighlighted) {
+			setTimeout(() => {
+				setStopsFromRoute(
+					stopsFromRoute.map((stop) => {
+						if (stop.place.id === place.id) {
+							return { ...stop, isHighlighted: false };
+						}
+						return stop;
+					}),
+				);
+			}, 3000);
+		}
+	}, [isHighlighted]);
+
 	const toggleExpanded = () => {
 		const finalAnimationValue = isExpanded ? 0 : 1;
 		animationValue.value = withTiming(finalAnimationValue, {
@@ -57,7 +79,7 @@ export default function StopFromRoutePill({
 
 	const animatedStyle = useAnimatedStyle(() => {
 		return {
-			height: animationValue.value * 150 + 60, // Interpolación manual entre 60 y 210
+			height: animationValue.value * 150 + 60,
 		};
 	});
 
