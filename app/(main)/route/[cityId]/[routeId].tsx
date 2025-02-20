@@ -320,20 +320,23 @@ export default function RouteDetailScreen() {
 							flex: 1,
 						}}
 					>
-						<View
-							style={{
-								marginRight: 20,
+						<TouchableOpacity
+							onPress={() => {
+								Platform.OS !== 'web'
+									? router.back()
+									: router.push({
+											pathname: '/route/[cityId]',
+											params: { cityId: cityId as string },
+									  });
+								setMarkerSelected(null);
 							}}
 						>
-							<TouchableOpacity
-								onPress={() => {
-									Platform.OS !== 'web'
-										? router.back()
-										: router.push({
-												pathname: '/route/[cityId]',
-												params: { cityId: cityId as string },
-										  });
-									setMarkerSelected(null);
+							<View
+								style={{
+									marginRight: 20,
+									width: '100%',
+									height: '100%',
+									justifyContent: 'center',
 								}}
 							>
 								<Image
@@ -341,8 +344,8 @@ export default function RouteDetailScreen() {
 									style={{ width: 6 }}
 									resizeMode="contain"
 								/>
-							</TouchableOpacity>
-						</View>
+							</View>
+						</TouchableOpacity>
 						<View
 							style={{
 								flex: 1,

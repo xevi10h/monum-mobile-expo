@@ -23,8 +23,11 @@
 				"deploymentTarget": "15.1"
 			},
 			"associatedDomains": ["applinks:mobile.monum.es"],
-			"buildNumber": "15",
-			"appleTeamId": "4WWBHK245Y"
+			"buildNumber": "16",
+			"appleTeamId": "4WWBHK245Y",
+			"entitlements": {
+				"aps-environment": "production"
+			}
 		},
 		"android": {
 			"package": "es.monum.mobile",
@@ -59,7 +62,7 @@
 					"category": ["BROWSABLE", "DEFAULT"]
 				}
 			],
-			"versionCode": 83
+			"versionCode": 84
 		},
 		"web": {
 			"bundler": "metro",
