@@ -106,9 +106,14 @@ export default function RootLayout() {
 		};
 	}, [permissionStatus, setCoords]);
 
+	// Background location tracking (web is not supported)
 	useEffect(() => {
 		const startBackgroundLocation = async () => {
-			if (permissionStatus === 'granted' && isBackgroundLocationEnabled) {
+			if (
+				Platform.OS !== 'web' &&
+				permissionStatus === 'granted' &&
+				isBackgroundLocationEnabled
+			) {
 				try {
 					await Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {
 						accuracy: Location.Accuracy.BestForNavigation,
@@ -129,9 +134,11 @@ export default function RootLayout() {
 
 		startBackgroundLocation();
 
-		return () => {
-			Location.stopLocationUpdatesAsync(LOCATION_TASK_NAME); // Detén la tarea al desmontar
-		};
+		if (Platform.OS !== 'web') {
+			return () => {
+				Location.stopLocationUpdatesAsync(LOCATION_TASK_NAME);
+			};
+		}
 	}, [permissionStatus, isBackgroundLocationEnabled]);
 
 	useEffect(() => {

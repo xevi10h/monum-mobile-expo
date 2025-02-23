@@ -326,8 +326,8 @@ const styles = StyleSheet.create({
 		bottom: 0,
 		left: 0,
 		right: 0,
-		borderTopLeftRadius: BORDER_RADIUS,
-		borderTopRightRadius: BORDER_RADIUS,
+		borderTopLeftRadius: BORDER_RADIUS - 2, // I did this to make the gradient a little bit bigger than the marging radius
+		borderTopRightRadius: BORDER_RADIUS - 2,
 	},
 	arrowIcon: {
 		height: 30,

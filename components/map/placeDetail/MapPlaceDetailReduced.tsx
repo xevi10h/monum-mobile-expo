@@ -9,7 +9,6 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 
 import { useTabMapStore } from '@/zustand/TabMapStore';
-import { useMainStore } from '@/zustand/MainStore';
 import { useTranslation } from '@/hooks/useTranslation';
 
 interface MapPlaceDetailReducedProps {

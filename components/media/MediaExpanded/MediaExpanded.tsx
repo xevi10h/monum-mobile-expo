@@ -32,7 +32,7 @@ import MediaPlayer from './MediaPlayer';
 import RateMediaButton from './RateMediaButton';
 
 const { height } = Dimensions.get('window');
-const extensionHeight = height * 0.65 + 160;
+const extensionHeight = height * 0.65 + 175;
 
 export default function MediaExpanded() {
 	const placeOfMedia = useMainStore((state) => state.main.placeOfMedia);

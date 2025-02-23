@@ -111,7 +111,7 @@ export default function MediaExpandedText({
 
 const styles = StyleSheet.create({
 	mediaOfPlaceGreatContainer: {
-		marginTop: Platform.OS === 'web' ? 35 : 65,
+		marginTop: Platform.OS === 'web' ? 30 : 60,
 		alignSelf: 'flex-start',
 		backgroundColor: '#ECF3EC',
 		paddingHorizontal: 20,

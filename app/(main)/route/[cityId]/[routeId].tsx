@@ -284,9 +284,7 @@ export default function RouteDetailScreen() {
 							coordinates={marker.coordinates}
 						/>
 					))}
-					{Device.osName === 'Android' && Platform.OS === 'web' ? (
-						<CurrentPositionMarker />
-					) : null}
+					{Platform.OS === 'web' ? <CurrentPositionMarker /> : null}
 				</MapView>
 				<CenterStopsButton onPress={async () => await centerStopsCamera()} />
 				<CenterCoordinatesButton
