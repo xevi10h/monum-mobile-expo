@@ -7,7 +7,7 @@ import TrackPlayer, {
 export async function setupPlayerService() {
 	let isSetup = false;
 	try {
-		await TrackPlayer.getCurrentTrack();
+		await TrackPlayer.getActiveTrackIndex();
 		isSetup = true;
 	} catch {
 		await TrackPlayer.setupPlayer();

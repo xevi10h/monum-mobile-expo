@@ -64,7 +64,6 @@ export default function MapScreen() {
 		}
 		placeSelected();
 	}, [placeId, mapViewRef]);
-
 	useEffect(() => {
 		const fetchMarkers = async () => {
 			try {

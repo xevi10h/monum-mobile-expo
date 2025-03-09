@@ -58,7 +58,6 @@ export default function RootLayout() {
 	const setBackgroundLocationEnabled = useLocationStore(
 		(state) => state.setBackgroundLocationEnabled,
 	);
-	const coords = useLocationStore((state) => state.coords);
 	const permissionStatus = useLocationStore((state) => state.permissionStatus);
 
 	useEffect(() => {
