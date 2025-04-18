@@ -171,15 +171,6 @@ export default function MapScreen() {
 					style={{
 						flex: 1,
 					}}
-					googleMapsApiKey={
-						Platform.OS === 'android'
-							? process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY_ANDROID
-							: process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY_WEB
-					}
-					options={{
-						disableDefaultUI: true,
-						clickableIcons: false,
-					}}
 					showsUserLocation
 					showsMyLocationButton={false}
 					showsCompass={false}
@@ -188,7 +179,6 @@ export default function MapScreen() {
 					showsScale={false}
 					showsTraffic={false}
 					showsIndoorLevelPicker={false}
-					loadingFallback={<ActivityIndicator size="large" color="#3F713B" />}
 				>
 					{markers.map((marker, index) => (
 						<MarkerComponent

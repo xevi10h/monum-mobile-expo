@@ -1,187 +1,241 @@
 {
-	"expo": {
-		"name": "Monum",
-		"slug": "monum-mobile-expo",
-		"version": "1.2.1",
-		"icon": "./assets/images/icon.png",
-		"scheme": "es.monum.mobile",
-		"userInterfaceStyle": "automatic",
-		"platforms": ["ios", "android", "web"],
-		"ios": {
-			"supportsTablet": true,
-			"usesAppleSignIn": true,
-			"bundleIdentifier": "es.monum.mobile",
-			"config": {
-				"googleMapsApiKey": "AIzaSyB9yYYln_LCAddS-ZViaeGfU_dfVpb_00E",
-				"usesNonExemptEncryption": false
-			},
-			"infoPlist": {
-				"UIBackgroundModes": [
-					"location",
-					"fetch",
-					"remote-notification",
-					"audio"
-				],
-				"NSLocationWhenInUseUsageDescription": "This app requires access to your location when open.",
-				"NSLocationAlwaysAndWhenInUseUsageDescription": "This app requires access to your location even when closed.",
-				"NSLocationAlwaysUsageDescription": "This app requires access to your location when open.",
-				"deploymentTarget": "15.1"
-			},
-			"associatedDomains": ["applinks:mobile.monum.es"],
-			"buildNumber": "17",
-			"appleTeamId": "4WWBHK245Y",
-			"entitlements": {
-				"aps-environment": "production"
-			}
-		},
-		"android": {
-			"package": "es.monum.mobile",
-			"adaptiveIcon": {
-				"foregroundImage": "./assets/images/adaptive-icon.png",
-				"backgroundColor": "#ffffff"
-			},
-			"config": {
-				"googleMaps": {
-					"apiKey": "AIzaSyAItbW-zthHPPs1Bb6VBBMsZ7TnX1W31yI"
-				}
-			},
-			"permissions": [
-				"android.permission.ACCESS_FINE_LOCATION",
-				"android.permission.ACCESS_COARSE_LOCATION",
-				"android.permission.RECEIVE_BOOT_COMPLETED",
-				"android.permission.WAKE_LOCK",
-				"android.permission.CAMERA",
-				"android.permission.RECORD_AUDIO"
-			],
-			"intentFilters": [
-				{
-					"action": "VIEW",
-					"autoVerify": true,
-					"data": [
-						{
-							"scheme": "https",
-							"host": "mobile.monum.es",
-							"pathPrefix": "/"
-						}
-					],
-					"category": ["BROWSABLE", "DEFAULT"]
-				}
-			],
-			"versionCode": 85
-		},
-		"web": {
-			"bundler": "metro",
-			"output": "static",
-			"favicon": "./assets/images/icon.png",
-			"config": {
-				"googleMapsApiKey": "AIzaSyAm0KAb8uG0fBoYsce_owdlbTKKeNh0POo",
-				"googleMaps": {
-					"apiKey": "AIzaSyAm0KAb8uG0fBoYsce_owdlbTKKeNh0POo"
-				}
-			}
-		},
-		"plugins": [
-			"expo-router",
-			"@react-native-google-signin/google-signin",
-			"expo-apple-authentication",
-			"react-native-map-link",
-			"expo-location",
-			"expo-background-fetch",
-			[
-				"expo-build-properties",
-				{
-					"android": {
-						"compileSdkVersion": 35,
-						"targetSdkVersion": 35,
-						"buildToolsVersion": "34.0.0"
-					},
-					"ios": {
-						"deploymentTarget": "15.1"
-					}
-				}
-			],
-			[
-				"expo-task-manager",
-				{
-					"ios": {
-						"minimumOSVersion": "14"
-					}
-				}
-			],
-			[
-				"expo-background-fetch",
-				{
-					"ios": {
-						"minimumOSVersion": "14"
-					}
-				}
-			],
-			[
-				"expo-camera",
-				{
-					"cameraPermission": "$(PRODUCT_NAME) necesita acceder a tu cámara para poder escanear QRs que interactuan con nuestra app, redireccionandote a Monums específicos."
-				}
-			],
-			[
-				"expo-location",
-				{
-					"locationAlwaysAndWhenInUsePermission": "$(PRODUCT_NAME) necesita acceder a tu ubicación para mostrar tu posición actual en el mapa y mejorar las recomendaciones de lugares cercanos.",
-					"locationAlwaysPermission": "Allow $(PRODUCT_NAME) to use your location.",
-					"locationWhenInUsePermission": "$(PRODUCT_NAME) usará tu ubicación actual para mostrar tu posición en el mapa y mejorar tu experiencia en la app.",
-					"isIosBackgroundLocationEnabled": true,
-					"isAndroidBackgroundLocationEnabled": true
-				}
-			],
-			[
-				"expo-image-picker",
-				{
-					"photosPermission": "$(PRODUCT_NAME) necesita acceso a tu biblioteca de fotos para permitirte subir imágenes y videos desde tu galería."
-				}
-			],
-			[
-				"expo-font",
-				{
-					"fonts": [
-						"./assets/fonts/Montserrat-Regular.ttf",
-						"./assets/fonts/Montserrat-SemiBold.ttf"
-					]
-				}
-			],
-			[
-				"expo-splash-screen",
-				{
-					"backgroundColor": "#FFFFFF",
-					"image": "./assets/images/splash-screen-green.png",
-					"imageWidth": 100,
-					"resizeMode": "contain",
-					"ios": {
-						"imageWidth": 200
-					},
-					"dark": {
-						"image": "./assets/images/splash-screen-white.png",
-						"backgroundColor": "#000000"
-					}
-				}
-			],
-			[
-				"expo-screen-orientation",
-				{
-					"initialOrientation": "DEFAULT"
-				}
-			],
-			"expo-video",
-			"expo-localization"
-		],
-		"experiments": {
-			"typedRoutes": true
-		},
-		"extra": {
-			"router": {
-				"origin": false
-			},
-			"eas": {
-				"projectId": "5d01d162-6626-4445-ad7c-48e91626d6c3"
-			}
-		}
-	}
+  "expo": {
+    "name": "Monum",
+    "slug": "monum-mobile-expo",
+    "version": "1.2.3",
+    "runtimeVersion": "1.2.3",
+    "icon": "./assets/images/icon.png",
+    "scheme": "es.monum.mobile",
+    "userInterfaceStyle": "automatic",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "updates": {
+      "enabled": true,
+      "runtimeVersion": {
+        "policy": "sdkVersion"
+      }
+    },
+    "ios": {
+      "supportsTablet": true,
+      "usesAppleSignIn": true,
+      "bundleIdentifier": "es.monum.mobile",
+      "infoPlist": {
+        "UIBackgroundModes": [
+          "location",
+          "fetch",
+          "remote-notification",
+          "audio",
+          "location",
+          "fetch",
+          "remote-notification",
+          "audio"
+        ],
+        "NSLocationWhenInUseUsageDescription": "This app needs access to your location to show your position on the map and help you find nearby monuments.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "This app needs access to your location to show your position on the map, help you find nearby monuments, and notify you when you are near a monument even when the app is in the background.",
+        "NSLocationAlwaysUsageDescription": "This app needs access to your location to show your position on the map, help you find nearby monuments, and notify you when you are near a monument even when the app is in the background.",
+        "CFBundleLocalizations": [
+          "en",
+          "es",
+          "ca",
+          "fr",
+          "en",
+          "es",
+          "ca",
+          "fr"
+        ],
+        "CFBundleDevelopmentRegion": "en",
+        "deploymentTarget": "15.1",
+        "ITSAppUsesNonExemptEncryption": false
+      },
+      "associatedDomains": [
+        "applinks:mobile.monum.es",
+        "applinks:mobile.monum.es"
+      ],
+      "buildNumber": "24",
+      "appleTeamId": "4WWBHK245Y",
+      "entitlements": {
+        "aps-environment": "production"
+      }
+    },
+    "android": {
+      "package": "es.monum.mobile",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyAItbW-zthHPPs1Bb6VBBMsZ7TnX1W31yI"
+        }
+      },
+      "permissions": [
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.RECEIVE_BOOT_COMPLETED",
+        "android.permission.WAKE_LOCK",
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ],
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "autoVerify": true,
+          "data": [
+            {
+              "scheme": "https",
+              "host": "mobile.monum.es",
+              "pathPrefix": "/"
+            }
+          ],
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
+        }
+      ],
+      "versionCode": 85
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/images/icon.png",
+      "config": {
+        "googleMapsApiKey": "AIzaSyAm0KAb8uG0fBoYsce_owdlbTKKeNh0POo",
+        "googleMaps": {
+          "apiKey": "AIzaSyAm0KAb8uG0fBoYsce_owdlbTKKeNh0POo"
+        }
+      }
+    },
+    "plugins": [
+      "expo-router",
+      "@react-native-google-signin/google-signin",
+      "expo-apple-authentication",
+      "react-native-map-link",
+      "expo-location",
+      "expo-background-fetch",
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "compileSdkVersion": 35,
+            "targetSdkVersion": 35,
+            "buildToolsVersion": "34.0.0"
+          },
+          "ios": {
+            "deploymentTarget": "15.1"
+          }
+        }
+      ],
+      [
+        "expo-task-manager",
+        {
+          "ios": {
+            "minimumOSVersion": "14"
+          }
+        }
+      ],
+      [
+        "expo-background-fetch",
+        {
+          "ios": {
+            "minimumOSVersion": "14"
+          }
+        }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": {
+            "en": "$(PRODUCT_NAME) needs access to your camera to scan QR codes that interact with our app, redirecting you to specific monuments.",
+            "es": "$(PRODUCT_NAME) necesita acceder a tu cámara para poder escanear códigos QR que interactúan con nuestra app, redireccionándote a monumentos específicos.",
+            "ca": "$(PRODUCT_NAME) necessita accedir a la teva càmera per poder escanejar codis QR que interactuen amb la nostra app, redirigint-te a monuments específics.",
+            "fr": "$(PRODUCT_NAME) a besoin d'accéder à votre caméra pour scanner les codes QR qui interagissent avec notre application, vous redirigeant vers des monuments spécifiques."
+          }
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": {
+            "en": "$(PRODUCT_NAME) needs access to your location to show your position on the map, help you find nearby monuments, and notify you when you are near a monument even when the app is in the background.",
+            "es": "$(PRODUCT_NAME) necesita acceder a tu ubicación para mostrar tu posición en el mapa, ayudarte a encontrar monumentos cercanos y notificarte cuando estés cerca de un monumento incluso cuando la app está en segundo plano.",
+            "ca": "$(PRODUCT_NAME) necessita accedir a la teva ubicació per mostrar la teva posició al mapa, ajudar-te a trobar monuments propers i notificar-te quan estiguis a prop d'un monument fins i tot quan l'aplicació està en segon pla.",
+            "fr": "$(PRODUCT_NAME) a besoin d'accéder à votre localisation pour afficher votre position sur la carte, vous aider à trouver des monuments à proximité et vous notifier lorsque vous êtes près d'un monument même lorsque l'application est en arrière-plan."
+          },
+          "locationAlwaysPermission": {
+            "en": "$(PRODUCT_NAME) needs access to your location to show your position on the map, help you find nearby monuments, and notify you when you are near a monument even when the app is in the background.",
+            "es": "$(PRODUCT_NAME) necesita acceder a tu ubicación para mostrar tu posición en el mapa, ayudarte a encontrar monumentos cercanos y notificarte cuando estés cerca de un monumento incluso cuando la app está en segundo plano.",
+            "ca": "$(PRODUCT_NAME) necessita accedir a la teva ubicació per mostrar la teva posició al mapa, ajudar-te a trobar monuments propers i notificar-te quan estiguis a prop d'un monument fins i tot quan l'aplicació està en segon pla.",
+            "fr": "$(PRODUCT_NAME) a besoin d'accéder à votre localisation pour afficher votre position sur la carte, vous aider à trouver des monuments à proximité et vous notifier lorsque vous êtes près d'un monument même lorsque l'application est en arrière-plan."
+          },
+          "locationWhenInUsePermission": {
+            "en": "$(PRODUCT_NAME) needs access to your location to show your position on the map and help you find nearby monuments.",
+            "es": "$(PRODUCT_NAME) necesita acceder a tu ubicación para mostrar tu posición en el mapa y ayudarte a encontrar monumentos cercanos.",
+            "ca": "$(PRODUCT_NAME) necessita accedir a la teva ubicació per mostrar la teva posició al mapa i ajudar-te a trobar monuments propers.",
+            "fr": "$(PRODUCT_NAME) a besoin d'accéder à votre localisation pour afficher votre position sur la carte et vous aider à trouver des monuments à proximité."
+          },
+          "isIosBackgroundLocationEnabled": true,
+          "isAndroidBackgroundLocationEnabled": true
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": {
+            "en": "$(PRODUCT_NAME) needs access to your photo library to allow you to upload a profile picture from your gallery.",
+            "es": "$(PRODUCT_NAME) necesita acceso a tu biblioteca de fotos para permitirte subir una foto de perfil desde tu galería.",
+            "ca": "$(PRODUCT_NAME) necessita accés a la teva biblioteca de fotos per permetre't pujar una foto de perfil des de la teva galeria.",
+            "fr": "$(PRODUCT_NAME) a besoin d'accéder à votre bibliothèque de photos pour vous permettre de télécharger une photo de profil depuis votre galerie."
+          }
+        }
+      ],
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/Montserrat-Regular.ttf",
+            "./assets/fonts/Montserrat-SemiBold.ttf"
+          ]
+        }
+      ],
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#FFFFFF",
+          "image": "./assets/images/splash-screen-green.png",
+          "imageWidth": 100,
+          "resizeMode": "contain",
+          "ios": {
+            "imageWidth": 200
+          },
+          "dark": {
+            "image": "./assets/images/splash-screen-white.png",
+            "backgroundColor": "#000000"
+          }
+        }
+      ],
+      [
+        "expo-screen-orientation",
+        {
+          "initialOrientation": "DEFAULT"
+        }
+      ],
+      "expo-video",
+      "expo-localization"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "5d01d162-6626-4445-ad7c-48e91626d6c3"
+      }
+    }
+  }
 }

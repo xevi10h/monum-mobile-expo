@@ -6,7 +6,6 @@ import {
 	Text,
 	TouchableOpacity,
 	Linking,
-	Image,
 	ImageBackground,
 	Platform,
 } from 'react-native';
@@ -24,6 +23,7 @@ import { useEffect } from 'react';
 import ButtonWithLogo from '@/components/auth/ButtonWithLogo';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useMainStore } from '@/zustand/MainStore';
+import { getDeviceLanguage } from '@/shared/functions/utils';
 
 export default function Login() {
 	const setUser = useUserStore((state) => state.setUser);
@@ -43,7 +43,7 @@ export default function Login() {
 			setIsGeneralLoading(false);
 			if (user) {
 				setUser(user);
-				changeLanguage(user.language || 'ca_ES');
+				changeLanguage(user.language);
 			}
 		};
 		signIn();
@@ -120,8 +120,9 @@ export default function Login() {
 								try {
 									const user = await AuthServices.loginAsGuest();
 									if (user) {
-										setUser(user);
-										changeLanguage(user.language || 'en_US');
+										const deviceLanguage = getDeviceLanguage();
+										setUser({ ...user, language: deviceLanguage });
+										changeLanguage(deviceLanguage);
 									} else {
 										console.error('ERROR WHEN LOGGING AS GUEST');
 									}

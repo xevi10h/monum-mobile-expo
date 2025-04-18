@@ -146,7 +146,7 @@ export default function LoginWithCredentialsScreen() {
 									);
 									if (user) {
 										setUser(user);
-										changeLanguage(user.language || 'ca_ES');
+										changeLanguage(user.language);
 									}
 								} catch (error: string | any) {
 									startShake();

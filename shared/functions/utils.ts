@@ -1,4 +1,5 @@
 import { Language } from '../types/Language';
+import * as Localization from 'expo-localization';
 
 export function deviceLanguageToLanguage(deviceLanguage: string): Language {
 	switch (deviceLanguage) {
@@ -11,9 +12,18 @@ export function deviceLanguageToLanguage(deviceLanguage: string): Language {
 		case 'en':
 			return 'en_US';
 		default:
-			return 'en_US';
+			return 'fr_FR';
 	}
 }
+
+export const getDeviceLanguage = (): Language => {
+	const deviceLocale = Localization.getLocales()[0]?.languageCode;
+	if (!deviceLocale) {
+		return 'es_ES';
+	}
+	const lan = deviceLanguageToLanguage(deviceLocale);
+	return lan;
+};
 
 export function secondsToMinutes(seconds: number) {
 	const minutes = Math.floor(seconds / 60);

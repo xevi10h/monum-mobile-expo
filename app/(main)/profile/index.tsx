@@ -35,6 +35,8 @@ import DeleteButton from '@/components/profile/DeleteButton';
 import ConfirmDeleteAccountButton from '@/components/profile/ConfirmDeleteAccountButton';
 import { router } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getDeviceLanguage } from '@/shared/functions/utils';
+import { changeLanguage } from '@/i18n';
 
 const height = Dimensions.get('window').height;
 
@@ -146,7 +148,8 @@ export default function ProfileScreen() {
 				},
 			});
 			await client.clearStore();
-			setLanguage(provisionalLanguage || 'ca_ES');
+			const deviceLanguage = getDeviceLanguage();
+			setLanguage(provisionalLanguage || deviceLanguage);
 		} catch (error) {
 			console.error('Error al actualizar el usuario:', error);
 		}
@@ -286,6 +289,7 @@ export default function ProfileScreen() {
 											setDefaultUser();
 											setDefaultMain();
 											setDefaultTabMap();
+											changeLanguage(getDeviceLanguage());
 										} catch (error) {
 											console.error('Error al cerrar sesión:', error);
 										}
@@ -326,7 +330,10 @@ export default function ProfileScreen() {
 								}}
 							/>
 						)}
-						<LanguageSelector setProvisionalLanguage={setProvisionalLanguage} />
+						<LanguageSelector
+							provisionalLanguage={provisionalLanguage}
+							setProvisionalLanguage={setProvisionalLanguage}
+						/>
 					</View>
 					<View style={styles.updateButtonContainer}>
 						{user.hasPassword && hasPermissionToUpdateUser && (
@@ -347,7 +354,7 @@ export default function ProfileScreen() {
 							<Text style={styles.textCreatedAt}>{`${t(
 								'profile.createdAt',
 							)} ${new Date(provisionalUser.createdAt).toLocaleDateString(
-								applicationLanguage.replace('_', '-') || 'en-US',
+								applicationLanguage?.replace('_', '-') || 'en-US',
 								{
 									day: 'numeric',
 									month: 'short',
@@ -379,6 +386,7 @@ export default function ProfileScreen() {
 										setDefaultUser();
 										setDefaultMain();
 										setDefaultTabMap();
+										changeLanguage(getDeviceLanguage());
 									}
 								} catch (error) {
 									console.error('Error al cerrar sesión:', error);
@@ -422,10 +430,15 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
-	inputsContainer: { width: '100%', zIndex: 10 },
+	inputsContainer: {
+		width: '100%',
+		paddingHorizontal: 10,
+		zIndex: 10,
+	},
 	updateButtonContainer: {
 		width: '100%',
 		paddingHorizontal: 30,
+		marginBottom: 30,
 	},
 	textCreatedAt: {
 		fontSize: height < 700 ? 12 : 16,

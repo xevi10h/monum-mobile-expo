@@ -3,6 +3,7 @@ import { persist, createJSONStorage } from 'zustand/middleware';
 import IUser from '../shared/interfaces/IUser';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Language } from '../shared/types/Language';
+import { getDeviceLanguage } from '@/shared/functions/utils';
 
 interface UserState {
 	user: IUser;
@@ -26,7 +27,7 @@ export const undefinedUser: IUser = {
 	googleId: '',
 	token: '',
 	hasPassword: false,
-	language: 'ca_ES',
+	language: getDeviceLanguage(),
 	permissions: [],
 };
 
@@ -47,7 +48,7 @@ export const useUserStore = create<UserState>()(
 			},
 			setDefaultUser: () => {
 				set({
-					user: { ...undefinedUser, language: get().user.language },
+					user: { ...undefinedUser, language: getDeviceLanguage() },
 				});
 			},
 			setLanguage: (language: Language) => {

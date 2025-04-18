@@ -1,3 +1,4 @@
+import { SMALL_SCREEN } from '@/shared/variables/constants';
 import {
 	Text,
 	TouchableOpacity,
@@ -5,8 +6,6 @@ import {
 	StyleSheet,
 	Dimensions,
 } from 'react-native';
-
-const height = Dimensions.get('window').height;
 
 interface DeleteButtonProps {
 	text: string;
@@ -34,7 +33,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		borderRadius: 24,
-		height: height < 700 ? 36 : 48,
+		height: SMALL_SCREEN ? 36 : 48,
 		shadowColor: '#000',
 		shadowOffset: { width: 0, height: 2 },
 		shadowOpacity: 0.5,
@@ -42,7 +41,7 @@ const styles = StyleSheet.create({
 		elevation: 10,
 	},
 	buttonText: {
-		fontSize: height < 700 ? 14 : 18,
+		fontSize: SMALL_SCREEN ? 14 : 18,
 		color: '#BF1C39',
 		fontFamily: 'Montserrat-Regular',
 	},

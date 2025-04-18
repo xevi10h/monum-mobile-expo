@@ -1,7 +1,8 @@
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import { TextInput } from 'react-native-gesture-handler';
 import { useUserStore } from '@/zustand/UserStore';
+import { SMALL_SCREEN } from '@/shared/variables/constants';
 
 interface NameInputProps {
 	labelText: string;
@@ -50,7 +51,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'flex-start',
 	},
 	labelText: {
-		fontSize: 16,
+		fontSize: SMALL_SCREEN ? 12 : 16,
 		color: '#3F713B',
 		fontFamily: 'Montserrat-Regular',
 	},
@@ -61,12 +62,12 @@ const styles = StyleSheet.create({
 		color: '#3F713B',
 		borderWidth: 2,
 		borderRadius: 12,
-		height: 48,
+		height: SMALL_SCREEN ? 36 : 48,
 		width: '100%',
 		marginVertical: 5,
 		alignItems: 'center',
 		justifyContent: 'center',
-		fontSize: 16,
+		fontSize: SMALL_SCREEN ? 12 : 16,
 		fontFamily: 'Montserrat-SemiBold',
 		fontWeight: '600',
 	},

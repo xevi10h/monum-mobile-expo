@@ -187,18 +187,17 @@ export const styles = StyleSheet.create({
 	privacyContainer: {
 		flexDirection: 'row',
 		alignItems: 'center',
+		justifyContent: 'center',
 		width: '100%',
 	},
 	privacyText: {
 		color: '#FFFFFF',
 		fontSize: 10,
-		textAlign: 'center',
 		fontFamily: 'Montserrat-Regular',
 	},
 	privacyButtonText: {
 		color: '#FFFFFF',
 		fontSize: 10,
-		textAlign: 'center',
 		textDecorationLine: 'underline',
 		fontFamily: 'Montserrat-SemiBold',
 	},

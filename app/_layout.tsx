@@ -24,6 +24,8 @@ import * as Device from 'expo-device';
 import * as Orientation from 'expo-screen-orientation';
 import { useLocationStore } from '@/zustand/LocationStore';
 import { LOCATION_TASK_NAME } from '@/tasks/LocationTask';
+import { getDeviceLanguage } from '@/shared/functions/utils';
+import { changeLanguage } from '@/i18n';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -143,6 +145,9 @@ export default function RootLayout() {
 	useEffect(() => {
 		const initializeApp = async () => {
 			try {
+				const language = getDeviceLanguage();
+				setLanguage(language);
+				changeLanguage(language);
 				if (
 					Device.deviceType !== Device.DeviceType.PHONE &&
 					Platform.OS === 'web'
@@ -198,7 +203,6 @@ export default function RootLayout() {
 	useEffect(() => {
 		async function prepareWhenAuthenticated() {
 			try {
-				setLanguage(user.language || 'ca_ES');
 				if (
 					statusBackgroundPermissions?.canAskAgain &&
 					!statusBackgroundPermissions?.granted
@@ -227,13 +231,6 @@ export default function RootLayout() {
 			user?.token ? router.replace('/(main)/place') : router.replace('/(auth)');
 		}
 	}, [loaded, error, allLoaded, user.token]);
-
-	useEffect(() => {
-		async function initializeApp() {}
-		if (loaded) {
-			initializeApp();
-		}
-	}, [loaded]);
 
 	useEffect(() => {
 		if (loaded || error) {

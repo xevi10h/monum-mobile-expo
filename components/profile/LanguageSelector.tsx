@@ -1,11 +1,14 @@
-import { useEffect, useState } from 'react';
-import { Platform, StyleSheet, Text, View } from 'react-native';
-import DropDownPicker from 'react-native-dropdown-picker';
+import { useEffect } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { Dropdown } from 'react-native-element-dropdown';
 import { Language } from '@/shared/types/Language';
 import { useUserStore } from '@/zustand/UserStore';
 import { useTranslation } from '@/hooks/useTranslation';
+import { SMALL_SCREEN } from '@/shared/variables/constants';
+import { Icon } from '@rneui/base';
 
 interface LanguageSelectorProps {
+	provisionalLanguage: Language;
 	setProvisionalLanguage: (string: Language) => void;
 }
 
@@ -15,16 +18,15 @@ interface LanguageSelectorPill {
 }
 
 export default function LanguageSelector({
+	provisionalLanguage,
 	setProvisionalLanguage,
 }: LanguageSelectorProps) {
 	const { t } = useTranslation();
 	const language = useUserStore((state) => state.user.language);
-	useEffect(() => {
-		setValue(language);
-	}, [language]);
 
-	const [open, setOpen] = useState(false);
-	const [value, setValue] = useState(language);
+	useEffect(() => {
+		setProvisionalLanguage(language);
+	}, [language]);
 
 	const availableLanguages: LanguageSelectorPill[] = [
 		{ label: t('languages.en_US'), value: 'en_US' },
@@ -37,23 +39,44 @@ export default function LanguageSelector({
 		<View style={styles.container}>
 			<View style={styles.labelContainer}>
 				<Text style={styles.labelText}>{t('profile.language')}</Text>
-				<DropDownPicker
-					open={open}
-					value={value}
-					items={availableLanguages}
-					setOpen={setOpen}
-					setValue={setValue}
-					onChangeValue={(selectedLanguage: Language | null) => {
-						selectedLanguage && setProvisionalLanguage(selectedLanguage);
+				<Dropdown
+					value={provisionalLanguage}
+					data={availableLanguages}
+					valueField={'value'}
+					labelField={'label'}
+					onChange={(selectedLanguage: LanguageSelectorPill) => {
+						selectedLanguage && setProvisionalLanguage(selectedLanguage.value);
 					}}
-					style={styles.dropDown}
-					dropDownContainerStyle={styles.dropDownContainer}
-					textStyle={styles.dropDownText}
-					disableBorderRadius={true}
+					style={styles.dropdown}
+					maxHeight={200}
 					placeholder={t(`languages.${language}`) || ''}
-					labelStyle={styles.dropDownLabel}
-					selectedItemLabelStyle={styles.dropDownSelectedItemLabel}
-					listItemLabelStyle={styles.dropDownListItemLabel}
+					selectedTextStyle={styles.selectedTextStyle}
+					itemTextStyle={styles.itemTextStyle}
+					containerStyle={styles.dropdownContainer}
+					iconColor="#3F713B"
+					renderItem={(item) => (
+						<View style={styles.renderItemStyle}>
+							<Text
+								style={{
+									...styles.itemTextStyle,
+									fontFamily:
+										item.value === provisionalLanguage
+											? 'Montserrat-SemiBold'
+											: 'Montserrat-Regular',
+								}}
+							>
+								{item.label}
+							</Text>
+							{item.value === provisionalLanguage && (
+								<Icon
+									color="#3F713B"
+									name="check"
+									type="font-awesome"
+									size={12}
+								/>
+							)}
+						</View>
+					)}
 				/>
 			</View>
 		</View>
@@ -76,40 +99,38 @@ const styles = StyleSheet.create({
 		justifyContent: 'flex-start',
 	},
 	labelText: {
-		fontSize: 16,
+		fontSize: SMALL_SCREEN ? 12 : 16,
 		color: '#3F713B',
 		fontFamily: 'Montserrat-Regular',
 	},
-	dropDownContainer: {
-		paddingHorizontal: 5,
-		borderColor: '#3F713B3D',
-	},
-	dropDown: {
+	dropdown: {
 		paddingHorizontal: 15,
 		borderColor: '#3F713B3D',
 		borderWidth: 2,
 		borderRadius: 12,
-		height: 48,
+		height: SMALL_SCREEN ? 36 : 48,
+		width: '100%',
 		marginVertical: 5,
 	},
-
-	dropDownText: {
-		fontSize: 16,
-		color: '#3F713B',
-		fontFamily: 'Montserrat-Regular',
-		fontWeight: '400',
+	dropdownContainer: {
+		borderColor: '#3F713B3D',
+		borderWidth: 2,
+		borderRadius: 12,
 	},
-	dropDownLabel: {
-		fontSize: 16,
+	selectedTextStyle: {
 		color: '#3F713B',
 		fontFamily: 'Montserrat-SemiBold',
-		fontWeight: '600',
+		fontSize: SMALL_SCREEN ? 12 : 16,
 	},
-	dropDownSelectedItemLabel: {
-		fontFamily: 'Montserrat-SemiBold',
-		fontWeight: '600',
+	itemTextStyle: {
+		color: '#3F713B',
+		fontSize: SMALL_SCREEN ? 12 : 16,
 	},
-	dropDownListItemLabel: {
-		fontWeight: '400',
+	renderItemStyle: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'space-between',
+		paddingHorizontal: 15,
+		paddingVertical: 10,
 	},
 });
