@@ -36,6 +36,8 @@
         "NSLocationWhenInUseUsageDescription": "This app needs access to your location to show your position on the map and help you find nearby monuments.",
         "NSLocationAlwaysAndWhenInUseUsageDescription": "This app needs access to your location to show your position on the map, help you find nearby monuments, and notify you when you are near a monument even when the app is in the background.",
         "NSLocationAlwaysUsageDescription": "This app needs access to your location to show your position on the map, help you find nearby monuments, and notify you when you are near a monument even when the app is in the background.",
+        "NSCameraUsageDescription": "This app needs access to your camera to scan QR codes that interact with our app, redirecting you to specific monuments.",
+        "NSPhotoLibraryUsageDescription": "This app needs access to your photo library to allow you to upload a profile picture from your gallery.",
         "CFBundleLocalizations": [
           "en",
           "es",
@@ -54,7 +56,7 @@
         "applinks:mobile.monum.es",
         "applinks:mobile.monum.es"
       ],
-      "buildNumber": "24",
+      "buildNumber": "25",
       "appleTeamId": "4WWBHK245Y",
       "entitlements": {
         "aps-environment": "production"
@@ -148,35 +150,15 @@
       [
         "expo-camera",
         {
-          "cameraPermission": {
-            "en": "$(PRODUCT_NAME) needs access to your camera to scan QR codes that interact with our app, redirecting you to specific monuments.",
-            "es": "$(PRODUCT_NAME) necesita acceder a tu cámara para poder escanear códigos QR que interactúan con nuestra app, redireccionándote a monumentos específicos.",
-            "ca": "$(PRODUCT_NAME) necessita accedir a la teva càmera per poder escanejar codis QR que interactuen amb la nostra app, redirigint-te a monuments específics.",
-            "fr": "$(PRODUCT_NAME) a besoin d'accéder à votre caméra pour scanner les codes QR qui interagissent avec notre application, vous redirigeant vers des monuments spécifiques."
-          }
+          "cameraPermission": "This app needs access to your camera to scan QR codes that interact with our app, redirecting you to specific monuments."
         }
       ],
       [
         "expo-location",
         {
-          "locationAlwaysAndWhenInUsePermission": {
-            "en": "$(PRODUCT_NAME) needs access to your location to show your position on the map, help you find nearby monuments, and notify you when you are near a monument even when the app is in the background.",
-            "es": "$(PRODUCT_NAME) necesita acceder a tu ubicación para mostrar tu posición en el mapa, ayudarte a encontrar monumentos cercanos y notificarte cuando estés cerca de un monumento incluso cuando la app está en segundo plano.",
-            "ca": "$(PRODUCT_NAME) necessita accedir a la teva ubicació per mostrar la teva posició al mapa, ajudar-te a trobar monuments propers i notificar-te quan estiguis a prop d'un monument fins i tot quan l'aplicació està en segon pla.",
-            "fr": "$(PRODUCT_NAME) a besoin d'accéder à votre localisation pour afficher votre position sur la carte, vous aider à trouver des monuments à proximité et vous notifier lorsque vous êtes près d'un monument même lorsque l'application est en arrière-plan."
-          },
-          "locationAlwaysPermission": {
-            "en": "$(PRODUCT_NAME) needs access to your location to show your position on the map, help you find nearby monuments, and notify you when you are near a monument even when the app is in the background.",
-            "es": "$(PRODUCT_NAME) necesita acceder a tu ubicación para mostrar tu posición en el mapa, ayudarte a encontrar monumentos cercanos y notificarte cuando estés cerca de un monumento incluso cuando la app está en segundo plano.",
-            "ca": "$(PRODUCT_NAME) necessita accedir a la teva ubicació per mostrar la teva posició al mapa, ajudar-te a trobar monuments propers i notificar-te quan estiguis a prop d'un monument fins i tot quan l'aplicació està en segon pla.",
-            "fr": "$(PRODUCT_NAME) a besoin d'accéder à votre localisation pour afficher votre position sur la carte, vous aider à trouver des monuments à proximité et vous notifier lorsque vous êtes près d'un monument même lorsque l'application est en arrière-plan."
-          },
-          "locationWhenInUsePermission": {
-            "en": "$(PRODUCT_NAME) needs access to your location to show your position on the map and help you find nearby monuments.",
-            "es": "$(PRODUCT_NAME) necesita acceder a tu ubicación para mostrar tu posición en el mapa y ayudarte a encontrar monumentos cercanos.",
-            "ca": "$(PRODUCT_NAME) necessita accedir a la teva ubicació per mostrar la teva posició al mapa i ajudar-te a trobar monuments propers.",
-            "fr": "$(PRODUCT_NAME) a besoin d'accéder à votre localisation pour afficher votre position sur la carte et vous aider à trouver des monuments à proximité."
-          },
+          "locationAlwaysAndWhenInUsePermission": "This app needs access to your location to show your position on the map, help you find nearby monuments, and notify you when you are near a monument even when the app is in the background.",
+          "locationAlwaysPermission": "This app needs access to your location to show your position on the map, help you find nearby monuments, and notify you when you are near a monument even when the app is in the background.",
+          "locationWhenInUsePermission": "This app needs access to your location to show your position on the map and help you find nearby monuments.",
           "isIosBackgroundLocationEnabled": true,
           "isAndroidBackgroundLocationEnabled": true
         }
@@ -184,12 +166,7 @@
       [
         "expo-image-picker",
         {
-          "photosPermission": {
-            "en": "$(PRODUCT_NAME) needs access to your photo library to allow you to upload a profile picture from your gallery.",
-            "es": "$(PRODUCT_NAME) necesita acceso a tu biblioteca de fotos para permitirte subir una foto de perfil desde tu galería.",
-            "ca": "$(PRODUCT_NAME) necessita accés a la teva biblioteca de fotos per permetre't pujar una foto de perfil des de la teva galeria.",
-            "fr": "$(PRODUCT_NAME) a besoin d'accéder à votre bibliothèque de photos pour vous permettre de télécharger une photo de profil depuis votre galerie."
-          }
+          "photosPermission": "This app needs access to your photo library to allow you to upload a profile picture from your gallery."
         }
       ],
       [
