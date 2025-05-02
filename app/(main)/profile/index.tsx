@@ -28,7 +28,6 @@ import client from '../../../graphql/connection';
 import { useUserStore } from '../../../zustand/UserStore';
 import { useMainStore } from '../../../zustand/MainStore';
 import { useTabMapStore } from '../../../zustand/TabMapStore';
-import { useTabRouteStore } from '../../../zustand/TabRouteStore';
 import { BOTTOM_TAB_NAVIGATOR_HEIGHT } from '@/app/(main)/_layout';
 import { useTranslation } from '@/hooks/useTranslation';
 import DeleteButton from '@/components/profile/DeleteButton';
@@ -51,7 +50,7 @@ export default function ProfileScreen() {
 		(permission) =>
 			permission.action.includes('update') && permission.entity === 'user',
 	);
-	const applicationLanguage = useUserStore((state) => state.user.language);
+	const language = useUserStore((state) => state.user.language);
 	const setLanguage = useUserStore((state) => state.setLanguage);
 	const updatePhoto = useUserStore((state) => state.updatePhoto);
 	const updateUsername = useUserStore((state) => state.updateUsername);
@@ -59,7 +58,7 @@ export default function ProfileScreen() {
 
 	const [provisionalUser, setProvisionalUser] = useState<IUser>(user);
 	const [provisionalLanguage, setProvisionalLanguage] =
-		useState<Language>(applicationLanguage);
+		useState<Language>(language);
 
 	const setDefaultUser = useUserStore((state) => state.setDefaultUser);
 	const setDefaultMain = useMainStore((state) => state.setDefaultMain);
@@ -81,14 +80,7 @@ export default function ProfileScreen() {
 		{ data: dataUpdated, loading: loadingUpdated, error: errorUpdated },
 	] = useMutation(UPDATE_USER);
 
-	const [
-		deleteHardMyUser,
-		{
-			data: deleteHardMyUserData,
-			loading: loadingDeleted,
-			error: errorDeleted,
-		},
-	] = useMutation(DELETE_HARD_MY_USER);
+	const [deleteHardMyUser] = useMutation(DELETE_HARD_MY_USER);
 
 	// Actualizar el usuario si cambia la foto de perfil
 	useEffect(() => {
@@ -148,8 +140,7 @@ export default function ProfileScreen() {
 				},
 			});
 			await client.clearStore();
-			const deviceLanguage = getDeviceLanguage();
-			setLanguage(provisionalLanguage || deviceLanguage);
+			setLanguage(provisionalLanguage);
 		} catch (error) {
 			console.error('Error al actualizar el usuario:', error);
 		}
@@ -354,7 +345,7 @@ export default function ProfileScreen() {
 							<Text style={styles.textCreatedAt}>{`${t(
 								'profile.createdAt',
 							)} ${new Date(provisionalUser.createdAt).toLocaleDateString(
-								applicationLanguage?.replace('_', '-') || 'en-US',
+								language?.replace('_', '-') || 'en-US',
 								{
 									day: 'numeric',
 									month: 'short',

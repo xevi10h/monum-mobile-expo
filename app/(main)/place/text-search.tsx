@@ -8,7 +8,7 @@ import TextSearchResultPill from '@/components/map/TextSearchResultPill';
 import * as Location from 'expo-location';
 import { LinearGradient } from 'expo-linear-gradient';
 
-export default function TextSearchScreen({ navigation }: any) {
+export default function TextSearchScreen() {
 	const textSearch = useTabMapStore((state) => state.tabMap.textSearch);
 
 	const setSearcherResults = useTabMapStore(
@@ -20,6 +20,7 @@ export default function TextSearchScreen({ navigation }: any) {
 
 	useEffect(() => {
 		const fetchSuggestions = async () => {
+			console.log('fetchSuggestions');
 			try {
 				const { coords } = await Location.getCurrentPositionAsync();
 
@@ -30,6 +31,7 @@ export default function TextSearchScreen({ navigation }: any) {
 					},
 					textSearch,
 				);
+				console.log('suggestionsData', suggestionsData);
 				setSearcherResults(suggestionsData || []);
 			} catch (error) {
 				console.log('error', error);

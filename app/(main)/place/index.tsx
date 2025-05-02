@@ -14,6 +14,7 @@ import * as Location from 'expo-location';
 import CurrentPositionMarker from '@/components/map/CurrentPositionMarker';
 import { useUserStore } from '@/zustand/UserStore';
 import AuthServices from '@/services/auth/AuthServices';
+import FilterImportanceButton from '@/components/map/FilterImportanceButton';
 
 export default function MapScreen() {
 	const { placeId } = useLocalSearchParams();
@@ -27,6 +28,10 @@ export default function MapScreen() {
 	const citySelectedCoordinates = useTabMapStore(
 		(state) => state.tabMap.citySelectedCoordinates,
 	);
+	const importancesSelected = useTabMapStore(
+		(state) => state.tabMap.importancesSelected,
+	);
+	const language = useUserStore((state) => state.user.language);
 
 	const markers = useTabMapStore((state) => state.tabMap.markers);
 	const setMarkers = useTabMapStore((state) => state.setMarkers);
@@ -59,11 +64,11 @@ export default function MapScreen() {
 				setPlace(placeData);
 				setMarkerSelected(placeId);
 				setMediasOfPlace(mediasFetched);
-				setShowPlaceDetailExpanded(false);
 			}
 		}
 		placeSelected();
-	}, [placeId, mapViewRef]);
+	}, [placeId, mapViewRef, language]);
+
 	useEffect(() => {
 		const fetchMarkers = async () => {
 			try {
@@ -180,17 +185,24 @@ export default function MapScreen() {
 					showsTraffic={false}
 					showsIndoorLevelPicker={false}
 				>
-					{markers.map((marker, index) => (
-						<MarkerComponent
-							key={index}
-							id={marker.id}
-							importance={marker.importance}
-							coordinates={marker.coordinates}
-						/>
-					))}
+					{markers
+						.filter((marker) => importancesSelected.includes(marker.importance))
+						.map((marker, index) => (
+							<MarkerComponent
+								key={index}
+								id={marker.id}
+								importance={marker.importance}
+								coordinates={marker.coordinates}
+							/>
+						))}
 					{Platform.OS === 'web' ? <CurrentPositionMarker /> : null}
 				</MapView>
 			</View>
+			<MapScreenButton
+				onPress={async () => await centerCoordinatesButtonAction()}
+				image={require('@/assets/images/map_center_coordinates.png')}
+			/>
+			<FilterImportanceButton />
 			<MapScreenButton
 				onPress={async () => {
 					try {

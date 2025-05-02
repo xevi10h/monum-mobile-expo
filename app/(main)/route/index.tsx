@@ -17,11 +17,10 @@ export default function ListCitiesScreen() {
 	const { t } = useTranslation();
 	const setCities = useTabRouteStore((state) => state.setCities);
 	const cities = useTabRouteStore((state) => state.cities);
-	const safeAreaInsets = useSafeAreaInsets();
 	const [textSearch, setTextSearch] = useState<string | undefined>(undefined);
 	const language = useUserStore((state) => state.user.language);
 
-	const { loading, error, data, refetch } = useQuery(GET_CITIES, {
+	const { loading, error, refetch } = useQuery(GET_CITIES, {
 		variables: { textSearch: textSearch || '', language, hasRoutes: true },
 	});
 

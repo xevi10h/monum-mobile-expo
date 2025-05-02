@@ -27,7 +27,8 @@ export default function MapScreenButton({
 					bottom:
 						useSafeAreaInsets().bottom +
 						BOTTOM_TAB_NAVIGATOR_HEIGHT +
-						additionalBottom,
+						additionalBottom -
+						20,
 					marginBottom,
 				},
 			]}

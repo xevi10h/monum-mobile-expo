@@ -122,7 +122,7 @@ export default function MapPlaceDetail() {
 			};
 			fetchPlace();
 		}
-	}, [markerSelected, language]);
+	}, [markerSelected]);
 
 	useEffect(() => {
 		if (place && showPlaceDetailExpanded) {

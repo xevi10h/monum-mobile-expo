@@ -3,7 +3,7 @@ import IPlace from '../shared/interfaces/IPlace';
 import IMedia from '../shared/interfaces/IMedia';
 import { IMarker } from '../shared/interfaces/IMarker';
 import { ISearchResult } from '../shared/interfaces/ISearchResult';
-import MapViewType, { Camera } from 'react-native-maps';
+import { Camera } from 'react-native-maps';
 
 export interface ITabMap {
 	markerSelected: string | null;
@@ -18,6 +18,8 @@ export interface ITabMap {
 	searcherResults: ISearchResult[];
 	textSearchIsLoading: boolean;
 	citySelectedCoordinates: Camera['center'] | null;
+	importancesSelected: number[];
+	isImportanceFilterActive: boolean;
 }
 
 export const defaultTabMap: ITabMap = {
@@ -33,6 +35,8 @@ export const defaultTabMap: ITabMap = {
 	searcherResults: [],
 	textSearchIsLoading: false,
 	citySelectedCoordinates: null,
+	importancesSelected: [1, 2, 3],
+	isImportanceFilterActive: false,
 };
 
 interface TabMapState {
@@ -51,6 +55,8 @@ interface TabMapState {
 	setCitySelectedCoordinates: (
 		citySelectedCoordinates: Camera['center'] | null,
 	) => void;
+	setImportancesSelected: (importancesSelected: number[]) => void;
+	setIsImportanceFilterActive: (isImportanceFilterActive: boolean) => void;
 }
 
 export const useTabMapStore = create<TabMapState>((set) => ({
@@ -100,5 +106,11 @@ export const useTabMapStore = create<TabMapState>((set) => ({
 		citySelectedCoordinates: Camera['center'] | null,
 	) => {
 		set((state) => ({ tabMap: { ...state.tabMap, citySelectedCoordinates } }));
+	},
+	setImportancesSelected: (importancesSelected: number[]) => {
+		set((state) => ({ tabMap: { ...state.tabMap, importancesSelected } }));
+	},
+	setIsImportanceFilterActive: (isImportanceFilterActive: boolean) => {
+		set((state) => ({ tabMap: { ...state.tabMap, isImportanceFilterActive } }));
 	},
 }));

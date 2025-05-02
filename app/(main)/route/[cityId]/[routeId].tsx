@@ -27,7 +27,6 @@ import { IMarker } from '../../../../shared/interfaces/IMarker';
 import { useUserStore } from '../../../../zustand/UserStore';
 import { router, useLocalSearchParams } from 'expo-router';
 import StopFromRoutePill from '@/components/routes/placeFromRoutePill/StopFromRoutePill';
-import * as Device from 'expo-device';
 import CurrentPositionMarker from '@/components/map/CurrentPositionMarker';
 import RateRouteButton from '@/components/routes/RateRouteButton';
 
@@ -261,11 +260,6 @@ export default function RouteDetailScreen() {
 					style={{
 						flex: 1,
 					}}
-					googleMapsApiKey={process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY_WEB}
-					options={{
-						disableDefaultUI: true,
-						clickableIcons: false,
-					}}
 					showsUserLocation
 					showsMyLocationButton={false}
 					showsCompass={false}
@@ -274,7 +268,6 @@ export default function RouteDetailScreen() {
 					showsScale={false}
 					showsTraffic={false}
 					showsIndoorLevelPicker={false}
-					loadingFallback={<ActivityIndicator size="large" color="#3F713B" />}
 				>
 					{markers.map((marker) => (
 						<MarkerComponent
